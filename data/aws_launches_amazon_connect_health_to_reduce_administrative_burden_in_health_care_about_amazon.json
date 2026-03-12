@@ -1,0 +1,44 @@
+{
+  "id": "aws_launches_amazon_connect_health_to_reduce_administrative_burden_in_health_care_about_amazon",
+  "category": "Technology",
+  "telugu_title": "ఆసుపత్రుల పని భారాన్ని తగ్గించేందుకు AWS కొత్త టెక్నాలజీ: 'అమెజాన్ కనెక్ట్ హెల్త్' విడుదల!",
+  "summary_short": "అమెజాన్ వెబ్ సర్వీసెస్ (AWS) ఆరోగ్య రంగం కోసం 'అమెజాన్ కనెక్ట్ హెల్త్'ను ప్రారంభించింది. ఇది ఆసుపత్రుల్లో అడ్మినిస్ట్రేటివ్ భారాన్ని తగ్గించి, వైద్యులు రోగులపై ఎక్కువ దృష్టి పెట్టేలా సహాయపడుతుంది.",
+  "voiceover_script": "ఆసుపత్రుల్లో పని భారాన్ని తగ్గించేందుకు అమెజాన్ అద్భుతమైన టెక్నాలజీ తెచ్చింది! 'అమెజాన్ కనెక్ట్ హెల్త్' పూర్తి వివరాలు ఇప్పుడు తెలుసుకోండి.",
+  "poster_content": "AWS 'అమెజాన్ కనెక్ట్ హెల్త్' విడుదల\n\nఆరోగ్య రంగంలో కొత్త విప్లవం!\n\n- ఆసుపత్రుల్లో అడ్మినిస్ట్రేటివ్ భారం తగ్గుతుంది.\n- డాక్టర్లు, సిబ్బందికి సమయం ఆదా.\n- రోగులకు మెరుగైన సేవలు.\n- క్లౌడ్ టెక్నాలజీతో డేటా భద్రత.\n\nపూర్తి వివరాలు చదవండి.",
+  "blog_content": "<p>ప్రముఖ క్లౌడ్ కంప్యూటింగ్ దిగ్గజం <strong>అమెజాన్ వెబ్ సర్వీసెస్ (AWS)</strong> ఆరోగ్య సంరక్షణ రంగంలో విప్లవాత్మక మార్పులు తీసుకొచ్చేందుకు సిద్ధమైంది. తాజాగా <strong>'అమెజాన్ కనెక్ట్ హెల్త్' (Amazon Connect Health)</strong> పేరుతో ఒక కొత్త సేవను ప్రారంభించింది. దీని ద్వారా ఆసుపత్రులు మరియు క్లినిక్‌లలో పరిపాలనా పరమైన భారాన్ని (Administrative Burden) గణనీయంగా తగ్గించవచ్చు.</p><h3>దీని ముఖ్య ఉద్దేశం ఏమిటి?</h3><p>సాధారణంగా ఆసుపత్రుల్లో డాక్టర్లు మరియు సిబ్బంది రోగులకు వైద్యం అందించడం కంటే.. డాక్యుమెంటేషన్, అపాయింట్‌మెంట్ షెడ్యూలింగ్, ఇన్సూరెన్స్ క్లెయిమ్స్ వంటి అడ్మినిస్ట్రేటివ్ పనులకే ఎక్కువ సమయం కేటాయిస్తుంటారు. ఈ సమస్యను పరిష్కరించడమే AWS లక్ష్యం.</p><h3>అమెజాన్ కనెక్ట్ హెల్త్ ప్రయోజనాలు:</h3><ul><li><strong>సమయం ఆదా:</strong> ఆటోమేషన్ ద్వారా రొటీన్ పనులు సులభంగా పూర్తవుతాయి.</li><li><strong>రోగుల అనుభవం:</strong> పేషెంట్లతో కమ్యూనికేషన్ మరింత వేగంగా, సురక్షితంగా జరుగుతుంది.</li><li><strong>డేటా భద్రత:</strong> రోగుల సమాచారాన్ని సురక్షితంగా భద్రపరచవచ్చు.</li></ul><p>ఈ కొత్త టెక్నాలజీ రాకతో వైద్యులు తమ పూర్తి సమయాన్ని రోగుల సంరక్షణకే కేటాయించే అవకాశం కలుగుతుందని నిపుణులు భావిస్తున్నారు.</p>",
+  "youtube_metadata": {
+    "title": "AWS New Tech for Hospitals | Amazon Connect Health Launched | Telugu News",
+    "description": "Amazon Web Services (AWS) launches Amazon Connect Health to reduce administrative work in hospitals. This new technology helps doctors focus more on patient care by automating routine tasks. Watch this video to know full details in Telugu.\n\n#AWS #AmazonConnect #HealthTech #TeluguTechNews #Amazon #HealthcareInnovation",
+    "tags": [
+      "AWS",
+      "Amazon Connect Health",
+      "Health Tech",
+      "Telugu Tech News",
+      "Amazon Web Services",
+      "Hospital Management",
+      "Latest Tech News Telugu"
+    ]
+  },
+  "seo": {
+    "title": "AWS Launches Amazon Connect Health - Telugu Tech News",
+    "description": "AWS introduces Amazon Connect Health to streamline healthcare administration and reduce burden on doctors. Read full details in Telugu.",
+    "keywords": [
+      "AWS Telugu",
+      "Amazon Connect Health",
+      "Health Tech Telugu",
+      "Amazon News",
+      "Medical Technology"
+    ]
+  },
+  "media": {
+    "featured_image": "images/aws_launches_amazon_connect_health_to_reduce_administrative_burden_in_health_care_about_amazon.webp",
+    "poster_9_16": "posters/aws_launches_amazon_connect_health_to_reduce_administrative_burden_in_health_care_about_amazon_poster.jpg",
+    "voiceover_audio": "audio/aws_launches_amazon_connect_health_to_reduce_administrative_burden_in_health_care_about_amazon.mp3",
+    "video_reel": "videos/aws_launches_amazon_connect_health_to_reduce_administrative_burden_in_health_care_about_amazon.mp4"
+  },
+  "source": {
+    "original_url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9ST2pHXzNaUDRSMU5qdkFvajd4cFcwWV9GV3RTQU85V1IwNWYxWW1CbHNONG95T2VLQTJIaVBlRmNvb3RuMHZ5VHNXN2o4bGgtLS1Fdno2YzJkTWlmNnpGNFNyRTJYcHcwZEozOWVSWi1YOHI3U0FvaExFTXg?oc=5",
+    "original_title": "AWS launches Amazon Connect Health to reduce administrative burden in health care - About Amazon",
+    "date": "2026-03-05 12:00:18"
+  }
+}
