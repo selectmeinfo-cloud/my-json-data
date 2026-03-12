@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Selectme — Admin Panel</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#c8001e;--dk:#0d0d0d;--dk2:#141414;--dk3:#1c1c1c;--dk4:#242424;
+  --b:#2a2a2a;--b2:#333;--b3:#3a3a3a;
+  --t:#f0f0f0;--t2:#aaa;--t3:#666;--t4:#444;
+  --green:#22c55e;--yellow:#f59e0b;
+  --font:Arial,'Helvetica Neue',Helvetica,sans-serif;--disp:Arial,'Helvetica Neue',Helvetica,sans-serif;--mono:'Courier New',Courier,monospace;
+}
+html{font-size:14px;background:var(--dk);color:var(--t);font-family:var(--font)}
+body{min-height:100vh;overflow-x:hidden}
+button,input,textarea,select{font-family:var(--font)}
+.shell{display:grid;grid-template-columns:210px 1fr;min-height:100vh}
+
+/* SIDEBAR */
+.sb{background:var(--dk2);border-right:1px solid var(--b);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sb-brand{padding:18px 16px 14px;border-bottom:1px solid var(--b)}
+.sb-logo{font-family:var(--disp);font-size:18px;font-weight:900;letter-spacing:-.01em}
+.sb-logo span{color:var(--red)}
+.sb-sub{font-size:10px;color:var(--t3);letter-spacing:.15em;text-transform:uppercase;margin-top:2px}
+.sb-nav{padding:8px 0;flex:1}
+.sb-sec{font-size:10px;font-weight:700;color:var(--t4);letter-spacing:.16em;text-transform:uppercase;padding:12px 16px 4px}
+.sb-item{display:flex;align-items:center;gap:9px;padding:8px 16px;font-size:13px;font-weight:500;color:var(--t2);cursor:pointer;transition:all .15s;border-left:2px solid transparent;user-select:none}
+.sb-item:hover{color:var(--t);background:var(--dk3)}
+.sb-item.active{color:#fff;background:var(--dk3);border-left-color:var(--red);font-weight:700}
+.sb-item .ic{font-size:13px;width:16px;text-align:center}
+.sb-foot{padding:12px 16px;border-top:1px solid var(--b);margin-top:auto}
+.sb-stat{display:flex;justify-content:space-between;margin-bottom:5px}
+.sb-stat-l{font-size:11px;color:var(--t3);letter-spacing:.1em;text-transform:uppercase}
+.sb-stat-v{font-family:var(--mono);font-size:22px;font-weight:700}
+
+/* MAIN */
+.main{overflow-y:auto}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--b);background:var(--dk2);position:sticky;top:0;z-index:100}
+.topbar-title{font-family:var(--disp);font-size:21px;font-weight:900;letter-spacing:-.02em}
+.topbar-title span{color:var(--red)}
+.topbar-acts{display:flex;gap:7px}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border:none;cursor:pointer;transition:all .15s}
+.btn-primary{background:var(--red);color:#fff}.btn-primary:hover{background:#a3001a}
+.btn-outline{background:transparent;color:var(--t2);border:1px solid var(--b2)}.btn-outline:hover{border-color:var(--t2);color:#fff}
+.btn-green{background:var(--green);color:#111}
+.btn-danger{background:#7f1d1d;color:#fca5a5;border:1px solid #991b1b}
+.btn-sm{padding:6px 13px;font-size:11px}
+.bic{width:28px;height:28px;padding:0;display:flex;align-items:center;justify-content:center;font-size:12px;border:1px solid var(--b2);background:transparent;color:var(--t2);cursor:pointer}
+.bic:hover{border-color:var(--t2);color:#fff}
+
+/* PAGES */
+.pg{padding:22px 24px;display:none}
+.pg.active{display:block}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.sc{background:var(--dk2);border:1px solid var(--b);padding:14px 16px}
+.sc-lbl{font-size:10px;color:var(--t3);letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px}
+.sc-val{font-family:var(--mono);font-size:34px;font-weight:700;line-height:1}
+.sc-sub{font-size:11px;color:var(--t4);margin-top:3px}
+
+/* SEC HEADER */
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sec-hdr h2{font-family:var(--disp);font-size:18px;font-weight:800;letter-spacing:-.01em}
+.sec-hdr h2 span{color:var(--red)}
+
+/* AD CARDS */
+.ads-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+.ad-card{background:var(--dk2);border:1px solid var(--b);transition:border-color .15s}
+.ad-card:hover{border-color:var(--b2)}
+.ad-card.off{opacity:.45}
+.adc-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--b)}
+.adc-left{display:flex;align-items:center;gap:8px}
+.badge{font-size:9px;font-weight:800;letter-spacing:.10em;text-transform:uppercase;padding:2px 7px;border:1px solid}
+.bb{color:#f59e0b;border-color:#f59e0b;background:rgba(245,158,11,.08)}
+.bi{color:#3b82f6;border-color:#3b82f6;background:rgba(59,130,246,.08)}
+.bs{color:#8b5cf6;border-color:#8b5cf6;background:rgba(139,92,246,.08)}
+.bl{color:#10b981;border-color:#10b981;background:rgba(16,185,129,.08)}
+.bm{color:#f97316;border-color:#f97316;background:rgba(249,115,22,.08)}
+.bp{color:#ec4899;border-color:#ec4899;background:rgba(236,72,153,.08)}
+.bf{color:#06b6d4;border-color:#06b6d4;background:rgba(6,182,212,.08)}
+.adc-name{font-size:13px;font-weight:700;color:#fff}
+.adc-ctrls{display:flex;align-items:center;gap:5px}
+.toggle{width:34px;height:18px;background:var(--b2);border-radius:9px;cursor:pointer;position:relative;transition:background .2s;border:none;flex-shrink:0}
+.toggle.on{background:var(--green)}
+.toggle::after{content:'';position:absolute;width:12px;height:12px;background:#fff;border-radius:50%;top:3px;left:3px;transition:left .18s}
+.toggle.on::after{left:19px}
+.adc-preview{height:64px;overflow:hidden;position:relative;background:var(--dk3);border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:center}
+.adc-pi{transform:scale(.42);transform-origin:center;width:240%;pointer-events:none;position:absolute}
+.adc-body{padding:10px 12px}
+.adc-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:7px}
+.adf{display:flex;flex-direction:column;gap:2px}
+.adf label{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.08em;text-transform:uppercase}
+.adf input{background:var(--dk3);border:1px solid var(--b);color:var(--t);padding:6px 8px;font-size:12px;font-family:Arial,sans-serif;outline:none;width:100%;transition:border-color .15s}
+.adf input:focus{border-color:var(--red)}
+.adc-foot{display:flex;align-items:center;justify-content:space-between;padding:7px 12px;border-top:1px solid var(--b);background:var(--dk3)}
+.ptags{display:flex;gap:3px;flex-wrap:wrap}
+.ptag{font-size:9px;font-weight:700;padding:3px 7px;background:var(--dk4);color:var(--t3);border:1px solid var(--b2);cursor:pointer;transition:all .12s;text-transform:uppercase;letter-spacing:.04em}
+.ptag.on{background:rgba(200,0,30,.14);color:var(--red);border-color:var(--red)}
+.save-btn{font-size:11px;font-weight:700;padding:5px 13px;background:var(--red);color:#fff;border:none;cursor:pointer;letter-spacing:.04em;text-transform:uppercase}
+.save-btn:hover{background:#a3001a}
+
+/* FORMS */
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.fg input,.fg textarea,.fg select{width:100%;background:var(--dk3);border:1px solid var(--b);color:var(--t);padding:9px 11px;font-size:13px;font-family:Arial,sans-serif;outline:none;transition:border-color .15s}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--red)}
+.fg textarea{resize:vertical;min-height:80px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fcard{background:var(--dk2);border:1px solid var(--b);padding:18px 20px;margin-bottom:12px}
+.fcard-t{font-size:10px;font-weight:800;color:var(--t3);letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.fcard-t::after{content:'';flex:1;height:1px;background:var(--b)}
+
+/* PAGE CONTENT TABS */
+.page-tabs{display:flex;gap:0;border-bottom:2px solid var(--b);margin-bottom:18px}
+.ptab-btn{padding:7px 18px;font-size:11px;font-weight:700;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;letter-spacing:.06em;text-transform:uppercase;background:none;border-left:none;border-right:none;border-top:none;transition:color .15s}
+.ptab-btn:hover{color:var(--t)}
+.ptab-btn.active{color:var(--red);border-bottom-color:var(--red)}
+.ptab-pane{display:none}
+.ptab-pane.active{display:block}
+
+/* PREVIEW */
+.prev-tabs{display:flex;gap:0;border-bottom:1px solid var(--b);margin-bottom:12px}
+.prev-tab{padding:6px 16px;font-size:11px;font-weight:700;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;letter-spacing:.06em;text-transform:uppercase;background:none;border-left:none;border-right:none;border-top:none;transition:color .15s}
+.prev-tab.active{color:var(--red);border-bottom-color:var(--red)}
+.prev-frame{background:#f9f8f5;border:1px solid var(--b);min-height:80px;padding:10px}
+
+/* EXPORT */
+.code-box{background:var(--dk3);border:1px solid var(--b);padding:12px 14px;font-family:'Courier New',monospace;font-size:10px;color:#7dd3fc;line-height:1.7;overflow-x:auto;max-height:180px;overflow-y:auto;white-space:pre}
+
+/* SETTINGS */
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.scard{background:var(--dk2);border:1px solid var(--b);padding:18px}
+.scard h3{font-size:14px;font-weight:800;color:#fff;margin-bottom:12px;display:flex;align-items:center;gap:7px;letter-spacing:-.01em}
+.scard h3 .ic{color:var(--red)}
+.srow{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b)}
+.srow:last-child{border-bottom:none}
+.srow-l{font-size:13px;color:var(--t2)}
+.srow-s{font-size:11px;color:var(--t3);margin-top:1px}
+
+/* MODAL */
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:5000;align-items:center;justify-content:center}
+.modal-ov.show{display:flex}
+.modal{background:var(--dk2);border:1px solid var(--b2);max-width:540px;width:92%;max-height:88vh;overflow-y:auto;animation:mIn .18s ease}
+@keyframes mIn{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:translateY(0)}}
+.modal-hd{padding:15px 18px;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-family:var(--disp);font-size:19px;font-weight:800;letter-spacing:-.01em}
+.modal-close{background:none;border:none;color:var(--t3);font-size:17px;cursor:pointer;padding:3px 7px;line-height:1}
+.modal-close:hover{color:var(--red)}
+.modal-bd{padding:18px}
+.modal-ft{padding:12px 18px;border-top:1px solid var(--b);display:flex;justify-content:flex-end;gap:7px}
+
+/* CB */
+.cb-group{display:flex;flex-wrap:wrap;gap:5px;margin-top:3px}
+.cb-item{display:flex;align-items:center;gap:4px;padding:4px 10px;background:var(--dk3);border:1px solid var(--b);cursor:pointer;font-size:11px;color:var(--t2);transition:all .12s;user-select:none}
+.cb-item:hover{border-color:var(--b2);color:var(--t)}
+.cb-item.on{background:rgba(200,0,30,.12);border-color:var(--red);color:var(--red);font-weight:700}
+.cb-item input{display:none}
+
+/* TOAST */
+.toast{position:fixed;bottom:22px;right:22px;background:var(--green);color:#111;font-size:12px;font-weight:800;padding:10px 18px;letter-spacing:.04em;text-transform:uppercase;z-index:9999;transform:translateY(50px);opacity:0;transition:all .22s cubic-bezier(.34,1.56,.64,1);pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.err{background:var(--red);color:#fff}
+
+.empty{text-align:center;padding:48px 20px;color:var(--t3);grid-column:1/-1}
+.empty .ico{font-size:36px;margin-bottom:10px}
+.empty p{font-size:12px;line-height:1.7}
+
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--dk2)}
+::-webkit-scrollbar-thumb{background:var(--b2)}
+
+@media(max-width:740px){.shell{grid-template-columns:1fr}.sb{display:none}.stats-grid{grid-template-columns:1fr 1fr}.ads-grid{grid-template-columns:1fr}.settings-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- SIDEBAR -->
+<aside class="sb">
+  <div class="sb-brand">
+    <div class="sb-logo">select<span>me</span>.in</div>
+    <div class="sb-sub">Admin Panel</div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-sec">Ads</div>
+    <div class="sb-item active" data-pg="dashboard"><span class="ic">📊</span> Dashboard</div>
+    <div class="sb-item" data-pg="manage"><span class="ic">📢</span> Manage Ads</div>
+    <div class="sb-item" data-pg="create"><span class="ic">➕</span> Create Ad</div>
+    <div class="sb-sec">Content</div>
+    <div class="sb-item" data-pg="pages"><span class="ic">📄</span> Page Content</div>
+    <div class="sb-item" data-pg="rss"><span class="ic">📡</span> RSS Feeds</div>
+    <div class="sb-sec">Tools</div>
+    <div class="sb-item" data-pg="preview"><span class="ic">👁️</span> Preview</div>
+    <div class="sb-item" data-pg="export"><span class="ic">📤</span> Export Code</div>
+    <div class="sb-item" data-pg="settings"><span class="ic">⚙️</span> Settings</div>
+  </nav>
+  <div class="sb-foot">
+    <div class="sb-stat"><span class="sb-stat-l">Total</span><span class="sb-stat-v" id="sbTotal">0</span></div>
+    <div class="sb-stat"><span class="sb-stat-l">Active</span><span class="sb-stat-v" style="color:var(--green)" id="sbActive">0</span></div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title">Ads <span>Admin</span></div>
+    <div class="topbar-acts">
+      <button class="btn btn-outline btn-sm" onclick="NAV('export')">📤 Export</button>
+      <button class="btn btn-primary btn-sm" onclick="NAV('create')">+ New Ad</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="pg active" id="pg-dashboard">
+    <div class="stats-grid">
+      <div class="sc"><div class="sc-lbl">Total Ads</div><div class="sc-val" id="st-total">0</div><div class="sc-sub">All slots</div></div>
+      <div class="sc"><div class="sc-lbl">Active</div><div class="sc-val" style="color:var(--green)" id="st-active">0</div><div class="sc-sub">Showing now</div></div>
+      <div class="sc"><div class="sc-lbl">Disabled</div><div class="sc-val" style="color:var(--red)" id="st-disabled">0</div><div class="sc-sub">Paused</div></div>
+      <div class="sc"><div class="sc-lbl">Slots</div><div class="sc-val" style="color:var(--yellow)">7</div><div class="sc-sub">Available</div></div>
+    </div>
+    <div class="sec-hdr"><h2>All <span>Ads</span></h2><button class="btn btn-primary btn-sm" onclick="NAV('create')">+ Add</button></div>
+    <div class="ads-grid" id="dash-cards"></div>
+  </div>
+
+  <!-- MANAGE -->
+  <div class="pg" id="pg-manage">
+    <div class="sec-hdr"><h2>Manage <span>Ads</span></h2><button class="btn btn-primary btn-sm" onclick="NAV('create')">+ New</button></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+      <button class="btn btn-outline btn-sm" onclick="filterAds('all',this)">All</button>
+      <button class="btn btn-outline btn-sm" onclick="filterAds('active',this)">✅ Active</button>
+      <button class="btn btn-outline btn-sm" onclick="filterAds('disabled',this)">⏸ Disabled</button>
+      <button class="btn btn-outline btn-sm" onclick="filterAds('banner',this)">Banner</button>
+      <button class="btn btn-outline btn-sm" onclick="filterAds('incontent',this)">In-Content</button>
+      <button class="btn btn-outline btn-sm" onclick="filterAds('sidebar',this)">Sidebar</button>
+      <button class="btn btn-outline btn-sm" onclick="filterAds('popup',this)">Popup</button>
+    </div>
+    <div class="ads-grid" id="manage-cards"></div>
+  </div>
+
+  <!-- CREATE -->
+  <div class="pg" id="pg-create">
+    <div class="sec-hdr"><h2>Create <span>New Ad</span></h2></div>
+    <div style="max-width:680px">
+      <div class="fcard">
+        <div class="frow">
+          <div class="fg"><label>Ad Name *</label><input id="cn-name" placeholder="e.g. Amazon Banner Top"/></div>
+          <div class="fg"><label>Ad Type *</label>
+            <select id="cn-type">
+              <option value="banner">Banner (wide strip)</option>
+              <option value="incontent">In-Content (rectangle)</option>
+              <option value="sidebar">Sidebar Box</option>
+              <option value="leaderboard">Leaderboard (top bar)</option>
+              <option value="midstrip">Mid Strip (compact)</option>
+              <option value="popup">Popup</option>
+              <option value="floatbar">Float Bar (bottom)</option>
+            </select>
+          </div>
+        </div>
+        <div class="frow">
+          <div class="fg"><label>Brand / Advertiser</label><input id="cn-brand" placeholder="Amazon, Google…"/></div>
+          <div class="fg"><label>Click URL</label><input id="cn-url" placeholder="https://…"/></div>
+        </div>
+        <div class="fg"><label>Headline *</label><input id="cn-headline" placeholder="Great Indian Sale — Up to 70% Off"/></div>
+        <div class="fg"><label>Sub Text</label><input id="cn-sub" placeholder="Electronics · Fashion · Free delivery ₹499+"/></div>
+        <div class="frow">
+          <div class="fg"><label>CTA Button</label><input id="cn-cta" placeholder="Shop Now →"/></div>
+          <div class="fg"><label>Emoji / Icon</label><input id="cn-emoji" placeholder="🛒"/></div>
+        </div>
+        <div class="fg"><label>Background (CSS gradient or color)</label><input id="cn-bg" placeholder="linear-gradient(90deg,#131921,#232f3e)"/></div>
+        <div class="fg"><label>Custom HTML (overrides all fields above)</label><textarea id="cn-html" placeholder="Paste full ad HTML here…"></textarea></div>
+        <div class="fg"><label>Show On Pages</label>
+          <div class="cb-group" id="cn-pages">
+            <label class="cb-item on"><input type="checkbox" value="home" checked> Home</label>
+            <label class="cb-item on"><input type="checkbox" value="article" checked> Article</label>
+            <label class="cb-item on"><input type="checkbox" value="category" checked> Category</label>
+            <label class="cb-item on"><input type="checkbox" value="static" checked> Static</label>
+          </div>
+        </div>
+        <div class="fg"><label>Status</label>
+          <select id="cn-status"><option value="active">Active</option><option value="disabled">Disabled</option></select>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:4px">
+          <button class="btn btn-primary" onclick="createAd()">✅ Create Ad</button>
+          <button class="btn btn-outline" onclick="previewCreate()">👁 Preview</button>
+          <button class="btn btn-outline" onclick="resetCreate()">↺ Reset</button>
+        </div>
+        <div id="cn-preview" style="margin-top:14px;display:none">
+          <div style="font-size:8px;font-weight:700;color:var(--t3);letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px">PREVIEW</div>
+          <div id="cn-prev-inner" style="background:#f9f8f5;border:1px solid var(--b);padding:8px;min-height:50px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <div class="pg" id="pg-pages">
+    <div class="sec-hdr"><h2>Page <span>Content</span></h2><span style="font-size:11px;color:var(--t3)">Subscribe · About · Contact ని edit చేయండి</span></div>
+    <div class="page-tabs">
+      <button class="ptab-btn active" data-tab="subscribe">📋 Subscribe</button>
+      <button class="ptab-btn" data-tab="about">ℹ️ About</button>
+      <button class="ptab-btn" data-tab="contact">📞 Contact</button>
+    </div>
+
+    <!-- SUBSCRIBE TAB -->
+    <div class="ptab-pane active" id="pane-subscribe" style="max-width:740px">
+      <div class="fcard">
+        <div class="fcard-t">Hero Section</div>
+        <div class="frow">
+          <div class="fg"><label>Tag (small label)</label><input id="s-heroTag" placeholder="Subscribe"/></div>
+          <div class="fg"><label>Hero Sub Text</label><input id="s-heroSub" placeholder="Get unlimited access…"/></div>
+        </div>
+        <div class="fg"><label>Hero Title (use &lt;br&gt; for line break)</label><input id="s-heroTitle" placeholder="Stay Ahead.&lt;br&gt;Read Selectme.in"/></div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-t">Plan 1 — Free</div>
+        <div class="frow"><div class="fg"><label>Name</label><input id="s-p1name" placeholder="Free"/></div><div class="fg"><label>Price</label><input id="s-p1price" placeholder="₹0"/></div></div>
+        <div class="frow"><div class="fg"><label>Description</label><input id="s-p1desc" placeholder="Forever free"/></div><div class="fg"><label>Button Text</label><input id="s-p1btn" placeholder="Get Started"/></div></div>
+        <div class="fg"><label>Button URL (blank = alert popup)</label><input id="s-p1url" placeholder="https://payment.link/free"/></div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-t">Plan 2 — Premium (Most Popular)</div>
+        <div class="frow"><div class="fg"><label>Name</label><input id="s-p2name" placeholder="Premium"/></div><div class="fg"><label>Price</label><input id="s-p2price" placeholder="₹99"/></div></div>
+        <div class="frow"><div class="fg"><label>Description</label><input id="s-p2desc" placeholder="per month"/></div><div class="fg"><label>Button Text</label><input id="s-p2btn" placeholder="Subscribe Now"/></div></div>
+        <div class="fg"><label>Button URL</label><input id="s-p2url" placeholder="https://payment.link/premium"/></div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-t">Plan 3 — Annual</div>
+        <div class="frow"><div class="fg"><label>Name</label><input id="s-p3name" placeholder="Annual"/></div><div class="fg"><label>Price</label><input id="s-p3price" placeholder="₹799"/></div></div>
+        <div class="frow"><div class="fg"><label>Description</label><input id="s-p3desc" placeholder="per year — save 33%"/></div><div class="fg"><label>Button Text</label><input id="s-p3btn" placeholder="Best Value"/></div></div>
+        <div class="fg"><label>Button URL</label><input id="s-p3url" placeholder="https://payment.link/annual"/></div>
+      </div>
+      <div class="fcard">
+        <div class="fg"><label>Bottom Note Text</label><textarea id="s-note" placeholder="Premium subscribers get access to unlimited articles…"></textarea></div>
+      </div>
+      <button class="btn btn-primary" onclick="savePage('subscribe')">💾 Save Subscribe Page</button>
+    </div>
+
+    <!-- ABOUT TAB -->
+    <div class="ptab-pane" id="pane-about" style="max-width:740px">
+      <div class="fcard">
+        <div class="fcard-t">Hero Section</div>
+        <div class="frow">
+          <div class="fg"><label>Tag</label><input id="a-heroTag" placeholder="About Us"/></div>
+          <div class="fg"><label>Hero Sub Text</label><input id="a-heroSub" placeholder="Selectme.in is a technology-first…"/></div>
+        </div>
+        <div class="fg"><label>Hero Title (HTML ok)</label><input id="a-heroTitle" placeholder="Telugu's First&lt;br&gt;AI-Powered News"/></div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-t">Stats — 4 Boxes</div>
+        <div class="frow"><div class="fg"><label>Stat 1 Number</label><input id="a-s1num" placeholder="2M+"/></div><div class="fg"><label>Stat 1 Label</label><input id="a-s1label" placeholder="Monthly Readers"/></div></div>
+        <div class="frow"><div class="fg"><label>Stat 2 Number</label><input id="a-s2num" placeholder="50K+"/></div><div class="fg"><label>Stat 2 Label</label><input id="a-s2label" placeholder="Articles Published"/></div></div>
+        <div class="frow"><div class="fg"><label>Stat 3 Number</label><input id="a-s3num" placeholder="4x"/></div><div class="fg"><label>Stat 3 Label</label><input id="a-s3label" placeholder="Daily AI Updates"/></div></div>
+        <div class="frow"><div class="fg"><label>Stat 4 Number</label><input id="a-s4num" placeholder="2019"/></div><div class="fg"><label>Stat 4 Label</label><input id="a-s4label" placeholder="Founded"/></div></div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-t">Our Story</div>
+        <div class="fg"><label>Section Title</label><input id="a-storyTitle" placeholder="Our Story"/></div>
+        <div class="fg"><label>Body Text (HTML ok)</label><textarea id="a-storyBody" placeholder="Selectme.in was founded in 2019…"></textarea></div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-t">Our Values</div>
+        <div class="fg"><label>Section Title</label><input id="a-valTitle" placeholder="Our Values"/></div>
+        <div class="fg"><label>Value 1 (HTML ok — use &lt;strong&gt;Label:&lt;/strong&gt;)</label><input id="a-val1" placeholder="&lt;strong&gt;Accuracy:&lt;/strong&gt; Every story is fact-checked…"/></div>
+        <div class="fg"><label>Value 2</label><input id="a-val2" placeholder="&lt;strong&gt;Speed:&lt;/strong&gt; AI-powered updates…"/></div>
+        <div class="fg"><label>Value 3</label><input id="a-val3" placeholder="&lt;strong&gt;Independence:&lt;/strong&gt; Editorially independent…"/></div>
+      </div>
+      <button class="btn btn-primary" onclick="savePage('about')">💾 Save About Page</button>
+    </div>
+
+    <!-- CONTACT TAB -->
+    <div class="ptab-pane" id="pane-contact" style="max-width:740px">
+      <div class="fcard">
+        <div class="fcard-t">Hero Section</div>
+        <div class="frow">
+          <div class="fg"><label>Tag</label><input id="c-heroTag" placeholder="Contact"/></div>
+          <div class="fg"><label>Hero Sub Text</label><input id="c-heroSub" placeholder="News tips, partnerships…"/></div>
+        </div>
+        <div class="fg"><label>Hero Title (HTML ok)</label><input id="c-heroTitle" placeholder="Get in Touch"/></div>
+      </div>
+      <div class="fcard">
+        <div class="fcard-t">Contact Details</div>
+        <div class="fg"><label>Form Section Title</label><input id="c-formTitle" placeholder="Send Us a Message"/></div>
+        <div class="frow">
+          <div class="fg"><label>📧 Email Address</label><input id="c-email" placeholder="info@selectme.in"/></div>
+          <div class="fg"><label>📞 Phone Number</label><input id="c-phone" placeholder="+91 99999 99999"/></div>
+        </div>
+        <div class="fg"><label>📍 Office Address</label><input id="c-address" placeholder="Hyderabad, Telangana, India"/></div>
+        <div class="fg"><label>Form Success Message</label><input id="c-success" placeholder="✅ మీ సందేశం పంపబడింది!…"/></div>
+      </div>
+      <button class="btn btn-primary" onclick="savePage('contact')">💾 Save Contact Page</button>
+    </div>
+  </div>
+
+  <!-- RSS FEEDS -->
+  <div class="pg" id="pg-rss">
+    <div class="sec-hdr"><h2>RSS <span>Video Feeds</span></h2><button class="btn btn-primary btn-sm" onclick="showAddRss()">+ Add Feed</button></div>
+    <p style="font-size:11px;color:var(--t3);margin-bottom:14px;line-height:1.7">ఈ RSS URLs నుండి <strong style="color:var(--t)">index.html</strong> లో "Latest Videos" section లో videos automatically చూపిస్తాయి. YouTube channels, news sites అన్నీ add చేయవచ్చు.</p>
+    <div id="rss-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px"></div>
+    <div id="rss-empty" style="display:none;text-align:center;padding:32px;color:var(--t3);background:var(--dk2);border:1px solid var(--b)">
+      <div style="font-size:28px;margin-bottom:8px">📡</div>
+      <div style="font-size:12px">RSS feeds ఏమీ లేవు. పైన "+ Add Feed" click చేయండి.</div>
+    </div>
+    <div style="background:var(--dk2);border:1px solid var(--b);padding:14px 16px;margin-top:8px">
+      <div style="font-size:9px;font-weight:800;color:var(--t3);letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px">💡 RSS URL Examples <span style="flex:1;height:1px;background:var(--b);display:block"></span></div>
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:10.5px;color:var(--t3);line-height:1.7">
+        <div><span style="color:var(--yellow)">YouTube Channel:</span> <code style="background:var(--dk3);padding:1px 5px;color:#7dd3fc;font-size:10px">https://www.youtube.com/feeds/videos.xml?channel_id=CHANNEL_ID</code></div>
+        <div><span style="color:var(--yellow)">YouTube Playlist:</span> <code style="background:var(--dk3);padding:1px 5px;color:#7dd3fc;font-size:10px">https://www.youtube.com/feeds/videos.xml?playlist_id=PLAYLIST_ID</code></div>
+        <div><span style="color:var(--yellow)">News RSS:</span> <code style="background:var(--dk3);padding:1px 5px;color:#7dd3fc;font-size:10px">https://news.google.com/rss/search?q=telugu+news&hl=te</code></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD/EDIT RSS MODAL -->
+  <div class="modal-ov" id="rssModal">
+    <div class="modal" style="max-width:480px">
+      <div class="modal-hd"><div class="modal-title" id="rssModalTitle">Add RSS Feed</div><button class="modal-close" onclick="closeRssModal()">✕</button></div>
+      <div class="modal-bd">
+        <input type="hidden" id="rss-edit-id"/>
+        <div class="fg"><label>Feed Label (Display Name) *</label><input id="rss-label" placeholder="e.g. TV9 Telugu, YouTube - Channel Name"/></div>
+        <div class="fg"><label>RSS URL *</label><input id="rss-url" placeholder="https://www.youtube.com/feeds/videos.xml?channel_id=…" style="font-size:10px"/></div>
+        <div class="fg">
+          <label>Category Tag</label>
+          <select id="rss-cat">
+            <option value="Video">Video</option>
+            <option value="News">News</option>
+            <option value="Sports">Sports</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Politics">Politics</option>
+            <option value="Business">Business</option>
+            <option value="Technology">Technology</option>
+          </select>
+        </div>
+        <div class="fg" style="margin:0">
+          <label>Max Videos to show</label>
+          <input type="number" id="rss-max" value="4" min="1" max="20" style="width:80px"/>
+        </div>
+      </div>
+      <div class="modal-ft">
+        <button class="btn btn-outline btn-sm" onclick="closeRssModal()">Cancel</button>
+        <button class="btn btn-primary btn-sm" onclick="saveRssFeed()">💾 Save Feed</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="pg" id="pg-preview">
+    <div class="sec-hdr"><h2>Ad Slot <span>Preview</span></h2></div>
+    <div style="background:var(--dk2);border:1px solid var(--b);padding:18px">
+      <div class="prev-tabs">
+        <button class="prev-tab active" data-slot="banner">Banner</button>
+        <button class="prev-tab" data-slot="incontent">In-Content</button>
+        <button class="prev-tab" data-slot="sidebar">Sidebar</button>
+        <button class="prev-tab" data-slot="leaderboard">Leaderboard</button>
+        <button class="prev-tab" data-slot="midstrip">Mid Strip</button>
+        <button class="prev-tab" data-slot="popup">Popup</button>
+        <button class="prev-tab" data-slot="floatbar">Float Bar</button>
+      </div>
+      <div class="prev-frame" id="prev-frame"></div>
+    </div>
+  </div>
+
+  <!-- EXPORT -->
+  <div class="pg" id="pg-export">
+    <div class="sec-hdr"><h2>Export <span>Code</span></h2><button class="btn btn-green btn-sm" onclick="copyCode()">📋 Copy All</button></div>
+    <p style="font-size:11.5px;color:var(--t3);margin-bottom:14px;line-height:1.7">ఈ code ని <code style="background:var(--dk3);padding:1px 5px;color:var(--red)">selectme_complete.html</code> లో AD section replace చేయడానికి use చేయండి.</p>
+    <div class="code-box" id="export-box">// Generate చేయడానికి button click చేయండి</div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="btn btn-primary" onclick="genCode()">⚡ Generate</button>
+      <button class="btn btn-outline" onclick="downloadCode()">⬇ Download JS</button>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="pg" id="pg-settings">
+    <div class="sec-hdr"><h2>Ad <span>Settings</span></h2></div>
+    <div class="settings-grid">
+      <div class="scard">
+        <h3><span class="ic">🔄</span> Global Controls</h3>
+        <div class="srow"><div><div class="srow-l">All Ads Master Switch</div><div class="srow-s">Site-wide on/off</div></div><button class="toggle on" id="tog-master" onclick="toggleSet(this,'master_enabled')"></button></div>
+        <div class="srow"><div><div class="srow-l">Popup Ad</div></div><button class="toggle on" id="tog-popup" onclick="toggleSet(this,'popup_enabled')"></button></div>
+        <div class="srow"><div><div class="srow-l">Float Bar</div></div><button class="toggle on" id="tog-float" onclick="toggleSet(this,'float_enabled')"></button></div>
+        <div class="srow"><div><div class="srow-l">Sidebar Ads</div></div><button class="toggle on" id="tog-sidebar" onclick="toggleSet(this,'sidebar_enabled')"></button></div>
+      </div>
+      <div class="scard">
+        <h3><span class="ic">📄</span> Per-Page Controls</h3>
+        <div class="srow"><div class="srow-l">Home Page Ads</div><button class="toggle on" id="tog-home" onclick="toggleSet(this,'home_ads')"></button></div>
+        <div class="srow"><div class="srow-l">Article Page Ads</div><button class="toggle on" id="tog-article" onclick="toggleSet(this,'article_ads')"></button></div>
+        <div class="srow"><div class="srow-l">Category Page Ads</div><button class="toggle on" id="tog-cat" onclick="toggleSet(this,'category_ads')"></button></div>
+        <div class="srow"><div class="srow-l">Static Pages Ads</div><button class="toggle on" id="tog-static" onclick="toggleSet(this,'static_ads')"></button></div>
+      </div>
+      <div class="scard">
+        <h3><span class="ic">⏱</span> Timing</h3>
+        <div class="fg" style="margin-bottom:10px"><label>Popup Delay (seconds)</label><input type="number" id="set-pdel" value="5" min="1" max="120"/></div>
+        <div class="fg" style="margin-bottom:10px"><label>Float Bar Delay (seconds)</label><input type="number" id="set-fdel" value="8" min="1" max="120"/></div>
+        <button class="btn btn-primary btn-sm" onclick="saveTimings()">Save Timings</button>
+      </div>
+      <div class="scard">
+        <h3><span class="ic">💾</span> Data</h3>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <button class="btn btn-outline" onclick="exportJSON()">📦 Export JSON Backup</button>
+          <button class="btn btn-outline" onclick="importJSON()">📥 Import JSON</button>
+          <button class="btn btn-outline" onclick="loadDefaults()">⚡ Load Default Ads</button>
+          <button class="btn btn-danger" onclick="clearAll()">🗑 Clear All Ads</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-ov" id="editModal">
+  <div class="modal">
+    <div class="modal-hd"><div class="modal-title">Edit Ad</div><button class="modal-close" onclick="document.getElementById('editModal').classList.remove('show')">✕</button></div>
+    <div class="modal-bd">
+      <input type="hidden" id="em-id"/>
+      <div class="frow">
+        <div class="fg"><label>Name</label><input id="em-name"/></div>
+        <div class="fg"><label>Type</label>
+          <select id="em-type"><option value="banner">Banner</option><option value="incontent">In-Content</option><option value="sidebar">Sidebar</option><option value="leaderboard">Leaderboard</option><option value="midstrip">Mid Strip</option><option value="popup">Popup</option><option value="floatbar">Float Bar</option></select>
+        </div>
+      </div>
+      <div class="frow"><div class="fg"><label>Brand</label><input id="em-brand"/></div><div class="fg"><label>Click URL</label><input id="em-url"/></div></div>
+      <div class="fg"><label>Headline</label><input id="em-headline"/></div>
+      <div class="fg"><label>Sub Text</label><input id="em-sub"/></div>
+      <div class="frow"><div class="fg"><label>CTA</label><input id="em-cta"/></div><div class="fg"><label>Emoji</label><input id="em-emoji"/></div></div>
+      <div class="fg"><label>Background</label><input id="em-bg"/></div>
+      <div class="fg"><label>Custom HTML</label><textarea id="em-html"></textarea></div>
+      <div class="fg"><label>Show On Pages</label>
+        <div class="cb-group" id="em-pages">
+          <label class="cb-item"><input type="checkbox" value="home"> Home</label>
+          <label class="cb-item"><input type="checkbox" value="article"> Article</label>
+          <label class="cb-item"><input type="checkbox" value="category"> Category</label>
+          <label class="cb-item"><input type="checkbox" value="static"> Static</label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('editModal').classList.remove('show')">Cancel</button>
+      <button class="btn btn-primary btn-sm" onclick="saveEdit()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════════════
+// STORAGE
+// ════════════════════════════════════════
+const KA = 'selectme_ads_v2';
+const KS = 'selectme_ads_settings';
+const KP = 'selectme_pages_v1';
+
+function getAds(){try{return JSON.parse(localStorage.getItem(KA))||[];}catch{return[];}}
+function setAds(a){localStorage.setItem(KA,JSON.stringify(a));refreshStats();}
+function getSets(){
+  var d={master_enabled:true,popup_enabled:true,float_enabled:true,sidebar_enabled:true,home_ads:true,article_ads:true,category_ads:true,static_ads:true,popup_delay:5,float_delay:8};
+  try{return Object.assign({},d,JSON.parse(localStorage.getItem(KS)));}catch{return d;}
+}
+function setSets(s){localStorage.setItem(KS,JSON.stringify(s));}
+function getPages(){try{return JSON.parse(localStorage.getItem(KP))||{};}catch{return {};}}
+function setPages(p){localStorage.setItem(KP,JSON.stringify(p));}
+
+// ════════════════════════════════════════
+// DEFAULTS
+// ════════════════════════════════════════
+var DEFAULT_ADS=[
+  {id:'ad_001',name:'Amazon Banner',type:'banner',brand:'Amazon',url:'https://amazon.in',headline:'Great Indian Sale — Up to 70% Off',subtext:'Electronics · Fashion · Home · Books · Free delivery ₹499+',cta:'Shop Now →',emoji:'🛒',bg:'linear-gradient(90deg,#131921,#1a2737,#232f3e)',customhtml:'',pages:['home','article','category','static'],status:'active'},
+  {id:'ad_002',name:'Amazon In-Content',type:'incontent',brand:'Amazon',url:'https://amazon.in',headline:'Amazon Sale — ₹499+ కి Free Delivery',subtext:'Prime members కి extra 10% off · Millions of products',cta:'Shop Now →',emoji:'🛍️',bg:'linear-gradient(135deg,#0f2027,#203a43,#2c5364)',customhtml:'',pages:['article','category'],status:'active'},
+  {id:'ad_003',name:'App Leaderboard',type:'leaderboard',brand:'Selectme',url:'#',headline:'Selectme Premium App — తెలుగు వార్తలు faster గా చదవండి',subtext:'Breaking news alerts · Offline reading · Ad-free experience',cta:'Download Free →',emoji:'📱',bg:'linear-gradient(90deg,#0a0a0a,#1a0a0a,#0a0a0a)',customhtml:'',pages:['category','static'],status:'active'},
+  {id:'ad_004',name:'Education Mid Strip',type:'midstrip',brand:'Education',url:'#',headline:'తెలుగు మీడియం లో Online Courses',subtext:'Engineering · Medical · Civil Services · అన్ని subjects',cta:'Free Demo చూడండి →',emoji:'🎓',bg:'linear-gradient(90deg,#0f2027,#203a43,#2c5364)',customhtml:'',pages:['home','article','category'],status:'active'},
+  {id:'ad_005',name:'Magazine Sidebar',type:'sidebar',brand:'Business Mag',url:'#',headline:'Business magazine',subtext:'Latest edition — Special offer',cta:'Subscribe now',emoji:'📖',bg:'linear-gradient(160deg,#1a1240,#2d1f6e,#1a1240)',customhtml:'',pages:['article','category'],status:'active'},
+  {id:'ad_006',name:'Subscribe Popup',type:'popup',brand:'Selectme',url:'#subscribe',headline:'తాజా వార్తలు మీకు చేరాలంటే',subtext:'Selectme.in లో రోజూ AI-powered తెలుగు వార్తలు చదవండి.',cta:'Subscribe చేయండి →',emoji:'📰',bg:'linear-gradient(135deg,#111 0%,#c8001e 100%)',customhtml:'',pages:['home'],status:'active'},
+  {id:'ad_007',name:'Amazon Float Bar',type:'floatbar',brand:'Amazon',url:'https://amazon.in',headline:'Amazon Sale — ₹499+ కి Free Delivery',subtext:'Prime members కి extra 10% off · Today only',cta:'Shop Now',emoji:'🛒',bg:'#fff',customhtml:'',pages:['home','article','category'],status:'active'}
+];
+
+var PAGE_DEFS={
+  subscribe:{heroTag:'Subscribe',heroTitle:'Stay Ahead.<br>Read Selectme.in',heroSub:'Get unlimited access to Telugu AI news, astrology, sports, and more.',p1name:'Free',p1price:'₹0',p1desc:'Forever free',p1btn:'Get Started',p1url:'',p2name:'Premium',p2price:'₹99',p2desc:'per month',p2btn:'Subscribe Now',p2url:'',p3name:'Annual',p3price:'₹799',p3desc:'per year — save 33%',p3btn:'Best Value',p3url:'',note:'Premium subscribers get access to unlimited articles, exclusive Telugu analysis, and ad-free reading experience.'},
+  about:{heroTag:'About Us',heroTitle:"Telugu's First<br>AI-Powered News",heroSub:'Selectme.in is a technology-first Telugu news platform delivering AI-curated stories every six hours, 24/7.',s1num:'2M+',s1label:'Monthly Readers',s2num:'50K+',s2label:'Articles Published',s3num:'4x',s3label:'Daily AI Updates',s4num:'2019',s4label:'Founded',storyTitle:'Our Story',storyBody:'Selectme.in was founded in 2019 with a bold mission: to bring world-class, AI-powered journalism to Telugu-speaking communities worldwide.',valTitle:'Our Values',val1:'<strong>Accuracy:</strong> Every story is fact-checked before publication.',val2:'<strong>Speed:</strong> AI-powered updates ensure you never miss a story.',val3:'<strong>Independence:</strong> Editorially independent, beholden only to our readers.'},
+  contact:{heroTag:'Contact',heroTitle:'Get in Touch',heroSub:"News tips, partnerships, or feedback — we'd love to hear from you.",formTitle:'Send Us a Message',email:'',phone:'',address:'',success:'✅ మీ సందేశం పంపబడింది! మేము 24 గంటల్లో సమాధానం ఇస్తాము.'}
+};
+
+// input-id → storage-key maps
+var PM={
+  subscribe:{'s-heroTag':'heroTag','s-heroTitle':'heroTitle','s-heroSub':'heroSub','s-p1name':'p1name','s-p1price':'p1price','s-p1desc':'p1desc','s-p1btn':'p1btn','s-p1url':'p1url','s-p2name':'p2name','s-p2price':'p2price','s-p2desc':'p2desc','s-p2btn':'p2btn','s-p2url':'p2url','s-p3name':'p3name','s-p3price':'p3price','s-p3desc':'p3desc','s-p3btn':'p3btn','s-p3url':'p3url','s-note':'note'},
+  about:{'a-heroTag':'heroTag','a-heroTitle':'heroTitle','a-heroSub':'heroSub','a-s1num':'s1num','a-s1label':'s1label','a-s2num':'s2num','a-s2label':'s2label','a-s3num':'s3num','a-s3label':'s3label','a-s4num':'s4num','a-s4label':'s4label','a-storyTitle':'storyTitle','a-storyBody':'storyBody','a-valTitle':'valTitle','a-val1':'val1','a-val2':'val2','a-val3':'val3'},
+  contact:{'c-heroTag':'heroTag','c-heroTitle':'heroTitle','c-heroSub':'heroSub','c-formTitle':'formTitle','c-email':'email','c-phone':'phone','c-address':'address','c-success':'success'}
+};
+
+// ════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════
+function NAV(name){
+  document.querySelectorAll('.pg').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.sb-item').forEach(function(i){i.classList.remove('active');});
+  var pg=document.getElementById('pg-'+name);
+  if(pg) pg.classList.add('active');
+  var sb=document.querySelector('.sb-item[data-pg="'+name+'"]');
+  if(sb) sb.classList.add('active');
+  if(name==='dashboard') renderCards('dash-cards',getAds());
+  if(name==='manage') renderCards('manage-cards',getAds());
+  if(name==='preview') showPreview('banner');
+  if(name==='export') genCode();
+  if(name==='settings') loadSettings();
+  if(name==='pages') loadPageForms();
+  if(name==='rss') renderRssList();
+}
+document.querySelectorAll('.sb-item').forEach(function(el){
+  el.addEventListener('click',function(){NAV(el.dataset.pg);});
+});
+
+// ════════════════════════════════════════
+// AD HTML BUILDER
+// ════════════════════════════════════════
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function buildAd(ad){
+  if(ad.customhtml&&ad.customhtml.trim()) return ad.customhtml;
+  var bg=ad.bg||'linear-gradient(90deg,#131921,#232f3e)';
+  var url=ad.url||'#'; var em=ad.emoji||'📢';
+  var hl=esc(ad.headline||''); var sb=esc(ad.subtext||''); var ct=esc(ad.cta||'Learn More');
+  var t=ad.type;
+  if(t==='banner'||t==='midstrip') return '<div style="margin:10px 0"><div style="font-size:8px;color:#888;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px">Advertisement</div><div style="width:100%;height:88px;background:'+bg+';display:flex;align-items:center;justify-content:space-between;padding:0 22px;cursor:pointer" onclick="window.open(\''+url+'\',\'_blank\')"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:26px">'+em+'</div><div><div style="color:#fff;font-size:14px;font-weight:700">'+hl+'</div><div style="color:rgba(255,255,255,.5);font-size:10px;margin-top:2px">'+sb+'</div></div></div><div style="background:#ff9900;color:#111;font-size:11px;font-weight:900;padding:8px 18px;white-space:nowrap;flex-shrink:0">'+ct+'</div></div></div>';
+  if(t==='leaderboard') return '<div style="margin:0 0 14px"><div style="font-size:8px;color:#888;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px">Advertisement</div><div style="width:100%;height:78px;background:'+bg+';display:flex;align-items:center;justify-content:space-between;padding:0 22px;cursor:pointer;border:1px solid #2a1a1a" onclick="window.open(\''+url+'\',\'_blank\')"><div style="display:flex;align-items:center;gap:12px"><div style="width:42px;height:42px;background:#c8001e;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0">'+em+'</div><div><div style="color:#fff;font-size:13px;font-weight:700">'+hl+'</div><div style="color:rgba(255,255,255,.4);font-size:9px;margin-top:2px">'+sb+'</div></div></div><div style="background:#c8001e;color:#fff;font-size:10px;font-weight:800;padding:8px 16px;white-space:nowrap;flex-shrink:0">'+ct+'</div></div></div>';
+  if(t==='incontent') return '<div style="margin:24px 0"><div style="font-size:8px;color:#888;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px">Advertisement</div><div style="width:100%;height:210px;background:'+bg+';display:flex;align-items:center;justify-content:center;gap:22px;cursor:pointer;padding:0 22px" onclick="window.open(\''+url+'\',\'_blank\')"><div style="text-align:center;flex-shrink:0"><div style="font-size:34px;margin-bottom:4px">'+em+'</div><div style="color:rgba(255,255,255,.4);font-size:9px;text-transform:uppercase;letter-spacing:.1em">Sponsored</div></div><div style="color:#fff"><div style="font-size:19px;font-weight:700;line-height:1.2;margin-bottom:7px">'+hl+'</div><div style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:10px">'+sb+'</div><div style="display:inline-block;background:#ff9900;color:#111;font-size:10px;font-weight:800;padding:7px 18px;text-transform:uppercase">'+ct+'</div></div></div></div>';
+  if(t==='sidebar') return '<div style="border:1px solid #ddd"><div style="width:100%;height:270px;background:'+bg+';display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;cursor:pointer" onclick="window.open(\''+url+'\',\'_blank\')"><div style="font-size:26px">'+em+'</div><div style="color:#fff;font-size:15px;font-weight:900;text-align:center;padding:0 14px;line-height:1.3">'+hl+'</div><div style="color:rgba(255,255,255,.7);font-size:11px;font-style:italic">'+sb+'</div><div style="background:#c8001e;color:#fff;font-size:10px;font-weight:700;padding:7px 20px;text-transform:uppercase">'+ct+'</div></div><div style="font-size:8px;color:#bbb;text-align:center;padding:3px;background:#f2f0eb">Advertisement</div></div>';
+  if(t==='popup') return '<div style="background:#fff;max-width:360px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.2)"><div style="width:100%;height:100px;background:'+bg+';display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px"><div style="font-size:28px">'+em+'</div><div style="color:#fff;font-size:14px;font-weight:900">Selectme.in</div></div><div style="padding:13px 15px"><div style="font-size:8px;font-weight:800;color:#c8001e;text-transform:uppercase;letter-spacing:.14em;margin-bottom:4px">🔔 Free Subscription</div><div style="font-size:16px;font-weight:700;color:#111;margin-bottom:4px">'+hl+'</div><div style="font-size:11px;color:#555;line-height:1.6;margin-bottom:11px">'+sb+'</div><div style="display:flex;gap:6px"><button style="flex:1;padding:8px;background:#c8001e;color:#fff;border:none;font-size:10px;font-weight:800;cursor:pointer;text-transform:uppercase">'+ct+'</button><button style="padding:8px 11px;background:none;color:#888;border:1.5px solid #ddd;font-size:10px;cursor:pointer">Later</button></div></div></div>';
+  if(t==='floatbar') return '<div style="background:#fff;border-top:2px solid #c8001e;display:flex;align-items:center;justify-content:space-between;padding:8px 16px;box-shadow:0 -4px 18px rgba(0,0,0,.1)"><div style="display:flex;align-items:center;gap:10px"><div style="background:linear-gradient(135deg,#ff9900,#ff6600);width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0">'+em+'</div><div><div style="font-size:12px;font-weight:700;color:#111">'+hl+'</div><div style="font-size:9.5px;color:#888;margin-top:1px">'+sb+'</div></div></div><div style="display:flex;align-items:center;gap:7px"><div style="background:#ff9900;color:#111;font-size:10px;font-weight:800;padding:6px 13px;cursor:pointer">'+ct+'</div><span style="color:#bbb;font-size:15px;cursor:pointer">✕</span></div></div>';
+  return '<div style="padding:18px;text-align:center;color:#999;font-size:12px">No preview</div>';
+}
+
+function slotLabel(t){return {banner:'Banner',incontent:'In-Content',sidebar:'Sidebar',leaderboard:'Leaderboard',midstrip:'Mid Strip',popup:'Popup',floatbar:'Float Bar'}[t]||t;}
+function badgeClass(t){return {banner:'bb',incontent:'bi',sidebar:'bs',leaderboard:'bl',midstrip:'bm',popup:'bp',floatbar:'bf'}[t]||'bb';}
+
+// ════════════════════════════════════════
+// RENDER CARDS
+// ════════════════════════════════════════
+function renderCards(cid,ads){
+  var el=document.getElementById(cid); if(!el) return;
+  if(!ads.length){el.innerHTML='<div class="empty"><div class="ico">📭</div><p>No ads yet.<br><button class="btn btn-primary btn-sm" onclick="NAV(\'create\')" style="margin-top:8px">+ Create Ad</button></p></div>';return;}
+  el.innerHTML=ads.map(function(ad){
+    var tags=['home','article','category','static'].map(function(p){
+      return '<span class="ptag '+((ad.pages||[]).indexOf(p)>=0?'on':'')+'" data-ad="'+ad.id+'" data-page="'+p+'" onclick="this.classList.toggle(\'on\')">'+p+'</span>';
+    }).join('');
+    return '<div class="ad-card '+(ad.status==='disabled'?'off':'')+'" id="card-'+ad.id+'">'+
+      '<div class="adc-head"><div class="adc-left"><span class="badge '+badgeClass(ad.type)+'">'+slotLabel(ad.type)+'</span><span class="adc-name">'+esc(ad.name)+'</span></div>'+
+      '<div class="adc-ctrls"><button class="toggle '+(ad.status==='active'?'on':'')+'" onclick="toggleStatus(\''+ad.id+'\',this)"></button>'+
+      '<button class="bic" onclick="openEdit(\''+ad.id+'\')" title="Edit">✏️</button>'+
+      '<button class="bic btn-danger" onclick="deleteAd(\''+ad.id+'\')" title="Delete" style="font-size:11px">🗑</button></div></div>'+
+      '<div class="adc-preview"><div class="adc-pi">'+buildAd(ad)+'</div></div>'+
+      '<div class="adc-body"><div class="adc-row">'+
+      '<div class="adf"><label>Headline</label><input value="'+esc(ad.headline)+'" onchange="qSave(\''+ad.id+'\',\'headline\',this.value)"/></div>'+
+      '<div class="adf"><label>CTA</label><input value="'+esc(ad.cta)+'" onchange="qSave(\''+ad.id+'\',\'cta\',this.value)"/></div></div>'+
+      '<div class="adc-row">'+
+      '<div class="adf"><label>Sub Text</label><input value="'+esc(ad.subtext)+'" onchange="qSave(\''+ad.id+'\',\'subtext\',this.value)"/></div>'+
+      '<div class="adf"><label>Click URL</label><input value="'+esc(ad.url)+'" onchange="qSave(\''+ad.id+'\',\'url\',this.value)"/></div></div></div>'+
+      '<div class="adc-foot"><div class="ptags">'+tags+'</div><button class="save-btn" onclick="saveCard(\''+ad.id+'\')">Save</button></div>'+
+      '</div>';
+  }).join('');
+}
+
+// ════════════════════════════════════════
+// AD CRUD
+// ════════════════════════════════════════
+function createAd(){
+  var name=document.getElementById('cn-name').value.trim();
+  if(!name){toast('Ad name is required!',true);return;}
+  var pages=[];
+  document.querySelectorAll('#cn-pages input:checked').forEach(function(c){pages.push(c.value);});
+  var ad={id:'ad_'+Date.now(),name:name,type:document.getElementById('cn-type').value,brand:document.getElementById('cn-brand').value,url:document.getElementById('cn-url').value,headline:document.getElementById('cn-headline').value,subtext:document.getElementById('cn-sub').value,cta:document.getElementById('cn-cta').value,emoji:document.getElementById('cn-emoji').value||'📢',bg:document.getElementById('cn-bg').value||'linear-gradient(90deg,#131921,#232f3e)',customhtml:document.getElementById('cn-html').value,pages:pages.length?pages:['home','article','category','static'],status:document.getElementById('cn-status').value};
+  var ads=getAds(); ads.push(ad); setAds(ads);
+  toast('✅ Ad created!'); resetCreate(); NAV('manage');
+}
+
+function deleteAd(id){
+  if(!confirm('Delete this ad?')) return;
+  setAds(getAds().filter(function(a){return a.id!==id;}));
+  var el=document.getElementById('card-'+id); if(el) el.remove();
+  toast('Ad deleted');
+}
+
+function toggleStatus(id,btn){
+  var ads=getAds(); var ad=ads.find(function(a){return a.id===id;}); if(!ad) return;
+  ad.status=ad.status==='active'?'disabled':'active'; setAds(ads);
+  btn.classList.toggle('on',ad.status==='active');
+  var card=document.getElementById('card-'+id); if(card) card.classList.toggle('off',ad.status==='disabled');
+  toast(ad.status==='active'?'✅ Enabled':'⏸ Disabled');
+}
+
+function qSave(id,field,value){
+  var ads=getAds(); var ad=ads.find(function(a){return a.id===id;}); if(ad){ad[field]=value;setAds(ads);}
+}
+
+function saveCard(id){
+  var ads=getAds(); var ad=ads.find(function(a){return a.id===id;}); if(!ad) return;
+  var card=document.getElementById('card-'+id); if(!card) return;
+  ad.pages=[]; card.querySelectorAll('.ptag.on').forEach(function(t){ad.pages.push(t.dataset.page);});
+  setAds(ads);
+  var prev=card.querySelector('.adc-pi'); if(prev) prev.innerHTML=buildAd(ad);
+  toast('✅ Saved!');
+}
+
+function filterAds(f,btn){
+  document.querySelectorAll('#pg-manage .btn-outline').forEach(function(b){b.style.cssText='';});
+  if(btn){btn.style.background='rgba(200,0,30,.15)';btn.style.color='var(--red)';btn.style.borderColor='var(--red)';}
+  var ads=getAds();
+  if(f==='active') ads=ads.filter(function(a){return a.status==='active';});
+  else if(f==='disabled') ads=ads.filter(function(a){return a.status==='disabled';});
+  else if(f!=='all') ads=ads.filter(function(a){return a.type===f;});
+  renderCards('manage-cards',ads);
+}
+
+// ════════════════════════════════════════
+// EDIT MODAL
+// ════════════════════════════════════════
+function openEdit(id){
+  var ad=getAds().find(function(a){return a.id===id;}); if(!ad) return;
+  document.getElementById('em-id').value=id;
+  document.getElementById('em-name').value=ad.name||'';
+  document.getElementById('em-type').value=ad.type||'banner';
+  document.getElementById('em-brand').value=ad.brand||'';
+  document.getElementById('em-url').value=ad.url||'';
+  document.getElementById('em-headline').value=ad.headline||'';
+  document.getElementById('em-sub').value=ad.subtext||'';
+  document.getElementById('em-cta').value=ad.cta||'';
+  document.getElementById('em-emoji').value=ad.emoji||'';
+  document.getElementById('em-bg').value=ad.bg||'';
+  document.getElementById('em-html').value=ad.customhtml||'';
+  document.querySelectorAll('#em-pages .cb-item').forEach(function(el){
+    var inp=el.querySelector('input');
+    var chk=(ad.pages||[]).indexOf(inp.value)>=0;
+    inp.checked=chk; el.classList.toggle('on',chk);
+  });
+  document.getElementById('editModal').classList.add('show');
+}
+
+function saveEdit(){
+  var id=document.getElementById('em-id').value;
+  var ads=getAds(); var ad=ads.find(function(a){return a.id===id;}); if(!ad) return;
+  ad.name=document.getElementById('em-name').value;
+  ad.type=document.getElementById('em-type').value;
+  ad.brand=document.getElementById('em-brand').value;
+  ad.url=document.getElementById('em-url').value;
+  ad.headline=document.getElementById('em-headline').value;
+  ad.subtext=document.getElementById('em-sub').value;
+  ad.cta=document.getElementById('em-cta').value;
+  ad.emoji=document.getElementById('em-emoji').value;
+  ad.bg=document.getElementById('em-bg').value;
+  ad.customhtml=document.getElementById('em-html').value;
+  ad.pages=[]; document.querySelectorAll('#em-pages input:checked').forEach(function(c){ad.pages.push(c.value);});
+  setAds(ads);
+  document.getElementById('editModal').classList.remove('show');
+  renderCards('dash-cards',getAds()); renderCards('manage-cards',getAds());
+  toast('✅ Ad updated!');
+}
+
+// ════════════════════════════════════════
+// CREATE FORM
+// ════════════════════════════════════════
+function previewCreate(){
+  var ad={type:document.getElementById('cn-type').value,headline:document.getElementById('cn-headline').value||'Your Headline',subtext:document.getElementById('cn-sub').value||'Sub text here',cta:document.getElementById('cn-cta').value||'Click Here',emoji:document.getElementById('cn-emoji').value||'📢',bg:document.getElementById('cn-bg').value||'linear-gradient(90deg,#131921,#232f3e)',url:'#',customhtml:document.getElementById('cn-html').value};
+  document.getElementById('cn-preview').style.display='block';
+  document.getElementById('cn-prev-inner').innerHTML=buildAd(ad);
+}
+function resetCreate(){
+  ['cn-name','cn-brand','cn-url','cn-headline','cn-sub','cn-cta','cn-emoji','cn-bg','cn-html'].forEach(function(i){var el=document.getElementById(i);if(el)el.value='';});
+  document.getElementById('cn-type').value='banner';
+  document.getElementById('cn-status').value='active';
+  document.querySelectorAll('#cn-pages input').forEach(function(c){c.checked=true;c.closest('.cb-item').classList.add('on');});
+  document.getElementById('cn-preview').style.display='none';
+}
+
+// ════════════════════════════════════════
+// PAGE CONTENT
+// ════════════════════════════════════════
+function loadPageForms(){
+  var data=getPages();
+  ['subscribe','about','contact'].forEach(function(pg){
+    var stored=data[pg]||{};
+    var defs=PAGE_DEFS[pg];
+    Object.keys(PM[pg]).forEach(function(inputId){
+      var key=PM[pg][inputId];
+      var el=document.getElementById(inputId);
+      if(el) el.value=(stored[key]!==undefined)?stored[key]:(defs[key]!==undefined?defs[key]:'');
+    });
+  });
+}
+
+function savePage(pg){
+  var data=getPages();
+  if(!data[pg]) data[pg]={};
+  Object.keys(PM[pg]).forEach(function(inputId){
+    var el=document.getElementById(inputId);
+    if(el) data[pg][PM[pg][inputId]]=el.value;
+  });
+  setPages(data);
+  toast('✅ '+pg.charAt(0).toUpperCase()+pg.slice(1)+' page saved!');
+}
+
+// Page content tabs
+document.querySelectorAll('.ptab-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.ptab-btn').forEach(function(b){b.classList.remove('active');});
+    document.querySelectorAll('.ptab-pane').forEach(function(p){p.classList.remove('active');});
+    btn.classList.add('active');
+    var pane=document.getElementById('pane-'+btn.dataset.tab);
+    if(pane) pane.classList.add('active');
+  });
+});
+
+// ════════════════════════════════════════
+// PREVIEW
+// ════════════════════════════════════════
+function showPreview(slot){
+  var ad=getAds().find(function(a){return a.type===slot&&a.status==='active';});
+  document.getElementById('prev-frame').innerHTML=ad?buildAd(ad):'<div style="padding:26px;text-align:center;color:#888;font-size:12px">No active ad for <strong>'+slot+'</strong> slot</div>';
+}
+document.querySelectorAll('.prev-tab').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.prev-tab').forEach(function(t){t.classList.remove('active');});
+    btn.classList.add('active');
+    showPreview(btn.dataset.slot);
+  });
+});
+
+// ════════════════════════════════════════
+// EXPORT
+// ════════════════════════════════════════
+function genCode(){
+  var ads=getAds(); var sets=getSets();
+  var tm={banner:'banner',incontent:'inContent',sidebar:'sidebarBox',leaderboard:'leaderboard',midstrip:'midStrip',popup:'popup',floatbar:'floatBar'};
+  var code='// ══════════════════════════════════════════\n// SELECTME.IN — Ad Code (Generated '+new Date().toLocaleString()+')\n// ══════════════════════════════════════════\n\nconst AD_SETTINGS = '+JSON.stringify(sets,null,2)+';\n\nconst AD = {\n';
+  var seen={};
+  ads.filter(function(a){return a.status==='active';}).forEach(function(ad){
+    if(seen[ad.type]) return; seen[ad.type]=true;
+    var fn=tm[ad.type]||ad.type;
+    var html=buildAd(ad).replace(/`/g,'\\`').replace(/\$(?=\{)/g,'\\$');
+    code+='  '+fn+': () => `'+html+'`,\n';
+  });
+  code+='};\n\nfunction injectAdAfterParagraph(html, n, adHtml) {\n  if (!adHtml) return html;\n  let count = 0;\n  return html.replace(/<\\/p>/gi, m => { count++; return count === n ? \'</p>\' + adHtml : m; });\n}';
+  document.getElementById('export-box').textContent=code;
+}
+function copyCode(){
+  navigator.clipboard&&navigator.clipboard.writeText(document.getElementById('export-box').textContent).then(function(){toast('📋 Copied!');}).catch(function(){toast('Copy failed',true);});
+}
+function downloadCode(){
+  genCode();
+  var blob=new Blob([document.getElementById('export-box').textContent],{type:'text/javascript'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='selectme_ads.js';a.click();
+  toast('⬇ Downloaded!');
+}
+
+// ════════════════════════════════════════
+// SETTINGS
+// ════════════════════════════════════════
+function loadSettings(){
+  var s=getSets();
+  var m={'tog-master':'master_enabled','tog-popup':'popup_enabled','tog-float':'float_enabled','tog-sidebar':'sidebar_enabled','tog-home':'home_ads','tog-article':'article_ads','tog-cat':'category_ads','tog-static':'static_ads'};
+  Object.keys(m).forEach(function(id){var el=document.getElementById(id);if(el)el.classList.toggle('on',!!s[m[id]]);});
+  document.getElementById('set-pdel').value=s.popup_delay||5;
+  document.getElementById('set-fdel').value=s.float_delay||8;
+}
+function toggleSet(btn,key){
+  btn.classList.toggle('on');
+  var s=getSets(); s[key]=btn.classList.contains('on'); setSets(s);
+  toast(btn.classList.contains('on')?'✅ Enabled':'⏸ Disabled');
+}
+function saveTimings(){
+  var s=getSets();
+  s.popup_delay=parseInt(document.getElementById('set-pdel').value)||5;
+  s.float_delay=parseInt(document.getElementById('set-fdel').value)||8;
+  setSets(s); toast('⏱ Timings saved!');
+}
+function loadDefaults(){
+  if(!confirm('Load default ads? Current ads will be replaced.')) return;
+  setAds(DEFAULT_ADS.slice()); renderCards('dash-cards',getAds()); toast('✅ Defaults loaded!');
+}
+function clearAll(){
+  if(!confirm('Delete ALL ads? Cannot be undone.')) return;
+  setAds([]); renderCards('dash-cards',[]); renderCards('manage-cards',[]); toast('All cleared',true);
+}
+function exportJSON(){
+  var blob=new Blob([JSON.stringify({ads:getAds(),settings:getSets(),pages:getPages(),exported:new Date().toISOString()},null,2)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='selectme_admin_backup.json';a.click();
+  toast('📦 Exported!');
+}
+function importJSON(){
+  var inp=document.createElement('input');inp.type='file';inp.accept='.json';
+  inp.onchange=function(e){
+    var r=new FileReader();
+    r.onload=function(ev){
+      try{var d=JSON.parse(ev.target.result);if(d.ads)setAds(d.ads);if(d.settings)setSets(d.settings);if(d.pages)setPages(d.pages);renderCards('dash-cards',getAds());toast('✅ Imported!');}
+      catch{toast('Invalid file!',true);}
+    };r.readAsText(e.target.files[0]);
+  };inp.click();
+}
+
+// ════════════════════════════════════════
+// STATS + UTILS
+// ════════════════════════════════════════
+function refreshStats(){
+  var ads=getAds();
+  var active=ads.filter(function(a){return a.status==='active';}).length;
+  var dis=ads.filter(function(a){return a.status==='disabled';}).length;
+  document.getElementById('st-total').textContent=ads.length;
+  document.getElementById('st-active').textContent=active;
+  document.getElementById('st-disabled').textContent=dis;
+  document.getElementById('sbTotal').textContent=ads.length;
+  document.getElementById('sbActive').textContent=active;
+}
+
+function toast(msg,isErr){
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast show'+(isErr?' err':'');
+  clearTimeout(t._t); t._t=setTimeout(function(){t.classList.remove('show');},2600);
+}
+
+// CB item toggles for create/edit modals
+document.querySelectorAll('.cb-item').forEach(function(el){
+  el.addEventListener('click',function(){
+    var inp=el.querySelector('input'); if(!inp) return;
+    inp.checked=!inp.checked; el.classList.toggle('on',inp.checked);
+  });
+});
+
+
+// ════════════════════════════════════════
+// RSS FEED MANAGER
+// ════════════════════════════════════════
+var KR='selectme_rss_feeds';
+function getRssFeeds(){try{return JSON.parse(localStorage.getItem(KR)||'[]');}catch{return[];}}
+function setRssFeeds(f){localStorage.setItem(KR,JSON.stringify(f));}
+
+function renderRssList(){
+  var feeds=getRssFeeds();
+  var list=document.getElementById('rss-list');
+  var empty=document.getElementById('rss-empty');
+  if(!list)return;
+  if(!feeds.length){list.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  list.innerHTML=feeds.map(function(f,i){
+    var on=f.enabled!==false;
+    return '<div class="fcard" style="margin:0;display:flex;align-items:center;gap:10px;padding:12px 14px">'+
+      '<div style="flex:1;min-width:0">'+
+        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">'+
+          '<span style="font-size:12px;font-weight:700;color:#fff">'+escR(f.label||'Feed')+'</span>'+
+          '<span style="font-size:8px;font-weight:700;padding:1px 6px;border:1px solid;color:'+(f.cat==='Video'?'#f97316':'#22c55e')+';border-color:currentColor;border-radius:2px">'+escR(f.cat||'Video')+'</span>'+
+          '<span style="font-size:8px;color:var(--t3)">max '+escR(String(f.max||4))+'</span>'+
+        '</div>'+
+        '<div style="font-size:9.5px;color:var(--t3);font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:340px">'+escR(f.url)+'</div>'+
+      '</div>'+
+      '<div style="display:flex;align-items:center;gap:6px;flex-shrink:0">'+
+        '<button class="toggle'+(on?' on':'')+'" onclick="toggleRss('+i+',this)" title="Enable/Disable"></button>'+
+        '<button class="bic" onclick="editRss('+i+')" title="Edit">✏️</button>'+
+        '<button class="bic btn-danger" onclick="deleteRss('+i+')" title="Delete" style="font-size:10px">🗑</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function escR(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function showAddRss(){
+  document.getElementById('rss-edit-id').value='';
+  document.getElementById('rssModalTitle').textContent='Add RSS Feed';
+  document.getElementById('rss-label').value='';
+  document.getElementById('rss-url').value='';
+  document.getElementById('rss-cat').value='Video';
+  document.getElementById('rss-max').value='4';
+  document.getElementById('rssModal').classList.add('show');
+}
+
+function editRss(idx){
+  var f=getRssFeeds()[idx];if(!f)return;
+  document.getElementById('rss-edit-id').value=idx;
+  document.getElementById('rssModalTitle').textContent='Edit RSS Feed';
+  document.getElementById('rss-label').value=f.label||'';
+  document.getElementById('rss-url').value=f.url||'';
+  document.getElementById('rss-cat').value=f.cat||'Video';
+  document.getElementById('rss-max').value=f.max||4;
+  document.getElementById('rssModal').classList.add('show');
+}
+
+function closeRssModal(){document.getElementById('rssModal').classList.remove('show');}
+
+function saveRssFeed(){
+  var label=document.getElementById('rss-label').value.trim();
+  var url=document.getElementById('rss-url').value.trim();
+  if(!label||!url){toast('Label & URL అవసరం!',true);return;}
+  // basic URL validation
+  if(!url.startsWith('http')){toast('Valid URL enter చేయండి!',true);return;}
+  var feeds=getRssFeeds();
+  var editId=document.getElementById('rss-edit-id').value;
+  var feed={label:label,url:url,cat:document.getElementById('rss-cat').value,max:parseInt(document.getElementById('rss-max').value)||4,enabled:true};
+  if(editId!==''){var i=parseInt(editId);feeds[i]=Object.assign(feeds[i]||{},feed);}
+  else{feeds.push(feed);}
+  setRssFeeds(feeds);
+  closeRssModal();
+  renderRssList();
+  toast('✅ RSS Feed saved!');
+}
+
+function deleteRss(idx){
+  if(!confirm('Delete this RSS feed?'))return;
+  var feeds=getRssFeeds();feeds.splice(idx,1);setRssFeeds(feeds);renderRssList();toast('Deleted!',true);
+}
+
+function toggleRss(idx,btn){
+  var feeds=getRssFeeds();if(!feeds[idx])return;
+  feeds[idx].enabled=!feeds[idx].enabled;
+  btn.classList.toggle('on',feeds[idx].enabled);
+  setRssFeeds(feeds);
+  toast(feeds[idx].enabled?'✅ Enabled':'⏸ Disabled');
+}
+
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+(function(){
+  if(!getAds().length) setAds(DEFAULT_ADS.slice());
+  refreshStats();
+  renderCards('dash-cards',getAds());
+})();
+</script>
+</body>
+</html>
