@@ -679,7 +679,6 @@ img{display:block;width:100%;object-fit:cover;background:#e5e3de}
   </div>
 </footer>
 
-<script src="files.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════════════
 // WATERMARK v2
@@ -1005,7 +1004,56 @@ function normalizeArticle(raw){
 
 const LOADED_CATS=new Set();
 
-// loadAllArticles + loadCategoryArticles → files.js లో ఉన్నాయి
+async function loadAllArticles(){
+  let fileList=[];
+  try{const res=await fetch('files.php');if(!res.ok)throw new Error('files.php '+res.status);const data=await res.json();fileList=data.files||[];}
+  catch(e){console.error('[selectme] files.php error:',e.message);return false;}
+  if(!fileList.length)return false;
+  const results=await Promise.all(fileList.map(fname=>fetch('data/'+fname).then(r=>r.ok?r.json():null).catch(()=>null)));
+  results.forEach(raw=>{
+    const art=normalizeArticle(raw);if(!art)return;
+    ARTICLES[art.id]=art;
+    const catKey=art.cat;
+    if(!CATEGORIES[catKey])CATEGORIES[catKey]={icon:'📂',label:art.catLabel||catKey,articles:[]};
+    if(!CATEGORIES[catKey].articles.includes(art.id))CATEGORIES[catKey].articles.push(art.id);
+    LOADED_CATS.add(catKey);
+  });
+  buildTrendingBar();
+  return Object.keys(ARTICLES).length>0;
+}
+
+async function loadCategoryArticles(cat){
+  if(LOADED_CATS.has(cat))return true;
+  // Collect cat + all sub-cats: from NAV subs + prefix matching existing ARTICLES + files.php scan
+  const navItem=NAV_STRUCTURE.find(n=>n.key===cat);
+  const navSubKeys=(navItem&&navItem.subs)?navItem.subs.map(s=>s.key):[];
+  // Also find any already-loaded sub-cats by prefix (e.g. flash_news for news)
+  const prefixSubKeys=Object.keys(CATEGORIES).filter(k=>k!==cat&&(k.startsWith(cat+'_')||k.endsWith('_'+cat)));
+  const allSubKeys=[...new Set([...navSubKeys,...prefixSubKeys])];
+  const catsToFetch=[cat,...allSubKeys].filter(k=>!LOADED_CATS.has(k));
+  if(!catsToFetch.length){LOADED_CATS.add(cat);return true;}
+  // Fetch files for cat + each sub in parallel
+  const allFiles=new Set();
+  await Promise.all(catsToFetch.map(async k=>{
+    try{const res=await fetch('files.php?category='+encodeURIComponent(k));
+      if(!res.ok)return;
+      const data=await res.json();
+      (data.files||[]).forEach(f=>allFiles.add(f));
+    }catch(e){}
+  }));
+  if(!allFiles.size){catsToFetch.forEach(k=>LOADED_CATS.add(k));return true;}
+  const results=await Promise.all([...allFiles].map(fname=>fetch('data/'+fname).then(r=>r.ok?r.json():null).catch(()=>null)));
+  results.forEach(raw=>{
+    const art=normalizeArticle(raw);if(!art)return;
+    if(!ARTICLES[art.id])ARTICLES[art.id]=art;
+    const catKey=art.cat;
+    if(!CATEGORIES[catKey])CATEGORIES[catKey]={icon:'📂',label:art.catLabel||catKey,articles:[]};
+    if(!CATEGORIES[catKey].articles.includes(art.id))CATEGORIES[catKey].articles.push(art.id);
+  });
+  catsToFetch.forEach(k=>LOADED_CATS.add(k));
+  LOADED_CATS.add(cat);
+  return true;
+}
 
 function buildTrendingBar(){
   const track=document.getElementById('trendingTrack');
@@ -1554,7 +1602,7 @@ window.addEventListener('DOMContentLoaded',async function(){
   showLoader();
   const[articlesOk]=await Promise.all([loadAllArticles(),loadNavFromSheet()]);
   buildDynamicNav();
-  if(!articlesOk){document.getElementById('pageHome').innerHTML=`<div style="display:flex;align-items:center;justify-content:center;height:60vh;font-family:'Outfit',sans-serif"><div style="text-align:center;max-width:420px"><div style="font-size:48px;margin-bottom:16px">📂</div><h2 style="font-family:'Playfair Display',serif;margin-bottom:10px">Articles load కాలేదు</h2><p style="color:#666;font-size:13px;line-height:1.7"><code style="background:#f2f0eb;padding:2px 6px">data/index.json</code> file GitHub repo లో ఉందో check చేయండి.</p></div></div>`;showPage('pageHome');}
+  if(!articlesOk){document.getElementById('pageHome').innerHTML=`<div style="display:flex;align-items:center;justify-content:center;height:60vh;font-family:'Outfit',sans-serif"><div style="text-align:center;max-width:420px"><div style="font-size:48px;margin-bottom:16px">📂</div><h2 style="font-family:'Playfair Display',serif;margin-bottom:10px">Articles load కాలేదు</h2><p style="color:#666;font-size:13px;line-height:1.7"><code style="background:#f2f0eb;padding:2px 6px">files.php</code> server లో ఉందో check చేయండి.</p></div></div>`;showPage('pageHome');}
   else{restoreState();startShuffleTimers();initAds();
     // Load RSS video feeds — fallback to article videos if RSS empty/fails
     setTimeout(function(){
