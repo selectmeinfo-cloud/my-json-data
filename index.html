@@ -1012,7 +1012,7 @@ async function loadAllArticles(){
     if(res.ok){const data=await res.json();fileList=data.files||[];}
     else throw new Error('no php');
   }catch(e){
-    try{const res=await fetch('manifest.json');if(!res.ok)throw new Error('manifest '+res.status);const data=await res.json();fileList=data.files||[];}
+    try{const res=await fetch('index.json');if(!res.ok)throw new Error('index.json '+res.status);const data=await res.json();fileList=data.files||[];}
     catch(e2){console.error('[selectme] articles load error:',e2.message);return false;}
   }
   if(!fileList.length)return false;
