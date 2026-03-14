@@ -1,8 +1,8 @@
 name: Update Index
 
 on:
-  push:                  # ఏ file push/upload అయినా trigger అవుతుంది
-  workflow_dispatch:     # GitHub Actions tab లో manually కూడా run చేయవచ్చు
+  push:
+  workflow_dispatch:
 
 jobs:
   update-index:
@@ -13,8 +13,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Debug — check files
+        run: |
+          echo "=== Root files ==="
+          ls -la
+          echo "=== data/ folder ==="
+          ls -la data/ || echo "data/ folder లేదు!"
+          echo "=== index.json current ==="
+          cat index.json || echo "index.json లేదు!"
+
       - name: Run update-index.js
         run: node update-index.js
+
+      - name: Debug — index.json after update
+        run: |
+          echo "=== index.json after update ==="
+          cat index.json
 
       - name: Commit index.json
         run: |
