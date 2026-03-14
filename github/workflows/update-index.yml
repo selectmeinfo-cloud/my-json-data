@@ -13,22 +13,36 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Debug — check files
+      - name: Update index.json
         run: |
-          echo "=== Root files ==="
-          ls -la
-          echo "=== data/ folder ==="
-          ls -la data/ || echo "data/ folder లేదు!"
-          echo "=== index.json current ==="
-          cat index.json || echo "index.json లేదు!"
+          node -e "
+          const fs   = require('fs');
+          const path = require('path');
 
-      - name: Run update-index.js
-        run: node update-index.js
+          const DATA_DIR   = 'data';
+          const INDEX_FILE = 'index.json';
+          const SKIP       = new Set(['index.json', 'manifest.json']);
 
-      - name: Debug — index.json after update
-        run: |
-          echo "=== index.json after update ==="
-          cat index.json
+          function getDate(fpath) {
+            try {
+              const d = JSON.parse(fs.readFileSync(fpath, 'utf-8'));
+              return d.published_date || '';
+            } catch { return ''; }
+          }
+
+          const files = fs.readdirSync(DATA_DIR)
+            .filter(f => f.endsWith('.json') && !SKIP.has(f));
+
+          files.sort((a, b) => {
+            const da = getDate(path.join(DATA_DIR, a));
+            const db = getDate(path.join(DATA_DIR, b));
+            return db.localeCompare(da);
+          });
+
+          fs.writeFileSync(INDEX_FILE, JSON.stringify({ files }, null, 2), 'utf-8');
+          console.log('index.json updated — ' + files.length + ' files');
+          files.forEach(f => console.log('  ' + f));
+          "
 
       - name: Commit index.json
         run: |
