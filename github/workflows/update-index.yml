@@ -1,9 +1,8 @@
 name: Update Index
 
 on:
-  push:
-    paths:
-      - 'data/**.json'   # data/ లో ఏదైనా .json మారితే trigger అవుతుంది
+  push:                  # ఏ file push/upload అయినా trigger అవుతుంది
+  workflow_dispatch:     # GitHub Actions tab లో manually కూడా run చేయవచ్చు
 
 jobs:
   update-index:
