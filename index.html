@@ -8,6 +8,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Outfit:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+/* Mobile touch fix */
+a,button,[onclick]{-webkit-tap-highlight-color:transparent;touch-action:manipulation;cursor:pointer}
+button{-webkit-appearance:none;appearance:none}
 html{font-size:16px;scroll-behavior:smooth}
 body{background:#f9f8f5;color:#111;font-family:'Outfit',sans-serif;line-height:1.5;overflow-x:hidden}
 a{color:inherit;text-decoration:none;transition:color .15s;cursor:pointer}
@@ -140,15 +143,15 @@ img{display:block;width:100%;object-fit:cover;background:#e5e3de}
 .nav-fixed #navLogo{opacity:1;width:120px;margin-right:14px}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;margin-left:auto}
 .hamburger span{width:22px;height:2px;background:#111;display:block;transition:all .2s}
-.mob-menu{display:none;flex-direction:column;background:#fff;border-bottom:2px solid var(--ink);position:absolute;top:42px;left:0;right:0;z-index:900;box-shadow:0 4px 16px rgba(0,0,0,.12);max-height:70vh;overflow-y:auto}
+.mob-menu{display:none;flex-direction:column;background:#fff;border-bottom:2px solid var(--ink);position:absolute;top:42px;left:0;right:0;z-index:1100;box-shadow:0 4px 16px rgba(0,0,0,.12);max-height:70vh;overflow-y:auto}
 .mob-menu.open{display:flex}
-.mob-menu a,.mob-menu button{font-size:13px;font-weight:700;color:var(--ink);padding:10px 20px;border-bottom:1px solid var(--bdr);text-transform:uppercase;letter-spacing:.05em;background:none;border-left:none;border-right:none;border-top:none;font-family:'Outfit',sans-serif;text-align:left;cursor:pointer;width:100%;display:block}
+.mob-menu a,.mob-menu button{font-size:13px;font-weight:700;color:var(--ink);padding:12px 20px;min-height:44px;border-bottom:1px solid var(--bdr);text-transform:uppercase;letter-spacing:.05em;background:none;border-left:none;border-right:none;border-top:none;font-family:'Outfit',sans-serif;text-align:left;cursor:pointer;width:100%;display:block}
 .mob-menu a.home-m{background:var(--ink);color:#fff}
 .mob-menu .mob-cat-hd{background:var(--bg2);color:var(--ink4);font-size:9px;font-weight:800;letter-spacing:.15em;padding:6px 20px;border-bottom:1px solid var(--bdr);text-transform:uppercase;cursor:pointer}
 .mob-menu .mob-cat-hd:hover{background:var(--bg3);color:var(--red)}
 .mob-menu .mob-sub-item{padding:9px 32px;font-size:11.5px;color:var(--ink3);border-bottom:1px solid var(--bdr);background:#fafaf7;letter-spacing:.04em;text-transform:uppercase;font-weight:600}
 .mob-menu .mob-sub-item:hover{color:var(--red);background:var(--bg2)}
-.mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:800}
+.mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:1050}
 .mob-overlay.open{display:block}
 .nav-sheet-loading{font-size:9px;color:#aaa;padding:0 12px;display:flex;align-items:center;gap:5px}
 .nav-sheet-loading .mini-spin{width:10px;height:10px;border:1.5px solid #ddd;border-top-color:var(--red);border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0}
@@ -633,7 +636,7 @@ img{display:block;width:100%;object-fit:cover;background:#e5e3de}
         <a onclick="goHome()" class="home" id="navHome">Home</a>
         <span class="nav-sheet-loading" id="navLoading"><span class="mini-spin"></span> Loading…</span>
       </div>
-      <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+      <button class="hamburger" onclick="toggleMenu()" ontouchend="event.preventDefault();toggleMenu()"><span></span><span></span><span></span></button>
     </div>
     <div class="mob-menu" id="mobMenu">
       <a onclick="goHome();toggleMenu()" class="home-m">Home</a>
@@ -1448,6 +1451,17 @@ function showFloatAd(){var ad=document.getElementById('floatAd');if(ad)ad.classL
 function initAds(){
   const s=_loadAdSettings();
   if(!s.master_enabled)return;
+  // localStorage లో ads లేకపోతే default ads inject చేయి
+  const existingAds=_loadAds();
+  if(!existingAds.length){
+    const defaultAds=[
+      {id:'d1',type:'banner',status:'active',pages:['home'],headline:'Selectme.in — తెలుగు వార్తలు',subtext:'Latest Telugu news 24/7',cta:'Read More',emoji:'📰',url:'#',bg:'linear-gradient(90deg,#111,#c8001e)'},
+      {id:'d2',type:'leaderboard',status:'active',pages:['category'],headline:'Breaking Telugu News',subtext:'Stay updated with selectme.in',cta:'Explore',emoji:'🗞️',url:'#',bg:'linear-gradient(90deg,#0a0a0a,#1a1a2e)'},
+      {id:'d3',type:'incontent',status:'active',pages:['article'],headline:'తెలుగు వార్తలు — 24/7',subtext:'Selectme.in తో always updated గా ఉండండి',cta:'Subscribe →',emoji:'🔔',url:'#',bg:'linear-gradient(135deg,#111,#c8001e)'},
+      {id:'d4',type:'sidebar',status:'active',pages:['article'],headline:'Latest Updates',subtext:'selectme.in',cta:'Read Now',emoji:'📢',url:'#',bg:'linear-gradient(160deg,#1a1240,#2d1f6e)'}
+    ];
+    try{localStorage.setItem('selectme_ads_v2',JSON.stringify(defaultAds));}catch(e){}
+  }
   // Masthead banner
   const mhSlot=document.getElementById('mastheadAdSlot');
   if(mhSlot){const mhAd=_adByType('banner','home');if(mhAd){const bg=mhAd.bg||'linear-gradient(90deg,#131921,#232f3e)';const hl=(mhAd.headline||'').replace(/</g,'&lt;');const sub=(mhAd.subtext||'').replace(/</g,'&lt;');const cta=(mhAd.cta||'Shop Now').replace(/</g,'&lt;');const emoji=mhAd.emoji||'🛒';const url=mhAd.url||'#';mhSlot.innerHTML=`<div style="width:100%;height:70px;background:${bg};display:flex;align-items:center;justify-content:space-between;padding:0 22px;overflow:hidden;cursor:pointer" onclick="window.open('${url}','_blank')"><div style="display:flex;align-items:center;gap:14px"><div style="font-size:22px">${emoji}</div><div><div style="color:#fff;font-size:13px;font-weight:700">${hl}</div><div style="color:rgba(255,255,255,.4);font-size:9px;margin-top:2px">${sub}</div></div></div><div style="background:#ff9900;color:#131921;font-size:11px;font-weight:900;padding:7px 18px;white-space:nowrap">${cta}</div></div>`;}}
