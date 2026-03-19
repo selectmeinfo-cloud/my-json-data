@@ -16,7 +16,7 @@ import json
 from datetime import datetime
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
-OUTPUT   = os.path.join(DATA_DIR, 'index.json')
+OUTPUT   = os.path.join(os.path.dirname(__file__), 'index.json')  # repo root లో
 
 SKIP = {'index.json', 'manifest.json'}
 
