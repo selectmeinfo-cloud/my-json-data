@@ -1007,7 +1007,7 @@ const LOADED_CATS=new Set();
 async function loadAllArticles(){
   let fileList=[];
   // GitHub Pages: files.php పని చేయదు — data/index.json వాడతాం
-  try{const res=await fetch('data/index.json');if(!res.ok)throw new Error('index.json '+res.status);const data=await res.json();fileList=data.files||[];}
+  try{const res=await fetch('index.json');if(!res.ok)throw new Error('index.json '+res.status);const data=await res.json();fileList=data.files||[];}
   catch(e){console.error('[selectme] index.json error:',e.message);return false;}
   if(!fileList.length)return false;
   const results=await Promise.all(fileList.map(fname=>fetch('data/'+fname).then(r=>r.ok?r.json():null).catch(()=>null)));
