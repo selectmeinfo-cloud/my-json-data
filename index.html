@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%23c8001e'/><text y='.9em' font-size='80' x='10'>S</text></svg>"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http%3A//www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Ccircle%20cx='50'%20cy='50'%20r='50'%20fill='%23c8001e'/%3E%3Cpath%20fill='white'%20fill-rule='nonzero'%20transform='translate%2812.5%2C15.4%29%20scale%280.1465%29'%20d='M105.32%20230.83c24.41%2014.96%2037.99%2037.49%2050.26%2057.87l2.72%204.51c49.63-67.2%2097.21-130.7%20155.42-186.63C375.43%2047.26%20440.08%204.55%20503.57.02c4.34-.3%208.11%202.97%208.41%207.3.19%202.64-.96%205.08-2.86%206.64C443.34%2069.2%20383.04%20136.02%20326.3%20211.32%20269.39%20286.84%20224.24%20363.55%20172.59%20453c-6.7%2011.59-13.51%2018.57-21.75%2019.28-8.54.74-16.5-5.11-24.68-19.28l-.24-.45c-13.45-23.4-24.64-49.93-35.35-75.36-23.76-56.37-45.17-107.15-80.89-98.62-5.92%201.4-11.03-4.15-9.36-9.85%206.21-21.1%2020.08-39.02%2041.28-46.69%2021.57-7.79%2044.63-2.87%2063.72%208.8z'/%3E%3C/svg%3E"/>
 <title>Selectme.in — తెలుగు వార్తలు</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Outfit:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet"/>
@@ -1424,7 +1424,7 @@ function renderArticle(id){
       </button>
       <span class="mob-art-topbar-cat">${art.catLabel}</span>
       <button class="mob-art-share" onclick="FEED.openShare(event,'${art.id}')">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
       </button>
     </div>
     <div class="article-layout">
@@ -1647,7 +1647,7 @@ var FEED = {
       '<div class="nc-img-wrap">' +
         '<img src="' + a.img + '" alt="' + (a.imgAlt||'').replace(/"/g,'&quot;') + '" loading="lazy" onerror="this.parentElement.style.display=\'none\'">' +
         '<div class="nc-cat-badge">' + (a.catLabel||'') + '</div>' +
-        '<button class="nc-share-fab" onclick="FEED.openShare(event,\'' + a.id + '\')">⎙</button>' +
+        '<button class="nc-share-fab" onclick="FEED.openShare(event,\'' + a.id + '\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>' +
       '</div>' +
       '<div class="nc-body">' +
         '<div class="nc-meta">' +
@@ -1665,7 +1665,7 @@ var FEED = {
             (isBookmarked?' Saved':' Save') +
           '</button>' +
           '<button class="nc-act-btn" onclick="FEED.openShare(event,\'' + a.id + '\')">' +
-            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>' +
             ' Share' +
           '</button>' +
         '</div>' +
