@@ -377,7 +377,7 @@ body.dark .mob-art-share{color:#eee}
 .ad-wrap .ad-label{font-size:7.5px;color:var(--ink5);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
 .ad-banner{width:100%;height:90px;background:linear-gradient(90deg,#1a1a2e,#16213e,#0f3460);display:flex;align-items:center;justify-content:space-between;padding:0 24px;cursor:pointer;overflow:hidden}
 .ad-incontent{width:100%;height:280px;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);display:flex;align-items:center;justify-content:center;gap:24px;cursor:pointer;padding:0 24px}
-#adPopup{display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center}
+#adPopup{display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center}#adPopup:empty{display:none!important;pointer-events:none!important}
 #adPopup.show{display:flex}
 .popup-overlay{position:absolute;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
 .popup-box{position:relative;z-index:1;background:#fff;max-width:480px;width:90%;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4);animation:popIn .35s cubic-bezier(.34,1.56,.64,1) both}
@@ -929,191 +929,23 @@ body.feed-mode #siteFooter{display:none}
 
 <script>
 // ═══════════════════════════════════════════════════════════════
-// WATERMARK v3 — visual overlay + canvas download with logo baked in
+// WATERMARK v2
 // ═══════════════════════════════════════════════════════════════
 (function(){
 var SVG_LOGO='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6000 3200" width="80" height="43" style="display:block"><path fill="#ffffff" d="M4593.77 166.58c0,0 -719.96,89.07 -1484.45,1261.78 -764.49,1172.72 -1595.79,1811.03 -2605.21,1150.45 0,0 697.69,749.65 1647.74,170.71 950.05,-578.94 1276.63,-2145.03 2441.92,-2582.94z"/><path fill="#DB3438" d="M2681.89 710.66c0,0 256.04,150.64 371.07,339.63 0,0 681.99,-983.27 1744.69,-1018.88 0,0 -1040.79,134.2 -1747.43,1284.55 0,0 -187.79,-422.82 -368.33,-605.3z"/><path fill="#ffffff" fill-rule="nonzero" d="M57.24 2001.09l359.48 -22.54c7.7,58.2 23.68,102.71 47.65,132.95 39.09,49.36 94.72,74.18 167.19,74.18 53.92,0 95.58,-12.56 124.68,-37.95 29.39,-25.39 43.94,-54.78 43.94,-88.16 0,-31.67 -13.69,-60.2 -41.37,-85.31 -27.67,-25.11 -92.15,-48.5 -193.43,-71.04 -166.05,-37.09 -284.16,-86.73 -354.92,-148.64 -71.33,-61.63 -106.99,-140.37 -106.99,-236.23 0,-62.77 18.26,-122.11 54.78,-178.03 36.52,-56.2 91.3,-100.14 164.62,-132.09 73.32,-31.96 173.75,-47.93 301.28,-47.93 156.63,0 275.89,29.1 358.06,87.59 82.17,58.2 130.95,150.93 146.65,278.17l-356.06 21.11c-9.41,-55.63 -29.39,-96.15 -59.63,-121.25 -30.53,-25.39 -72.47,-37.94 -125.82,-37.94 -43.94,0 -77.32,9.41 -99.57,27.96 -22.26,18.54 -33.38,41.37 -33.38,68.19 0,19.4 9.13,36.8 27.11,52.5 17.4,16.26 59.63,31.1 126.39,45.08 165.48,35.66 283.88,71.9 355.2,108.41 71.61,36.52 123.82,81.6 156.35,135.81 32.52,53.92 48.79,114.41 48.79,181.45 0,78.46 -21.69,150.93 -65.05,217.4 -43.65,66.19 -104.13,116.69 -182.31,150.93 -77.89,34.24 -176.03,51.35 -294.72,51.35 -208.27,0 -352.63,-40.23 -432.8,-120.4 -80.17,-80.17 -125.54,-182.02 -136.09,-305.56zm2265.02 45.94l-683.02 0c6.28,54.49 20.83,95.29 44.51,122.11 32.81,38.52 75.89,57.63 128.96,57.63 33.67,0 65.62,-8.28 95.57,-24.82 18.55,-10.56 38.52,-29.1 59.63,-55.63l335.52 30.81c-51.35,89.01 -113.26,153.2 -185.73,191.72 -72.46,38.8 -176.6,58.2 -312.12,58.2 -117.83,0 -210.27,-16.55 -277.89,-49.93 -67.33,-33.09 -123.25,-85.88 -167.76,-158.06 -44.22,-72.46 -66.48,-157.49 -66.48,-255.06 0,-138.94 44.51,-251.64 133.52,-337.52 88.73,-85.87 211.69,-128.96 368.33,-128.96 127.24,0 227.39,19.4 300.99,57.92 73.61,38.52 129.81,94.15 168.33,167.47 38.52,73.04 57.63,168.33 57.63,285.59l0 38.52zm-345.79 -162.63c-6.56,-66.19 -24.54,-113.55 -53.35,-142.08 -28.81,-28.53 -66.48,-42.8 -113.55,-42.8 -54.21,0 -97.57,21.68 -130.1,64.76 -20.54,26.82 -33.67,66.76 -39.37,120.11l336.37 0zm513.55 -703.56l340.65 0 0 1225.66 -340.65 0 0 -1225.66zm1544.06 866.18l-683.02 0c6.28,54.49 20.83,95.29 44.51,122.11 32.81,38.52 75.89,57.63 128.96,57.63 33.67,0 65.62,-8.28 95.57,-24.82 18.55,-10.56 38.52,-29.1 59.63,-55.63l335.52 30.81c-51.35,89.01 -113.26,153.2 -185.73,191.72 -72.46,38.8 -176.6,58.2 -312.12,58.2 -117.83,0 -210.27,-16.55 -277.89,-49.93 -67.33,-33.09 -123.25,-85.88 -167.76,-158.06 -44.22,-72.46 -66.48,-157.49 -66.48,-255.06 0,-138.94 44.51,-251.64 133.52,-337.52 88.73,-85.87 211.69,-128.96 368.33,-128.96 127.24,0 227.39,19.4 300.99,57.92 73.61,38.52 129.81,94.15 168.33,167.47 38.52,73.04 57.63,168.33 57.63,285.59l0 38.52zm-345.79 -162.63c-6.56,-66.19 -24.54,-113.55 -53.35,-142.08 -28.81,-28.53 -66.48,-42.8 -113.55,-42.8 -54.21,0 -97.57,21.68 -130.1,64.76 -20.54,26.82 -33.67,66.76 -39.37,120.11l336.37 0zm1164.04 174.61l323.54 35.95c-17.97,67.62 -47.07,126.1 -87.87,175.75 -40.51,49.35 -92.72,87.87 -156.06,115.26 -63.05,27.39 -143.51,41.09 -241.08,41.09 -94.43,0 -172.89,-8.85 -235.66,-26.25 -62.48,-17.69 -116.4,-46.22 -161.76,-85.59 -45.08,-39.09 -80.46,-85.31 -106.13,-138.37 -25.68,-53.07 -38.52,-123.25 -38.52,-210.84 0,-91.3 15.69,-167.47 46.79,-228.24 22.83,-44.79 54.21,-84.73 93.87,-120.11 39.66,-35.38 80.17,-61.91 122.11,-79.03 66.48,-27.39 151.5,-41.08 255.06,-41.08 145.22,0 255.63,25.96 331.81,77.6 76.17,51.93 129.53,127.53 160.34,227.1l-320.11 42.8c-9.98,-37.94 -28.24,-66.48 -54.78,-85.88 -26.53,-19.11 -62.19,-28.81 -106.99,-28.81 -56.2,0 -101.85,20.26 -136.94,60.48 -34.81,40.52 -52.21,101.57 -52.21,183.74 0,73.04 17.4,128.39 51.93,166.33 34.52,37.94 78.46,56.78 132.09,56.78 44.51,0 82.17,-11.41 112.41,-33.95 30.53,-22.83 53.07,-57.63 68.19,-104.71zm890.15 -878.16l0 337.23 186.59 0 0 249.93 -186.59 0 0 314.4c0,37.66 3.71,62.77 10.84,75.04 11.13,18.83 30.81,28.25 58.78,28.25 25.11,0 60.2,-7.13 105.56,-21.69l25.11 235.37c-84.16,18.55 -162.62,27.68 -235.66,27.68 -84.74,0 -147.22,-10.84 -187.44,-32.53 -39.94,-21.68 -69.61,-54.78 -89.02,-99 -19.11,-44.22 -28.81,-116.12 -28.81,-215.12l0 -312.41 -124.96 0 0 -249.93 124.96 0 0 -162.91 340.65 -174.32z"/></svg>';
-
-// ── Logo SVG as data URI for canvas drawing ──
-var LOGO_SVG_SRC = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
-  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6000 3200" width="240" height="129">' +
-  '<path fill="#ffffff" d="M4593.77 166.58c0,0 -719.96,89.07 -1484.45,1261.78 -764.49,1172.72 -1595.79,1811.03 -2605.21,1150.45 0,0 697.69,749.65 1647.74,170.71 950.05,-578.94 1276.63,-2145.03 2441.92,-2582.94z"/>' +
-  '<path fill="#DB3438" d="M2681.89 710.66c0,0 256.04,150.64 371.07,339.63 0,0 681.99,-983.27 1744.69,-1018.88 0,0 -1040.79,134.2 -1747.43,1284.55 0,0 -187.79,-422.82 -368.33,-605.3z"/>' +
-  '<path fill="#ffffff" fill-rule="nonzero" d="M57.24 2001.09l359.48 -22.54c7.7,58.2 23.68,102.71 47.65,132.95 39.09,49.36 94.72,74.18 167.19,74.18 53.92,0 95.58,-12.56 124.68,-37.95 29.39,-25.39 43.94,-54.78 43.94,-88.16 0,-31.67 -13.69,-60.2 -41.37,-85.31 -27.67,-25.11 -92.15,-48.5 -193.43,-71.04 -166.05,-37.09 -284.16,-86.73 -354.92,-148.64 -71.33,-61.63 -106.99,-140.37 -106.99,-236.23 0,-62.77 18.26,-122.11 54.78,-178.03 36.52,-56.2 91.3,-100.14 164.62,-132.09 73.32,-31.96 173.75,-47.93 301.28,-47.93 156.63,0 275.89,29.1 358.06,87.59 82.17,58.2 130.95,150.93 146.65,278.17l-356.06 21.11c-9.41,-55.63 -29.39,-96.15 -59.63,-121.25 -30.53,-25.39 -72.47,-37.94 -125.82,-37.94 -43.94,0 -77.32,9.41 -99.57,27.96 -22.26,18.54 -33.38,41.37 -33.38,68.19 0,19.4 9.13,36.8 27.11,52.5 17.4,16.26 59.63,31.1 126.39,45.08 165.48,35.66 283.88,71.9 355.2,108.41 71.61,36.52 123.82,81.6 156.35,135.81 32.52,53.92 48.79,114.41 48.79,181.45 0,78.46 -21.69,150.93 -65.05,217.4 -43.65,66.19 -104.13,116.69 -182.31,150.93 -77.89,34.24 -176.03,51.35 -294.72,51.35 -208.27,0 -352.63,-40.23 -432.8,-120.4 -80.17,-80.17 -125.54,-182.02 -136.09,-305.56zm2265.02 45.94l-683.02 0c6.28,54.49 20.83,95.29 44.51,122.11 32.81,38.52 75.89,57.63 128.96,57.63 33.67,0 65.62,-8.28 95.57,-24.82 18.55,-10.56 38.52,-29.1 59.63,-55.63l335.52 30.81c-51.35,89.01 -113.26,153.2 -185.73,191.72 -72.46,38.8 -176.6,58.2 -312.12,58.2 -117.83,0 -210.27,-16.55 -277.89,-49.93 -67.33,-33.09 -123.25,-85.88 -167.76,-158.06 -44.22,-72.46 -66.48,-157.49 -66.48,-255.06 0,-138.94 44.51,-251.64 133.52,-337.52 88.73,-85.87 211.69,-128.96 368.33,-128.96 127.24,0 227.39,19.4 300.99,57.92 73.61,38.52 129.81,94.15 168.33,167.47 38.52,73.04 57.63,168.33 57.63,285.59l0 38.52zm-345.79 -162.63c-6.56,-66.19 -24.54,-113.55 -53.35,-142.08 -28.81,-28.53 -66.48,-42.8 -113.55,-42.8 -54.21,0 -97.57,21.68 -130.1,64.76 -20.54,26.82 -33.67,66.76 -39.37,120.11l336.37 0zm513.55 -703.56l340.65 0 0 1225.66 -340.65 0 0 -1225.66zm1544.06 866.18l-683.02 0c6.28,54.49 20.83,95.29 44.51,122.11 32.81,38.52 75.89,57.63 128.96,57.63 33.67,0 65.62,-8.28 95.57,-24.82 18.55,-10.56 38.52,-29.1 59.63,-55.63l335.52 30.81c-51.35,89.01 -113.26,153.2 -185.73,191.72 -72.46,38.8 -176.6,58.2 -312.12,58.2 -117.83,0 -210.27,-16.55 -277.89,-49.93 -67.33,-33.09 -123.25,-85.88 -167.76,-158.06 -44.22,-72.46 -66.48,-157.49 -66.48,-255.06 0,-138.94 44.51,-251.64 133.52,-337.52 88.73,-85.87 211.69,-128.96 368.33,-128.96 127.24,0 227.39,19.4 300.99,57.92 73.61,38.52 129.81,94.15 168.33,167.47 38.52,73.04 57.63,168.33 57.63,285.59l0 38.52zm-345.79 -162.63c-6.56,-66.19 -24.54,-113.55 -53.35,-142.08 -28.81,-28.53 -66.48,-42.8 -113.55,-42.8 -54.21,0 -97.57,21.68 -130.1,64.76 -20.54,26.82 -33.67,66.76 -39.37,120.11l336.37 0zm1164.04 174.61l323.54 35.95c-17.97,67.62 -47.07,126.1 -87.87,175.75 -40.51,49.35 -92.72,87.87 -156.06,115.26 -63.05,27.39 -143.51,41.09 -241.08,41.09 -94.43,0 -172.89,-8.85 -235.66,-26.25 -62.48,-17.69 -116.4,-46.22 -161.76,-85.59 -45.08,-39.09 -80.46,-85.31 -106.13,-138.37 -25.68,-53.07 -38.52,-123.25 -38.52,-210.84 0,-91.3 15.69,-167.47 46.79,-228.24 22.83,-44.79 54.21,-84.73 93.87,-120.11 39.66,-35.38 80.17,-61.91 122.11,-79.03 66.48,-27.39 151.5,-41.08 255.06,-41.08 145.22,0 255.63,25.96 331.81,77.6 76.17,51.93 129.53,127.53 160.34,227.1l-320.11 42.8c-9.98,-37.94 -28.24,-66.48 -54.78,-85.88 -26.53,-19.11 -62.19,-28.81 -106.99,-28.81 -56.2,0 -101.85,20.26 -136.94,60.48 -34.81,40.52 -52.21,101.57 -52.21,183.74 0,73.04 17.4,128.39 51.93,166.33 34.52,37.94 78.46,56.78 132.09,56.78 44.51,0 82.17,-11.41 112.41,-33.95 30.53,-22.83 53.07,-57.63 68.19,-104.71zm890.15 -878.16l0 337.23 186.59 0 0 249.93 -186.59 0 0 314.4c0,37.66 3.71,62.77 10.84,75.04 11.13,18.83 30.81,28.25 58.78,28.25 25.11,0 60.2,-7.13 105.56,-21.69l25.11 235.37c-84.16,18.55 -162.62,27.68 -235.66,27.68 -84.74,0 -147.22,-10.84 -187.44,-32.53 -39.94,-21.68 -69.61,-54.78 -89.02,-99 -19.11,-44.22 -28.81,-116.12 -28.81,-215.12l0 -312.41 -124.96 0 0 -249.93 124.96 0 0 -162.91 340.65 -174.32z"/>' +
-  '</svg>'
-);
-
-// ── Pre-load logo once ──
-var _logoImgCache = null;
-var _logoReady = false;
-(function(){
-  var li = new Image();
-  li.onload = function(){ _logoImgCache = li; _logoReady = true; };
-  li.src = LOGO_SVG_SRC;
-})();
-
-// ── Bake logo onto canvas and trigger download ──
-function _bakeAndDownload(canvas) {
-  function _doDownload() {
-    try {
-      canvas.toBlob(function(blob) {
-        if (!blob) return;
-        var a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'selectme-' + Date.now() + '.jpg';
-        document.body.appendChild(a); a.click();
-        setTimeout(function(){ URL.revokeObjectURL(a.href); document.body.removeChild(a); }, 1500);
-      }, 'image/jpeg', 0.92);
-    } catch(e) {}
-  }
-  if (_logoReady && _logoImgCache) {
-    var ctx = canvas.getContext('2d');
-    var lw = Math.round(canvas.width * 0.24);
-    var lh = Math.round(lw * (129 / 240));
-    var mg = Math.round(canvas.width * 0.022);
-    ctx.globalAlpha = 0.65;
-    try { ctx.drawImage(_logoImgCache, canvas.width - lw - mg, canvas.height - lh - mg, lw, lh); } catch(e){}
-    ctx.globalAlpha = 1;
-    _doDownload();
-  } else {
-    // Logo not loaded yet — load fresh
-    var li = new Image();
-    li.onload = function() {
-      var ctx = canvas.getContext('2d');
-      var lw = Math.round(canvas.width * 0.24);
-      var lh = Math.round(lw * (129 / 240));
-      var mg = Math.round(canvas.width * 0.022);
-      ctx.globalAlpha = 0.65;
-      try { ctx.drawImage(li, canvas.width - lw - mg, canvas.height - lh - mg, lw, lh); } catch(e){}
-      ctx.globalAlpha = 1;
-      _doDownload();
-    };
-    li.onerror = _doDownload;
-    li.src = LOGO_SVG_SRC;
-  }
-}
-
-// ── Fetch image as blob (bypasses CORS taint), draw on canvas ──
-function _drawAndDownload(srcUrl) {
-  if (!srcUrl) return;
-
-  function _fetchAndDraw(url) {
-    fetch(url)
-      .then(function(r) { return r.blob(); })
-      .then(function(blob) {
-        var blobUrl = URL.createObjectURL(blob);
-        var img = new Image();
-        img.onload = function() {
-          var canvas = document.createElement('canvas');
-          canvas.width  = img.naturalWidth  || img.width  || 900;
-          canvas.height = img.naturalHeight || img.height || 500;
-          var ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          URL.revokeObjectURL(blobUrl);
-          _bakeAndDownload(canvas);
-        };
-        img.onerror = function() { URL.revokeObjectURL(blobUrl); _tryDirect(); };
-        img.src = blobUrl;
-      })
-      .catch(function() { _tryDirect(); });
-  }
-
-  function _tryDirect() {
-    // Direct crossOrigin load — works if server sends CORS headers
-    var img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = function() {
-      var canvas = document.createElement('canvas');
-      canvas.width  = img.naturalWidth  || 900;
-      canvas.height = img.naturalHeight || 500;
-      var ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      try {
-        _bakeAndDownload(canvas);
-      } catch(e) {
-        // tainted canvas — use proxy
-        _fetchAndDraw('https://api.allorigins.win/raw?url=' + encodeURIComponent(srcUrl));
-      }
-    };
-    img.onerror = function() {
-      _fetchAndDraw('https://api.allorigins.win/raw?url=' + encodeURIComponent(srcUrl));
-    };
-    img.src = srcUrl;
-  }
-
-  // Start: fetch via proxy (most reliable for GitHub raw images)
-  _fetchAndDraw('https://api.allorigins.win/raw?url=' + encodeURIComponent(srcUrl));
-}
-
-// ── Visual overlay watermark + drag/select block ──
-function addWatermarks() {
-  document.querySelectorAll('.rwrap,.article-hero-wrap,.nc-img-wrap').forEach(function(wrap) {
-    // 1. Logo overlay
-    if (!wrap.querySelector('.wm-logo')) {
-      var l = document.createElement('span');
-      l.className = 'wm-logo'; l.innerHTML = SVG_LOGO; wrap.appendChild(l);
-    }
-    // 2. Transparent drag-block overlay (sits on top of <img>, blocks drag & right-click on img element)
-    if (!wrap.querySelector('.wm-shield')) {
-      var shield = document.createElement('div');
-      shield.className = 'wm-shield';
-      // Shield covers the image area fully
-      shield.style.cssText = 'position:absolute;inset:0;z-index:10;cursor:pointer;-webkit-user-select:none;user-select:none;background:transparent;';
-      shield.addEventListener('dragstart', function(e){ e.preventDefault(); return false; });
-      // Pass clicks through to the wrap (so article still opens)
-      shield.addEventListener('click', function(e) { wrap.click(); });
-      shield.addEventListener('contextmenu', function(e) {
-        e.preventDefault(); e.stopPropagation();
-        var img = wrap.querySelector('img');
-        if (img) _drawAndDownload(img.src || img.getAttribute('src'));
-      });
-      // Mobile long-press on shield
-      var _lpT = null;
-      shield.addEventListener('touchstart', function(e) {
-        var img = wrap.querySelector('img');
-        if (!img) return;
-        _lpT = setTimeout(function() {
-          _drawAndDownload(img.src || img.getAttribute('src'));
-          _lpT = null;
-        }, 600);
-      }, {passive: true});
-      shield.addEventListener('touchend',  function() { if (_lpT) { clearTimeout(_lpT); _lpT = null; } });
-      shield.addEventListener('touchmove', function() { if (_lpT) { clearTimeout(_lpT); _lpT = null; } }, {passive: true});
-      wrap.appendChild(shield);
-    }
-    // 3. Also set draggable=false on the img itself
-    var img = wrap.querySelector('img');
-    if (img) { img.draggable = false; img.setAttribute('draggable','false'); img.ondragstart = function(){ return false; }; }
+function addWatermarks(){
+  document.querySelectorAll('.rwrap,.article-hero-wrap,.nc-img-wrap').forEach(function(wrap){
+    if(!wrap.querySelector('.wm-logo')){var l=document.createElement('span');l.className='wm-logo';l.innerHTML=SVG_LOGO;wrap.appendChild(l);}
   });
 }
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', function(){ setTimeout(addWatermarks, 100); });
-} else {
-  setTimeout(addWatermarks, 100);
-}
-new MutationObserver(function(m) {
-  for (var i = 0; i < m.length; i++) { if (m[i].addedNodes.length) { setTimeout(addWatermarks, 60); break; } }
-}).observe(document.body, {childList: true, subtree: true});
-
-// ── Fallback: block right-click on any protected img that shield may have missed ──
-document.addEventListener('contextmenu', function(e) {
-  var img = e.target.closest('img');
-  if (!img) return;
-  var wrap = img.closest('.rwrap,.article-hero-wrap,.nc-img-wrap');
-  if (!wrap) return;
-  e.preventDefault();
-  _drawAndDownload(img.src || img.getAttribute('src'));
-}, true);
-
-// ── Block drag on img directly (belt-and-suspenders) ──
-document.addEventListener('dragstart', function(e) {
-  var img = e.target.closest('img');
-  if (!img) return;
-  if (img.closest('.rwrap,.article-hero-wrap,.nc-img-wrap')) { e.preventDefault(); return false; }
-}, true);
-
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){setTimeout(addWatermarks,100);});}else{setTimeout(addWatermarks,100);}
+new MutationObserver(function(m){for(var i=0;i<m.length;i++){if(m[i].addedNodes.length){setTimeout(addWatermarks,60);break;}}}).observe(document.body,{childList:true,subtree:true});
 })();
+
+var _SM_LOGO='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MDAwIDMyMDAiIHdpZHRoPSIzMDAiIGhlaWdodD0iMTYxIj48cGF0aCBmaWxsPSIjZmZmIiBkPSJNNDU5My43NyAxNjYuNThjMCwwIC03MTkuOTYsODkuMDcgLTE0ODQuNDUsMTI2MS43OCAtNzY0LjQ5LDExNzIuNzIgLTE1OTUuNzksMTgxMS4wMyAtMjYwNS4yMSwxMTUwLjQ1IDAsMCA2OTcuNjksNzQ5LjY1IDE2NDcuNzQsMTcwLjcxIDk1MC4wNSwtNTc4Ljk0IDEyNzYuNjMsLTIxNDUuMDMgMjQ0MS45MiwtMjU4Mi45NHoiLz48cGF0aCBmaWxsPSIjREIzNDM4IiBkPSJNMjY4MS44OSA3MTAuNjZjMCwwIDI1Ni4wNCwxNTAuNjQgMzcxLjA3LDMzOS42MyAwLDAgNjgxLjk5LC05ODMuMjcgMTc0NC42OSwtMTAxOC44OCAwLDAgLTEwNDAuNzksMTM0LjIgLTE3NDcuNDMsMTI4NC41NSAwLDAgLTE4Ny43OSwtNDIyLjgyIC0zNjguMzMsLTYwNS4zeiIvPjxwYXRoIGZpbGw9IiNmZmYiIGZpbGwtcnVsZT0ibm9uemVybyIgZD0iTTU3LjI0IDIwMDEuMDlsMzU5LjQ4IC0yMi41NGM3LjcsNTguMiAyMy42OCwxMDIuNzEgNDcuNjUsMTMyLjk1IDM5LjA5LDQ5LjM2IDk0LjcyLDc0LjE4IDE2Ny4xOSw3NC4xOCA1My45MiwwIDk1LjU4LC0xMi41NiAxMjQuNjgsLTM3Ljk1IDI5LjM5LC0yNS4zOSA0My45NCwtNTQuNzggNDMuOTQsLTg4LjE2IDAsLTMxLjY3IC0xMy42OSwtNjAuMiAtNDEuMzcsLTg1LjMxIC0yNy42NywtMjUuMTEgLTkyLjE1LC00OC41IC0xOTMuNDMsLTcxLjA0IC0xNjYuMDUsLTM3LjA5IC0yODQuMTYsLTg2LjczIC0zNTQuOTIsLTE0OC42NCAtNzEuMzMsLTYxLjYzIC0xMDYuOTksLTE0MC4zNyAtMTA2Ljk5LC0yMzYuMjMgMCwtNjIuNzcgMTguMjYsLTEyMi4xMSA1NC43OCwtMTc4LjAzIDM2LjUyLC01Ni4yIDkxLjMsLTEwMC4xNCAxNjQuNjIsLTEzMi4wOSA3My4zMiwtMzEuOTYgMTczLjc1LC00Ny45MyAzMDEuMjgsLTQ3LjkzIDE1Ni42MywwIDI3NS44OSwyOS4xIDM1OC4wNiw4Ny41OSA4Mi4xNyw1OC4yIDEzMC45NSwxNTAuOTMgMTQ2LjY1LDI3OC4xN2wtMzU2LjA2IDIxLjExYy05LjQxLC01NS42MyAtMjkuMzksLTk2LjE1IC01OS42MywtMTIxLjI1IC0zMC41MywtMjUuMzkgLTcyLjQ3LC0zNy45NCAtMTI1LjgyLC0zNy45NCAtNDMuOTQsMCAtNzcuMzIsOS40MSAtOTkuNTcsMjcuOTYgLTIyLjI2LDE4LjU0IC0zMy4zOCw0MS4zNyAtMzMuMzgsNjguMTkgMCwxOS40IDkuMTMsMzYuOCAyNy4xMSw1Mi41IDE3LjQsMTYuMjYgNTkuNjMsMzEuMSAxMjYuMzksNDUuMDggMTY1LjQ4LDM1LjY2IDI4My44OCw3MS45IDM1NS4yLDEwOC40MSA3MS42MSwzNi41MiAxMjMuODIsODEuNiAxNTYuMzUsMTM1LjgxIDMyLjUyLDUzLjkyIDQ4Ljc5LDExNC40MSA0OC43OSwxODEuNDUgMCw3OC40NiAtMjEuNjksMTUwLjkzIC02NS4wNSwyMTcuNCAtNDMuNjUsNjYuMTkgLTEwNC4xMywxMTYuNjkgLTE4Mi4zMSwxNTAuOTMgLTc3Ljg5LDM0LjI0IC0xNzYuMDMsNTEuMzUgLTI5NC43Miw1MS4zNSAtMjA4LjI3LDAgLTM1Mi42MywtNDAuMjMgLTQzMi44LC0xMjAuNCAtODAuMTcsLTgwLjE3IC0xMjUuNTQsLTE4Mi4wMiAtMTM2LjA5LC0zMDUuNTZ6bTIyNjUuMDIgNDUuOTRsLTY4My4wMiAwYzYuMjgsNTQuNDkgMjAuODMsOTUuMjkgNDQuNTEsMTIyLjExIDMyLjgxLDM4LjUyIDc1Ljg5LDU3LjYzIDEyOC45Niw1Ny42MyAzMy42NywwIDY1LjYyLC04LjI4IDk1LjU3LC0yNC44MiAxOC41NSwtMTAuNTYgMzguNTIsLTI5LjEgNTkuNjMsLTU1LjYzbDMzNS41MiAzMC44MWMtNTEuMzUsODkuMDEgLTExMy4yNiwxNTMuMiAtMTg1LjczLDE5MS43MiAtNzIuNDYsMzguOCAtMTc2LjYsNTguMiAtMzEyLjEyLDU4LjIgLTExNy44MywwIC0yMTAuMjcsLTE2LjU1IC0yNzcuODksLTQ5LjkzIC02Ny4zMywtMzMuMDkgLTEyMy4yNSwtODUuODggLTE2Ny43NiwtMTU4LjA2IC00NC4yMiwtNzIuNDYgLTY2LjQ4LC0xNTcuNDkgLTY2LjQ4LC0yNTUuMDYgMCwtMTM4Ljk0IDQ0LjUxLC0yNTEuNjQgMTMzLjUyLC0zMzcuNTIgODguNzMsLTg1Ljg3IDIxMS42OSwtMTI4Ljk2IDM2OC4zMywtMTI4Ljk2IDEyNy4yNCwwIDIyNy4zOSwxOS40IDMwMC45OSw1Ny45MiA3My42MSwzOC41MiAxMjkuODEsOTQuMTUgMTY4LjMzLDE2Ny40NyAzOC41Miw3My4wNCA1Ny42MywxNjguMzMgNTcuNjMsMjg1LjU5bDAgMzguNTJ6bS0zNDUuNzkgLTE2Mi42M2MtNi41NiwtNjYuMTkgLTI0LjU0LC0xMTMuNTUgLTUzLjM1LC0xNDIuMDggLTI4LjgxLC0yOC41MyAtNjYuNDgsLTQyLjggLTExMy41NSwtNDIuOCAtNTQuMjEsMCAtOTcuNTcsMjEuNjggLTEzMC4xLDY0Ljc2IC0yMC41NCwyNi44MiAtMzMuNjcsNjYuNzYgLTM5LjM3LDEyMC4xMWwzMzYuMzcgMHptNTEzLjU1IC03MDMuNTZsMzQwLjY1IDAgMCAxMjI1LjY2IC0zNDAuNjUgMCAwIC0xMjI1LjY2em0xNTQ0LjA2IDg2Ni4xOGwtNjgzLjAyIDBjNi4yOCw1NC40OSAyMC44Myw5NS4yOSA0NC41MSwxMjIuMTEgMzIuODEsMzguNTIgNzUuODksNTcuNjMgMTI4Ljk2LDU3LjYzIDMzLjY3LDAgNjUuNjIsLTguMjggOTUuNTcsLTI0LjgyIDE4LjU1LC0xMC41NiAzOC41MiwtMjkuMSA1OS42MywtNTUuNjNsMzM1LjUyIDMwLjgxYy01MS4zNSw4OS4wMSAtMTEzLjI2LDE1My4yIC0xODUuNzMsMTkxLjcyIC03Mi40NiwzOC44IC0xNzYuNiw1OC4yIC0zMTIuMTIsNTguMiAtMTE3LjgzLDAgLTIxMC4yNywtMTYuNTUgLTI3Ny44OSwtNDkuOTMgLTY3LjMzLC0zMy4wOSAtMTIzLjI1LC04NS44OCAtMTY3Ljc2LC0xNTguMDYgLTQ0LjIyLC03Mi40NiAtNjYuNDgsLTE1Ny40OSAtNjYuNDgsLTI1NS4wNiAwLC0xMzguOTQgNDQuNTEsLTI1MS42NCAxMzMuNTIsLTMzNy41MiA4OC43MywtODUuODcgMjExLjY5LC0xMjguOTYgMzY4LjMzLC0xMjguOTYgMTI3LjI0LDAgMjI3LjM5LDE5LjQgMzAwLjk5LDU3LjkyIDczLjYxLDM4LjUyIDEyOS44MSw5NC4xNSAxNjguMzMsMTY3LjQ3IDM4LjUyLDczLjA0IDU3LjYzLDE2OC4zMyA1Ny42MywyODUuNTlsMCAzOC41MnptLTM0NS43OSAtMTYyLjYzYy02LjU2LC02Ni4xOSAtMjQuNTQsLTExMy41NSAtNTMuMzUsLTE0Mi4wOCAtMjguODEsLTI4LjUzIC02Ni40OCwtNDIuOCAtMTEzLjU1LC00Mi44IC01NC4yMSwwIC05Ny41NywyMS42OCAtMTMwLjEsNjQuNzYgLTIwLjU0LDI2LjgyIC0zMy42Nyw2Ni43NiAtMzkuMzcsMTIwLjExbDMzNi4zNyAwem0xMTY0LjA0IDE3NC42MWwzMjMuNTQgMzUuOTVjLTE3Ljk3LDY3LjYyIC00Ny4wNywxMjYuMSAtODcuODcsMTc1Ljc1IC00MC41MSw0OS4zNSAtOTIuNzIsODcuODcgLTE1Ni4wNiwxMTUuMjYgLTYzLjA1LDI3LjM5IC0xNDMuNTEsNDEuMDkgLTI0MS4wOCw0MS4wOSAtOTQuNDMsMCAtMTcyLjg5LC04Ljg1IC0yMzUuNjYsLTI2LjI1IC02Mi40OCwtMTcuNjkgLTExNi40LC00Ni4yMiAtMTYxLjc2LC04NS41OSAtNDUuMDgsLTM5LjA5IC04MC40NiwtODUuMzEgLTEwNi4xMywtMTM4LjM3IC0yNS42OCwtNTMuMDcgLTM4LjUyLC0xMjMuMjUgLTM4LjUyLC0yMTAuODQgMCwtOTEuMyAxNS42OSwtMTY3LjQ3IDQ2Ljc5LC0yMjguMjQgMjIuODMsLTQ0Ljc5IDU0LjIxLC04NC43MyA5My44NywtMTIwLjExIDM5LjY2LC0zNS4zOCA4MC4xNywtNjEuOTEgMTIyLjExLC03OS4wMyA2Ni40OCwtMjcuMzkgMTUxLjUsLTQxLjA4IDI1NS4wNiwtNDEuMDggMTQ1LjIyLDAgMjU1LjYzLDI1Ljk2IDMzMS44MSw3Ny42IDc2LjE3LDUxLjkzIDEyOS41MywxMjcuNTMgMTYwLjM0LDIyNy4xbC0zMjAuMTEgNDIuOGMtOS45OCwtMzcuOTQgLTI4LjI0LC02Ni40OCAtNTQuNzgsLTg1Ljg4IC0yNi41MywtMTkuMTEgLTYyLjE5LC0yOC44MSAtMTA2Ljk5LC0yOC44MSAtNTYuMiwwIC0xMDEuODUsMjAuMjYgLTEzNi45NCw2MC40OCAtMzQuODEsNDAuNTIgLTUyLjIxLDEwMS41NyAtNTIuMjEsMTgzLjc0IDAsNzMuMDQgMTcuNCwxMjguMzkgNTEuOTMsMTY2LjMzIDM0LjUyLDM3Ljk0IDc4LjQ2LDU2Ljc4IDEzMi4wOSw1Ni43OCA0NC41MSwwIDgyLjE3LC0xMS40MSAxMTIuNDEsLTMzLjk1IDMwLjUzLC0yMi44MyA1My4wNywtNTcuNjMgNjguMTksLTEwNC43MXptODkwLjE1IC04NzguMTZsMCAzMzcuMjMgMTg2LjU5IDAgMCAyNDkuOTMgLTE4Ni41OSAwIDAgMzE0LjRjMCwzNy42NiAzLjcxLDYyLjc3IDEwLjg0LDc1LjA0IDExLjEzLDE4LjgzIDMwLjgxLDI4LjI1IDU4Ljc4LDI4LjI1IDI1LjExLDAgNjAuMiwtNy4xMyAxMDUuNTYsLTIxLjY5bDI1LjExIDIzNS4zN2MtODQuMTYsMTguNTUgLTE2Mi42MiwyNy42OCAtMjM1LjY2LDI3LjY4IC04NC43NCwwIC0xNDcuMjIsLTEwLjg0IC0xODcuNDQsLTMyLjUzIC0zOS45NCwtMjEuNjggLTY5LjYxLC01NC43OCAtODkuMDIsLTk5IC0xOS4xMSwtNDQuMjIgLTI4LjgxLC0xMTYuMTIgLTI4LjgxLC0yMTUuMTJsMCAtMzEyLjQxIC0xMjQuOTYgMCAwIC0yNDkuOTMgMTI0Ljk2IDAgMCAtMTYyLjkxIDM0MC42NSAtMTc0LjMyeiIvPjwvc3ZnPg==';
+function smDl(s){fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(s)).then(function(r){return r.blob();}).then(function(bl){var bu=URL.createObjectURL(bl);var ph=new Image();ph.onload=function(){var c=document.createElement('canvas');c.width=ph.naturalWidth||900;c.height=ph.naturalHeight||500;var ctx=c.getContext('2d');ctx.drawImage(ph,0,0,c.width,c.height);var li=new Image();li.onload=function(){var lw=Math.round(c.width*0.25),lh=Math.round(lw*0.537),mg=Math.round(c.width*0.02);ctx.globalAlpha=0.65;ctx.drawImage(li,c.width-lw-mg,c.height-lh-mg,lw,lh);ctx.globalAlpha=1;c.toBlob(function(b){URL.revokeObjectURL(bu);var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='selectme-'+Date.now()+'.jpg';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);document.body.removeChild(a);},1500);},'image/jpeg',0.92);};li.onerror=function(){c.toBlob(function(b){URL.revokeObjectURL(bu);var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='selectme-'+Date.now()+'.jpg';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);document.body.removeChild(a);},1500);},'image/jpeg',0.92);};li.src=_SM_LOGO;};ph.onerror=function(){URL.revokeObjectURL(bu);};ph.src=bu;}).catch(function(){});}
+document.addEventListener('contextmenu',function(e){if(e.target.tagName!=='IMG')return;if(!e.target.closest('.rwrap,.article-hero-wrap,.nc-img-wrap'))return;e.preventDefault();smDl(e.target.src||e.target.getAttribute('src'));},true);
+document.addEventListener('dragstart',function(e){if(e.target.tagName==='IMG'&&e.target.closest('.rwrap,.article-hero-wrap,.nc-img-wrap')){e.preventDefault();return false;}},true);
 
 // ═══════════════════════════════════════════════════════════════
 // AD ENGINE — ads-admin.html నుండి localStorage లో save అయిన
@@ -2282,7 +2114,7 @@ function rasiResetTimer(){if(_rasiTimer)clearInterval(_rasiTimer);rasiStartTimer
 document.addEventListener('DOMContentLoaded',function(){rasiStartTimer();});
 
 var _popupShown=false;
-function showPopup(){if(_popupShown)return;_popupShown=true;var popup=document.getElementById('adPopup');popup.classList.add('show');var fill=document.getElementById('popupTimerFill');if(fill){fill.style.transition='none';fill.style.width='100%';setTimeout(()=>{fill.style.transition='width 8s linear';fill.style.width='0%';},50);setTimeout(closePopup,8000);}}
+function showPopup(){if(_popupShown)return;_popupShown=true;var popup=document.getElementById('adPopup');if(!popup||!popup.innerHTML.trim())return;popup.classList.add('show');var fill=document.getElementById('popupTimerFill');if(fill){fill.style.transition='none';fill.style.width='100%';setTimeout(()=>{fill.style.transition='width 8s linear';fill.style.width='0%';},50);setTimeout(closePopup,8000);}}
 function closePopup(){var p=document.getElementById('adPopup');if(p)p.classList.remove('show');}
 function showFloatAd(){var ad=document.getElementById('floatAd');if(ad)ad.classList.add('show');}
 function initAds(){
