@@ -620,6 +620,10 @@ body.dark .set-soc-btn{border-color:#333;color:#888}
 .sp-sheet{position:relative;background:#fff;border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:500px;z-index:1;animation:slideUp .25s ease}
 body.dark .sp-sheet{background:#1e2130}
 @keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+/* Hide Google Translate UI elements */
+.goog-te-banner-frame,.goog-te-gadget,.goog-te-balloon-frame{display:none!important}
+body{top:0!important}
+#gt-hidden{display:none!important}
 .sp-title{font-size:13px;font-weight:700;color:#333;margin-bottom:14px;text-align:center}
 body.dark .sp-title{color:#eee}
 .sp-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
@@ -772,6 +776,9 @@ body.feed-mode #siteFooter{display:none}
 
 <!-- Bottom navigation (always on mobile) -->
 <div id="feedBottomNav"></div>
+
+<!-- Google Translate hidden container -->
+<div id="gt-hidden" style="display:none"></div>
 
 <!-- Share popup -->
 <div id="sharePopup">
@@ -1921,6 +1928,7 @@ var FEED = {
       var el = lang==='te' ? document.getElementById('langTe') : document.getElementById('langEn');
       switchEdition(lang, el);
     }
+    activateTranslate(lang);
     this._updateSettingsUI();
   },
   _clearBookmarks: function() {
@@ -2008,14 +2016,58 @@ var FEED = {
     e.stopPropagation();
     this.shareArt = ARTICLES[id];
     var popup = document.getElementById('sharePopup');
-    var title = this.shareArt ? this.shareArt.title : document.title;
-    var url = location.href.split('#')[0] + '#article/' + (this.shareArt ? this.shareArt.cat+':'+id : '');
-    document.getElementById('spTitle').textContent = title.substring(0,60) + (title.length>60?'…':'');
-    document.getElementById('spWa').onclick   = function(){ window.open('https://wa.me/?text='+encodeURIComponent(title+'\n'+url),'_blank'); };
-    document.getElementById('spTw').onclick   = function(){ window.open('https://x.com/intent/tweet?text='+encodeURIComponent(title)+'&url='+encodeURIComponent(url),'_blank'); };
-    document.getElementById('spFb').onclick   = function(){ window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(url),'_blank'); };
+    var art = this.shareArt;
+    var title = art ? art.title : document.title;
+    // hash URL — for copy link
+    var hashUrl = location.href.split('#')[0] + '#article/' + (art ? art.cat+':'+id : '');
+    // Cloudflare Worker URL — WhatsApp crawl చేసి OG preview చూపిస్తుంది
+    var shareUrl = 'https://selectme.in/share?id=' + encodeURIComponent(id);
+    var imgSrc = art ? (art.img || '') : '';
+
+    // Header
+    document.getElementById('spTitle').textContent = 'Share';
+
+    // Thumb preview
+    var preview = document.getElementById('spPreview');
+    if (preview) {
+      if (imgSrc) {
+        document.getElementById('spThumb').src = imgSrc;
+        document.getElementById('spPreviewTitle').textContent = title;
+        preview.style.display = 'flex';
+      } else {
+        preview.style.display = 'none';
+      }
+    }
+
+    // Helper: fetch image as File blob for native share
+    async function _imgFile(src) {
+      try {
+        var res = await fetch(src, {mode:'cors',cache:'force-cache'});
+        if (!res.ok) return null;
+        var blob = await res.blob();
+        var ext = blob.type.includes('png') ? 'png' : 'jpg';
+        return new File([blob], 'selectme_share.'+ext, {type: blob.type});
+      } catch(err) { return null; }
+    }
+
+    // WhatsApp — native share with image if supported, else share.php URL (shows OG preview)
+    document.getElementById('spWa').onclick = async function() {
+      var file = imgSrc ? await _imgFile(imgSrc) : null;
+      var canShare = file && navigator.canShare && navigator.canShare({files:[file]});
+      if (canShare) {
+        try {
+          await navigator.share({files:[file], title:title, text:title+'\n'+shareUrl});
+          return;
+        } catch(err) { /* cancelled or failed */ }
+      }
+      // Fallback: share.php URL → WhatsApp crawls OG tags → rich preview
+      window.open('https://wa.me/?text='+encodeURIComponent(title+'\n'+shareUrl),'_blank');
+    };
+
+    document.getElementById('spTw').onclick = function(){ window.open('https://x.com/intent/tweet?text='+encodeURIComponent(title)+'&url='+encodeURIComponent(shareUrl),'_blank'); };
+    document.getElementById('spFb').onclick = function(){ window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(shareUrl),'_blank'); };
     document.getElementById('spCopy').onclick = function(){
-      navigator.clipboard.writeText(url).then(function(){
+      navigator.clipboard.writeText(hashUrl).then(function(){
         document.getElementById('spCopy').querySelector('span').textContent='Copied!';
         setTimeout(function(){document.getElementById('spCopy').querySelector('span').textContent='Copy Link';},1800);
       });
@@ -2234,6 +2286,38 @@ function _renderVideoBand(gridEl,items){
 
 var CURRENT_LANG='te';
 function switchEdition(lang,el){CURRENT_LANG=lang;const hash=location.hash.replace('#','');const [type]=hash.split('/');if(!type||type==='home'){buildHomePage();showPage('pageHome');}else if(type==='category'){renderCategory(hash.split('/')[1]);showPage('pageCategory');}}
+
+/* ── Google Translate integration ── */
+var _gtReady=false;
+function _initGT(){
+  if(_gtReady)return;_gtReady=true;
+  window.googleTranslateElementInit=function(){
+    new google.translate.TranslateElement({pageLanguage:'te',includedLanguages:'en,te',autoDisplay:false},'gt-hidden');
+  };
+  var s=document.createElement('script');
+  s.src='//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+  document.body.appendChild(s);
+}
+function _applyGT(lang){
+  var tries=0,iv=setInterval(function(){
+    var sel=document.querySelector('.goog-te-combo');
+    if(sel){clearInterval(iv);sel.value=lang==='en'?'en':'te';sel.dispatchEvent(new Event('change'));}
+    else if(++tries>40)clearInterval(iv);
+  },150);
+}
+function activateTranslate(lang){
+  if(lang==='en'){
+    _initGT();setTimeout(function(){_applyGT('en');},600);
+    document.documentElement.setAttribute('lang','en');
+  } else {
+    var sel=document.querySelector('.goog-te-combo');
+    if(sel){sel.value='te';sel.dispatchEvent(new Event('change'));}
+    // GT restore button fallback
+    var frame=document.querySelector('.goog-te-banner-frame');
+    if(frame){try{var d=frame.contentDocument||frame.contentWindow.document;var b=d.querySelector('[id$=restore]')||d.querySelector('button');if(b)b.click();}catch(e){}}
+    document.documentElement.setAttribute('lang','te');
+  }
+}
 function artTitle(a){return CURRENT_LANG==='en'&&a.titleEn?a.titleEn:a.title;}
 function artDek(a){if(CURRENT_LANG==='en'){const enText=a.bodyEn?a.bodyEn.replace(/<[^>]+>/g,'').substring(0,180)+'…':'';return enText||a.dek;}return a.dek||a.body.replace(/<[^>]+>/g,'').substring(0,180)+'…';}
 
