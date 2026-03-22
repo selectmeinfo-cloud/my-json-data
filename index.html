@@ -2016,58 +2016,14 @@ var FEED = {
     e.stopPropagation();
     this.shareArt = ARTICLES[id];
     var popup = document.getElementById('sharePopup');
-    var art = this.shareArt;
-    var title = art ? art.title : document.title;
-    // hash URL — for copy link
-    var hashUrl = location.href.split('#')[0] + '#article/' + (art ? art.cat+':'+id : '');
-    // Cloudflare Worker URL — WhatsApp crawl చేసి OG preview చూపిస్తుంది
-    var shareUrl = 'https://selectme.in/share?id=' + encodeURIComponent(id);
-    var imgSrc = art ? (art.img || '') : '';
-
-    // Header
-    document.getElementById('spTitle').textContent = 'Share';
-
-    // Thumb preview
-    var preview = document.getElementById('spPreview');
-    if (preview) {
-      if (imgSrc) {
-        document.getElementById('spThumb').src = imgSrc;
-        document.getElementById('spPreviewTitle').textContent = title;
-        preview.style.display = 'flex';
-      } else {
-        preview.style.display = 'none';
-      }
-    }
-
-    // Helper: fetch image as File blob for native share
-    async function _imgFile(src) {
-      try {
-        var res = await fetch(src, {mode:'cors',cache:'force-cache'});
-        if (!res.ok) return null;
-        var blob = await res.blob();
-        var ext = blob.type.includes('png') ? 'png' : 'jpg';
-        return new File([blob], 'selectme_share.'+ext, {type: blob.type});
-      } catch(err) { return null; }
-    }
-
-    // WhatsApp — native share with image if supported, else share.php URL (shows OG preview)
-    document.getElementById('spWa').onclick = async function() {
-      var file = imgSrc ? await _imgFile(imgSrc) : null;
-      var canShare = file && navigator.canShare && navigator.canShare({files:[file]});
-      if (canShare) {
-        try {
-          await navigator.share({files:[file], title:title, text:title+'\n'+shareUrl});
-          return;
-        } catch(err) { /* cancelled or failed */ }
-      }
-      // Fallback: share.php URL → WhatsApp crawls OG tags → rich preview
-      window.open('https://wa.me/?text='+encodeURIComponent(title+'\n'+shareUrl),'_blank');
-    };
-
-    document.getElementById('spTw').onclick = function(){ window.open('https://x.com/intent/tweet?text='+encodeURIComponent(title)+'&url='+encodeURIComponent(shareUrl),'_blank'); };
-    document.getElementById('spFb').onclick = function(){ window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(shareUrl),'_blank'); };
+    var title = this.shareArt ? this.shareArt.title : document.title;
+    var url = location.href.split('#')[0] + '#article/' + (this.shareArt ? this.shareArt.cat+':'+id : '');
+    document.getElementById('spTitle').textContent = title.substring(0,60) + (title.length>60?'…':'');
+    document.getElementById('spWa').onclick   = function(){ window.open('https://wa.me/?text='+encodeURIComponent(title+'\n'+url),'_blank'); };
+    document.getElementById('spTw').onclick   = function(){ window.open('https://x.com/intent/tweet?text='+encodeURIComponent(title)+'&url='+encodeURIComponent(url),'_blank'); };
+    document.getElementById('spFb').onclick   = function(){ window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(url),'_blank'); };
     document.getElementById('spCopy').onclick = function(){
-      navigator.clipboard.writeText(hashUrl).then(function(){
+      navigator.clipboard.writeText(url).then(function(){
         document.getElementById('spCopy').querySelector('span').textContent='Copied!';
         setTimeout(function(){document.getElementById('spCopy').querySelector('span').textContent='Copy Link';},1800);
       });
