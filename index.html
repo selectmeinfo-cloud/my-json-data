@@ -504,7 +504,7 @@ body.dark .cat-pop-title{color:#eee}
 body.dark .cat-pop-close:hover{background:#252836}
 .cat-pop-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#f0f0f0;margin:0}
 body.dark .cat-pop-grid{background:#252836}
-.cat-pop-item{background:#fff;padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:background .15s}
+.cat-pop-item{background:#fff;padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:background .15s}.cat-pop-empty{opacity:.45}.cat-pop-empty .cpi-count{color:#e53935;font-style:italic}
 body.dark .cat-pop-item{background:#1e2130}
 .cat-pop-item:hover{background:#fff5f5}
 body.dark .cat-pop-item:hover{background:#252836}
@@ -1100,16 +1100,44 @@ async function loadNavFromSheet(){
 function parseSheetNav(csvText){
   const lines=csvText.trim().split('\n');if(!lines.length)return;
   const cols=[];
+  // Icon map for known category keys
+  const ICON_MAP={news:'📰',sports:'⚽',business:'💼',world:'🌍',astrology:'♒',
+    features:'✍',video:'▶',crime:'⚖️',india:'🇮🇳',politics:'🏛️',cinema:'🎬',
+    devotional:'🙏',jobs:'💼',health:'💊',education:'📚',technology:'💻',
+    entertainment:'🎭',international:'🌍',regional:'🗺️',science:'🔬',
+    environment:'🌿',finance:'💰',lifestyle:'🌟'};
   lines.forEach((line,rowIdx)=>{
     const cells=parseCSVLine(line);
     cells.forEach((cell,colIdx)=>{
       const val=cell.trim();if(!val)return;
       if(!cols[colIdx])cols[colIdx]={label:'',subs:[]};
-      if(rowIdx===0){cols[colIdx].label=val;cols[colIdx].key=val.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');}
-      else{cols[colIdx].subs.push({label:val,key:val.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_\u0c00-\u0c7f]/g,'')||val});}
+      if(rowIdx===0){
+        cols[colIdx].label=val;
+        cols[colIdx].key=val.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
+      } else {
+        const subKey=val.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_\u0c00-\u0c7f]/g,'')||val;
+        cols[colIdx].subs.push({label:val,key:subKey});
+        // Sync sub-category into CATEGORIES
+        if(!CATEGORIES[subKey]){
+          CATEGORIES[subKey]={icon:ICON_MAP[subKey]||'📂',label:val,color:'#444',articles:[]};
+        } else if(!CATEGORIES[subKey].label||CATEGORIES[subKey].label===subKey){
+          CATEGORIES[subKey].label=val;
+        }
+      }
     });
   });
   NAV_STRUCTURE=cols.filter(c=>c.label);
+  // Sync every top-level nav category into CATEGORIES
+  NAV_STRUCTURE.forEach(function(n){
+    if(!CATEGORIES[n.key]){
+      CATEGORIES[n.key]={icon:ICON_MAP[n.key]||'📂',label:n.label,color:'#444',articles:[]};
+    } else {
+      // Update label from Sheet (Sheet is source of truth)
+      CATEGORIES[n.key].label=n.label;
+      if(!CATEGORIES[n.key].icon||CATEGORIES[n.key].icon==='📂')
+        CATEGORIES[n.key].icon=ICON_MAP[n.key]||'📂';
+    }
+  });
 }
 function parseCSVLine(line){
   const result=[];let cur='',inQ=false;
@@ -1835,8 +1863,9 @@ var FEED = {
   _buildCatPopupList: function() {
     var el = document.getElementById('catPopupList');
     var ICONS = {politics:'🏛️',cinema:'🎬',sports:'⚽',devotional:'🙏',jobs:'💼',health:'💊',
-                 education:'📚',technology:'💻',business:'📈',entertainment:'🎭',astrology:'🔯',crime:'🚔',
-                 international:'🌍',regional:'🗺️',default:'📰'};
+                 education:'📚',technology:'💻',business:'📈',entertainment:'🎭',astrology:'🔯',crime:'🛔',
+                 international:'🌍',regional:'🗺️',news:'📰',india:'🇮🇳',world:'🌍',
+                 science:'🔬',environment:'🌿',finance:'💰',lifestyle:'🌟',default:'📰'};
     var artCounts = {};
     Object.values(ARTICLES).forEach(function(a){ artCounts[a.cat] = (artCounts[a.cat]||0)+1; });
     var allCount = Object.values(ARTICLES).length;
@@ -1846,15 +1875,17 @@ var FEED = {
       '<div class="cpi-count">' + allCount + ' articles</div></div></div>';
     html += '<div class="cat-pop-grid">';
     NAV_STRUCTURE.forEach(function(n){
-      var icon = ICONS[n.key] || ICONS['default'];
+      var catIcon = (CATEGORIES[n.key] && CATEGORIES[n.key].icon && CATEGORIES[n.key].icon !== '📂')
+                    ? CATEGORIES[n.key].icon : (ICONS[n.key] || ICONS['default']);
       var cnt = artCounts[n.key] || 0;
       if(n.subs) n.subs.forEach(function(s){ cnt += (artCounts[s.key]||0); });
-      if(cnt === 0) return;
       var isAct = FEED.activeCat === n.key;
+      if (cnt === 0) return; // articles లేని categories hide చేయి
+      var countLabel = cnt + ' articles';
       html += '<div class="cat-pop-item' + (isAct?' active-cat':'') + '" onclick="FEED._pickCat(\'' + n.key + '\')">' +
-        '<span class="cpi-icon">' + icon + '</span>' +
+        '<span class="cpi-icon">' + catIcon + '</span>' +
         '<div><div class="cpi-name">' + n.label + '</div>' +
-        '<div class="cpi-count">' + cnt + ' articles</div></div></div>';
+        '<div class="cpi-count">' + countLabel + '</div></div></div>';
     });
     html += '</div>';
     el.innerHTML = html;
@@ -1928,11 +1959,55 @@ var FEED = {
     var detail = document.getElementById('todayRasiDetail');
     document.querySelectorAll('.today-rasi-btn').forEach(function(b){b.classList.remove('sel');});
     document.getElementById('trb'+idx).classList.add('sel');
-    detail.innerHTML = '<div class="trd-name">' + r.sym + ' ' + r.name + ' · ' + r.en + '</div>' +
-      '<div class="trd-row">' +
+
+    // Search keywords for this rashi in Telugu & English
+    var searchTerms = [r.name, r.en, r.en.toLowerCase()];
+
+    // Find matching articles from ARTICLES object
+    var matched = [];
+    if(typeof ARTICLES !== 'undefined') {
+      Object.values(ARTICLES).forEach(function(a) {
+        var haystack = ((a.title||'') + ' ' + (a.dek||'') + ' ' + (a.cat||'') + ' ' + (a.catLabel||'')).toLowerCase();
+        var hit = searchTerms.some(function(term){
+          return haystack.indexOf(term.toLowerCase()) !== -1;
+        });
+        // Also match astrology/horoscope category articles
+        var isAstro = (a.cat||'').toLowerCase().indexOf('astro') !== -1 ||
+                      (a.catLabel||'').toLowerCase().indexOf('జ్యోతిష్య') !== -1 ||
+                      (a.catLabel||'').toLowerCase().indexOf('రాశి') !== -1 ||
+                      (a.cat||'').toLowerCase().indexOf('rasi') !== -1 ||
+                      (a.cat||'').toLowerCase().indexOf('horoscope') !== -1;
+        if(hit || (isAstro && matched.length < 3)) matched.push(a);
+      });
+      // Sort by date, latest first
+      matched.sort(function(a,b){ return (b._ts||0)-(a._ts||0); });
+      matched = matched.slice(0,5);
+    }
+
+    var articlesHtml = '';
+    if(matched.length > 0) {
+      articlesHtml = '<div style="margin-top:10px">' +
+        matched.map(function(a){
+          var img = a.img ? '<img src="'+a.img+'" alt="" style="width:54px;height:40px;object-fit:cover;border-radius:5px;flex-shrink:0" onerror="this.style.display=\'none\'">' : '';
+          return '<div onclick="FEED.closeTodayPanel();FEED.openArticle('+JSON.stringify(a).replace(/"/g,'&quot;')+')" style="display:flex;gap:9px;align-items:flex-start;padding:8px 0;border-bottom:1px solid rgba(229,57,53,.12);cursor:pointer">' +
+            img +
+            '<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700;color:#222;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">' + (a.title||'') + '</div>' +
+            '<div style="font-size:10px;color:#aaa;margin-top:2px">' + (a.catLabel||a.cat||'') + '</div></div>' +
+          '</div>';
+        }).join('') +
+      '</div>';
+    } else {
+      articlesHtml = '<div style="font-size:12px;color:#aaa;margin-top:10px;text-align:center;padding:12px 0">ఈ రాశికి సంబంధించిన వార్తలు లేవు</div>';
+    }
+
+    detail.innerHTML =
+      '<div class="trd-name">' + r.sym + ' ' + r.name + ' · ' + r.en + '</div>' +
+      '<div style="display:flex;gap:8px;margin-bottom:4px">' +
         '<div class="trd-cell"><div class="trd-cell-l">Lucky Color</div><div class="trd-cell-v">' + r.color + '</div></div>' +
         '<div class="trd-cell"><div class="trd-cell-l">Lucky No.</div><div class="trd-cell-v">' + r.num + '</div></div>' +
-      '</div>';
+      '</div>' +
+      '<div style="font-size:10px;font-weight:800;color:#e53935;letter-spacing:.1em;text-transform:uppercase;margin-top:12px;margin-bottom:2px">📰 సంబంధిత వార్తలు</div>' +
+      articlesHtml;
     detail.classList.add('show');
   },
 
