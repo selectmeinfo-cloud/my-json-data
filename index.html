@@ -1798,29 +1798,15 @@ var FEED = {
       if(tab === 'cats')     { FEED.openCatPopup(); return; }
       if(tab === 'today')    { FEED.openTodayPanel(); return; }
       if(tab === 'settings') { FEED.openSettings(); return; }
-      // home tab
+      // home tab — go to newspaper homepage
       nav.querySelectorAll('.fbn-btn').forEach(function(b){b.classList.remove('active');});
       btn.classList.add('active');
-      if(!document.body.classList.contains('feed-mode')){
-        // Coming from inner page — restore feed without reset
-        document.body.classList.add('feed-mode');
-        document.getElementById('feedTopBar').style.display='block';
-        
-        document.getElementById('feedScroll').style.display='block';
-        var sh=document.getElementById('sharedHeader');
-        if(sh&&window.innerWidth<=900)sh.style.display='none';
-        ['pageHome','pageArticle','pageCategory','pageStatic'].forEach(function(id){
-          var el=document.getElementById(id);if(el)el.style.display='none';
-        });
-        // If feed has no content yet, init it
-        var fs=document.getElementById('feedScroll');
-        if(!fs||!fs.children.length){FEED.activeCat='all';FEED.reset();FEED.syncCatBar();}
-        // Restore saved scroll position
-        window.scrollTo({top:FEED._savedScrollY||0,behavior:'instant'});
-      } else {
-        // Already in feed — just go to top
-        window.scrollTo({top:0,behavior:'smooth'});
-      }
+      // Hide feed-mode, show pageHome
+      document.body.classList.remove('feed-mode');
+      var ft=document.getElementById('feedTopBar');if(ft)ft.style.display='none';
+      var fs2=document.getElementById('feedScroll');if(fs2)fs2.style.display='none';
+      var sh=document.getElementById('sharedHeader');if(sh)sh.style.display='';
+      goHome();
     });
   },
 
