@@ -16,7 +16,7 @@ import json
 from datetime import datetime
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
-OUTPUT   = os.path.join(os.path.dirname(__file__), 'index.json')  # repo root లో
+OUTPUT   = os.path.join(DATA_DIR, 'index.json')  # data/ folder లో — index.html fetch చేసే చోటు
 
 SKIP = {'index.json', 'manifest.json'}
 
@@ -47,6 +47,10 @@ def main():
         except Exception:
             ts = 0
 
+        # published_date లేకపోతే file modification time fallback
+        if ts == 0:
+            ts = os.path.getmtime(fpath)
+
         entries.append({'file': fname, 'ts': ts})
 
     # Sort latest first (same as files.php)
@@ -57,7 +61,7 @@ def main():
     with open(OUTPUT, 'w', encoding='utf-8') as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
 
-    print(f"✅  data/index.json updated — {len(file_list)} articles found")
+    print(f"✅  data/index.json updated ({OUTPUT}) — {len(file_list)} articles found")
     for name in file_list[:5]:
         print(f"     • {name}")
     if len(file_list) > 5:
