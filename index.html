@@ -1628,8 +1628,27 @@ var FEED = {
 
   buildFiltered: function() {
     var artList = Object.values(ARTICLES);
+    // Home feed లో జ్యోతిష్యం / రాశి ఫలాలు categories చూపించకు
+    function _isAstroCat(a) {
+      var cat = (a.cat || '').toLowerCase();
+      var label = (a.catLabel || '').toLowerCase();
+      var title = (a.title || '').toLowerCase();
+      // English key matches
+      var engMatch = cat.indexOf('astro') !== -1 || cat.indexOf('horoscope') !== -1 ||
+                     cat.indexOf('rasi') !== -1 || cat.indexOf('jyothi') !== -1 ||
+                     cat.indexOf('jyoti') !== -1 || cat.indexOf('zodiac') !== -1;
+      // Telugu label matches
+      var telMatch = label.indexOf('జ్యోతి') !== -1 || label.indexOf('రాశి') !== -1 ||
+                     label.indexOf('jyothi') !== -1 || label.indexOf('astro') !== -1 ||
+                     label.indexOf('horoscope') !== -1 || label.indexOf('rasi') !== -1;
+      // Title keywords (రాశి దినఫలాలు వంటివి)
+      var titleMatch = title.indexOf('రాశి') !== -1 && (title.indexOf('ఫలాలు') !== -1 || title.indexOf('దినఫలాలు') !== -1);
+      return engMatch || telMatch || titleMatch;
+    }
     if (this.activeCat === 'all') {
-      this.filtered = artList.slice().sort(function(a,b){
+      this.filtered = artList.filter(function(a){
+        return !_isAstroCat(a);
+      }).sort(function(a,b){
         return (b._ts||0) - (a._ts||0);
       });
       return;
