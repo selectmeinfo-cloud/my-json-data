@@ -49,6 +49,17 @@ img{display:block;width:100%;object-fit:cover;background:#e5e3de}
 .rwrap-cgi-img{height:110px;margin-bottom:8px;position:relative}
 .article-hero-wrap{position:relative;overflow:hidden;display:block;margin-bottom:8px}
 .article-hero-wrap img{display:block;width:100%;height:380px;object-fit:cover}
+/* Same-day news section */
+.same-day-section{margin-top:8px;border-top:1px solid var(--bdr);padding-top:4px}
+.same-day-list{display:flex;flex-direction:column;gap:0}
+.sd-item{display:flex;gap:9px;padding:8px 0;border-bottom:1px solid var(--bdr);cursor:pointer;align-items:flex-start;transition:background .12s}
+.sd-item:last-child{border-bottom:none}
+.sd-item:hover{background:var(--bg2)}
+.sd-item:hover .sd-title{color:var(--red)}
+.sd-body{flex:1;min-width:0}
+.sd-cat{font-size:8px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+.sd-title{font-size:13px;font-weight:700;color:var(--ink);line-height:1.3;transition:color .15s;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sd-meta{font-size:8.5px;color:var(--ink4);margin-top:3px}
 
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
 
@@ -1424,6 +1435,11 @@ function renderArticle(id){
   if(relatedIds.length<3){const sameCat=Object.values(ARTICLES).filter(a=>a.cat===art.cat&&a.id!==art.id&&!relatedIds.includes(a.id));relatedIds=[...relatedIds,...sameCat.map(a=>a.id)].slice(0,3);}
   if(relatedIds.length<3){const others=Object.values(ARTICLES).filter(a=>a.id!==art.id&&!relatedIds.includes(a.id));relatedIds=[...relatedIds,...others.map(a=>a.id)].slice(0,3);}
   const related=relatedIds.map(rid=>{const r=ARTICLES[rid];if(!r)return '';return `<div class="rel-card" onclick="goArticle('${r.cat}','${r.id}')"><div class="rwrap rwrap-rel-card-img"><img src="${r.img}" alt="${r.imgAlt}" class="rel-card-img"/></div><div class="rel-card-cat">${r.catLabel}</div><div class="rel-card-title">${r.title}</div><div class="rel-card-meta">${r.author} · ${r.date}</div></div>`;}).join('');
+  // ── Same-day articles ("ఆ రోజు మిగతా వార్తలు") ──
+  const _artDay=(art.date||'').substring(0,10);
+  const _sameDayArts=_artDay?Object.values(ARTICLES).filter(a=>a.id!==art.id&&(a.date||'').substring(0,10)===_artDay).sort(function(a,b){return(new Date(b.date)||0)-(new Date(a.date)||0);}).slice(0,8):[];
+  const _sameDayLabel=(function(){try{const d=new Date(_artDay);return d.toLocaleDateString('te-IN',{year:'numeric',month:'long',day:'numeric'});}catch(e){return _artDay;}})();
+  const sameDayHtml=_sameDayArts.length>=2?`<div class="same-day-section"><div class="sec-hd" style="margin:20px 0 10px"><span class="lbl">📅 ${_sameDayLabel} నాటి మిగతా వార్తలు</span></div><div class="same-day-list">${_sameDayArts.map(a=>`<div class="sd-item" onclick="goArticle('${a.cat}','${a.id}')"><div class="rwrap rwrap-mci-img" style="flex-shrink:0"><img src="${a.img}" alt="${(a.imgAlt||'').replace(/"/g,'&quot;')}" loading="lazy" onerror="this.parentElement.style.display='none'"/></div><div class="sd-body"><div class="sd-cat">${a.catLabel}</div><div class="sd-title">${a.title}</div><div class="sd-meta">${a.author} · ${a.date}</div></div></div>`).join('')}</div></div>`:'';
   const tagsHtml=art.tags.length?`<div class="article-tags"><span class="tags-label">🏷️ Tags:</span>${art.tags.map(t=>`<span class="article-tag" onclick="goCategory('news')">${t}</span>`).join('')}</div>`:'';
 
   // Body with in-content ad injected after 3rd paragraph
@@ -1459,6 +1475,7 @@ function renderArticle(id){
         ${AD.midStrip()}
         ${tagsHtml}
         <div class="related-articles"><div class="related-title">More Stories</div><div class="related-grid">${related}</div></div>
+        ${sameDayHtml}
         ${AD.banner()}
       </div>
     </div>
