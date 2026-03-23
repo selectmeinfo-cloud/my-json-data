@@ -1152,10 +1152,16 @@ function normalizeArticle(raw){
     title:raw.telugu_title||raw.english_title||raw.title||'Untitled',
     titleEn:raw.english_title||raw.title||raw.telugu_title||'',
     dek:raw.telugu_excerpt||raw.excerpt||'',
-    author:raw.author||'Selectme Editorial',date:raw.published_date||raw.date||'',
-    _ts:(function(){var d=raw.published_date||raw.date||'';if(!d)return 0;var t=Date.parse(d);return isNaN(t)?0:t;})(),
+    author:raw.author||'Selectme Editorial',date:raw.published_date||raw.date||(raw.source&&raw.source.date?raw.source.date:'')||'',
+    _ts:(function(){var d=raw.published_date||raw.date||(raw.source&&raw.source.date?raw.source.date:'')||'';if(!d)return 0;var t=Date.parse(d);return isNaN(t)?0:t;})(),
     readTime:raw.read_time||'5 min read',
-    img:(raw.media&&raw.media.featured_image)?raw.media.featured_image:`https://picsum.photos/seed/${raw.id}/900/500`,
+    img:(function(){
+      var RAW_BASE='https://raw.githubusercontent.com/selectmeinfo-cloud/my-json-data/main/';
+      var p=raw.media&&raw.media.featured_image?raw.media.featured_image:'';
+      if(!p)return 'https://picsum.photos/seed/'+raw.id+'/900/500';
+      if(p.startsWith('http'))return p;
+      return RAW_BASE+p;
+    })(),
     tags:Array.isArray(raw.tags)?raw.tags:(typeof raw.tags==='string'&&raw.tags.trim()?raw.tags.split(',').map(t=>t.trim()).filter(Boolean):[]),
     imgAlt:(function(){
       if(raw.media&&raw.media.featured_image_alt&&raw.media.featured_image_alt.trim())return raw.media.featured_image_alt.trim();
@@ -1309,11 +1315,11 @@ function _renderSubCat(subKey,parentKey,subFilterHtml,subData,parentData){
     showPage('pageCategory');return;
   }
   var feat=ARTICLES[artIds[0]];
-  var subItems=artIds.slice(1,4).map(function(id){var a=ARTICLES[id];if(!a)return '';return '<div class="cat-feat-item" onclick="goArticle(\''+a.cat+'\',\''+a.id+'\')"><div><div class="cfi-title">'+a.title+'</div><div class="cfi-meta">'+a.author+' · '+a.date+'</div></div><div class="rwrap rwrap-cfi-img"><img src="'+a.img+'" alt="'+a.imgAlt+'" class="cfi-img"/></div></div>';}).join('');
-  const gridItems=artIds.map(function(id){var a=ARTICLES[id];if(!a)return '';return '<div class="cat-grid-item" onclick="goArticle(\''+a.cat+'\',\''+a.id+'\')"><div class="rwrap rwrap-cgi-img"><img src="'+a.img+'" alt="'+a.imgAlt+'" class="cgi-img"/></div><div class="cgi-title">'+a.title+'</div><div class="cgi-meta">'+a.author+' · '+a.date+'</div></div>';});
+  var subItems=artIds.slice(1,4).map(function(id){var a=ARTICLES[id];if(!a)return '';return '<div class="cat-feat-item" onclick="goArticle(\''+a.cat+'\',\''+a.id+'\')"><div><div class="cfi-title">'+a.title+'</div><div class="cfi-meta">'+a.author+' · '+fmtDate(a.date)+'</div></div><div class="rwrap rwrap-cfi-img"><img src="'+a.img+'" alt="'+a.imgAlt+'" class="cfi-img"/></div></div>';}).join('');
+  const gridItems=artIds.map(function(id){var a=ARTICLES[id];if(!a)return '';return '<div class="cat-grid-item" onclick="goArticle(\''+a.cat+'\',\''+a.id+'\')"><div class="rwrap rwrap-cgi-img"><img src="'+a.img+'" alt="'+a.imgAlt+'" class="cgi-img"/></div><div class="cgi-title">'+a.title+'</div><div class="cgi-meta">'+a.author+' · '+fmtDate(a.date)+'</div></div>';});
   if(gridItems.length>6)gridItems.splice(6,0,'<div style="grid-column:1/-1">'+AD.midStrip()+'</div>');
   const grid=gridItems.join('');
-  document.getElementById('pageCategory').innerHTML='<div class="cat-page page-view">'+AD.leaderboard()+'<div class="cat-header"><div class="cat-header-icon">'+(subData.icon||parentData.icon||'📂')+'</div><div><div class="cat-header-name">'+(subData.label||subKey)+'</div><div style="font-size:11px;color:var(--ink4);margin-top:3px">in '+(parentData.label||parentKey)+'</div></div><div class="cat-header-count">'+artIds.length+' stories</div></div>'+subFilterHtml+AD.banner()+'<div class="cat-layout"><div class="cat-main"><div class="cat-featured"><div class="cat-feat-left" onclick="goArticle(\''+feat.cat+'\',\''+feat.id+'\')"><div class="rwrap rwrap-cat-feat-img"><img src="'+feat.img+'" alt="'+feat.imgAlt+'" class="cat-feat-img"/></div><div class="cat-feat-title">'+feat.title+'</div><div class="cat-feat-dek">'+feat.dek+'</div><div class="cat-feat-meta">'+feat.author+' · '+feat.date+'</div></div><div class="cat-feat-right">'+subItems+'</div></div>'+AD.midStrip()+'<div class="cat-grid">'+grid+'</div>'+AD.banner()+'</div></div></div>';
+  document.getElementById('pageCategory').innerHTML='<div class="cat-page page-view">'+AD.leaderboard()+'<div class="cat-header"><div class="cat-header-icon">'+(subData.icon||parentData.icon||'📂')+'</div><div><div class="cat-header-name">'+(subData.label||subKey)+'</div><div style="font-size:11px;color:var(--ink4);margin-top:3px">in '+(parentData.label||parentKey)+'</div></div><div class="cat-header-count">'+artIds.length+' stories</div></div>'+subFilterHtml+AD.banner()+'<div class="cat-layout"><div class="cat-main"><div class="cat-featured"><div class="cat-feat-left" onclick="goArticle(\''+feat.cat+'\',\''+feat.id+'\')"><div class="rwrap rwrap-cat-feat-img"><img src="'+feat.img+'" alt="'+feat.imgAlt+'" class="cat-feat-img"/></div><div class="cat-feat-title">'+feat.title+'</div><div class="cat-feat-dek">'+feat.dek+'</div><div class="cat-feat-meta">'+feat.author+' · '+fmtDate(feat.date)+'</div></div><div class="cat-feat-right">'+subItems+'</div></div>'+AD.midStrip()+'<div class="cat-grid">'+grid+'</div>'+AD.banner()+'</div></div></div>';
   showPage('pageCategory');
 }
 
@@ -1354,11 +1360,11 @@ function renderCategory(cat,activeSub){
   const subFilterHtml=(navItem&&navItem.subs&&navItem.subs.length>0)?(()=>{const activeSubs=navItem.subs.filter(s=>Object.values(ARTICLES).some(a=>a.cat===s.key));return activeSubs.length>0?`<div class="cat-subfilter"><button class="cat-sub-btn${!activeSub?' active':''}" onclick="goCategory('${cat}')">All ${catData.label}</button>${activeSubs.map(s=>`<button class="cat-sub-btn${activeSub===s.key?' active':''}" onclick="goSubCategory('${s.key}','${cat}')">${s.label}</button>`).join('')}</div>`:''})():'';
   if(!artIds.length){document.getElementById('pageCategory').innerHTML=`<div class="cat-page page-view">${AD.leaderboard()}<div class="cat-header"><div class="cat-header-icon">${catData.icon||'📂'}</div><div class="cat-header-name">${catData.label||cat}</div></div>${subFilterHtml}<div class="cat-empty"><div class="cat-empty-icon">📭</div><div class="cat-empty-msg">ఈ category లో ఇంకా articles లేవు.</div></div></div>`;return;}
   const feat=ARTICLES[artIds[0]];
-  const sub=artIds.slice(1,4).map(id=>{const a=ARTICLES[id];if(!a)return '';return `<div class="cat-feat-item" onclick="goArticle('${a.cat}','${a.id}')"><div><div class="cfi-title">${a.title}</div><div class="cfi-meta">${a.author} · ${a.date}</div></div><div class="rwrap rwrap-cfi-img"><img src="${a.img}" alt="${a.imgAlt}" class="cfi-img"/></div></div>`;}).join('');
-  const gridItems=artIds.map(id=>{const a=ARTICLES[id];if(!a)return '';return `<div class="cat-grid-item" onclick="goArticle('${a.cat}','${a.id}')"><div class="rwrap rwrap-cgi-img"><img src="${a.img}" alt="${a.imgAlt}" class="cgi-img"/></div><div class="cgi-title">${a.title}</div><div class="cgi-meta">${a.author} · ${a.date}</div></div>`;});
+  const sub=artIds.slice(1,4).map(id=>{const a=ARTICLES[id];if(!a)return '';return `<div class="cat-feat-item" onclick="goArticle('${a.cat}','${a.id}')"><div><div class="cfi-title">${a.title}</div><div class="cfi-meta">${a.author} · ${fmtDate(a.date)}</div></div><div class="rwrap rwrap-cfi-img"><img src="${a.img}" alt="${a.imgAlt}" class="cfi-img"/></div></div>`;}).join('');
+  const gridItems=artIds.map(id=>{const a=ARTICLES[id];if(!a)return '';return `<div class="cat-grid-item" onclick="goArticle('${a.cat}','${a.id}')"><div class="rwrap rwrap-cgi-img"><img src="${a.img}" alt="${a.imgAlt}" class="cgi-img"/></div><div class="cgi-title">${a.title}</div><div class="cgi-meta">${a.author} · ${fmtDate(a.date)}</div></div>`;});
   if(gridItems.length>6)gridItems.splice(6,0,`<div style="grid-column:1/-1">${AD.midStrip()}</div>`);
   const grid=gridItems.join('');
-  document.getElementById('pageCategory').innerHTML=`<div class="cat-page page-view">${AD.leaderboard()}<div class="cat-header"><div class="cat-header-icon">${catData.icon||'📂'}</div><div class="cat-header-name">${catData.label||cat}</div><div class="cat-header-count">${artIds.length} stories</div></div>${subFilterHtml}${AD.banner()}<div class="cat-layout"><div class="cat-main"><div class="cat-featured"><div class="cat-feat-left" onclick="goArticle('${feat.cat}','${feat.id}')"><div class="rwrap rwrap-cat-feat-img"><img src="${feat.img}" alt="${feat.imgAlt}" class="cat-feat-img"/></div><div class="cat-feat-title">${feat.title}</div><div class="cat-feat-dek">${feat.dek}</div><div class="cat-feat-meta">${feat.author} · ${feat.date}</div></div><div class="cat-feat-right">${sub}</div></div>${AD.midStrip()}<div class="cat-grid">${grid}</div>${AD.banner()}</div></div></div>`;
+  document.getElementById('pageCategory').innerHTML=`<div class="cat-page page-view">${AD.leaderboard()}<div class="cat-header"><div class="cat-header-icon">${catData.icon||'📂'}</div><div class="cat-header-name">${catData.label||cat}</div><div class="cat-header-count">${artIds.length} stories</div></div>${subFilterHtml}${AD.banner()}<div class="cat-layout"><div class="cat-main"><div class="cat-featured"><div class="cat-feat-left" onclick="goArticle('${feat.cat}','${feat.id}')"><div class="rwrap rwrap-cat-feat-img"><img src="${feat.img}" alt="${feat.imgAlt}" class="cat-feat-img"/></div><div class="cat-feat-title">${feat.title}</div><div class="cat-feat-dek">${feat.dek}</div><div class="cat-feat-meta">${feat.author} · ${fmtDate(feat.date)}</div></div><div class="cat-feat-right">${sub}</div></div>${AD.midStrip()}<div class="cat-grid">${grid}</div>${AD.banner()}</div></div></div>`;
 }
 
 function _renderVideoCategory(){
@@ -1376,7 +1382,7 @@ function _renderVideoCategory(){
           '<div class="rwrap rwrap-cgi-img"><img src="'+thumb+'" alt="'+v.title.replace(/"/g,'&quot;')+'" onerror="this.src=\'https://picsum.photos/seed/vid/480/270\'" class="cgi-img"/>'+
           '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="width:32px;height:32px;background:rgba(255,255,255,.85);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;padding-left:2px">▶</div></div></div>'+
           '<div class="cgi-title">'+v.title+'</div>'+
-          '<div class="cgi-meta">'+v.source+' · '+v.date+'</div></div>';
+          '<div class="cgi-meta">'+v.source+' · '+fmtDate(v.date)+'</div></div>';
       }).join('');
     }
     // Also append article-based videos
@@ -1385,7 +1391,7 @@ function _renderVideoCategory(){
         return '<div class="cat-grid-item" onclick="goArticle(\''+a.cat+'\',\''+a.id+'\')">'+
           '<div class="rwrap rwrap-cgi-img" style="position:relative"><img src="'+a.img+'" alt="'+a.imgAlt+'" class="cgi-img"/>'+
           '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="width:32px;height:32px;background:rgba(255,255,255,.85);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;padding-left:2px">▶</div></div></div>'+
-          '<div class="cgi-title">'+a.title+'</div><div class="cgi-meta">'+a.author+' · '+a.date+'</div></div>';
+          '<div class="cgi-title">'+a.title+'</div><div class="cgi-meta">'+a.author+' · '+fmtDate(a.date)+'</div></div>';
       }).join('');
     }
     return cards||'<div style="grid-column:1/-1;padding:28px;text-align:center;color:#888">Videos ఇంకా load అవుతున్నాయి…</div>';
@@ -1426,7 +1432,7 @@ function renderArticle(id){
   let relatedIds=(art.related||[]).filter(rid=>ARTICLES[rid]&&rid!==art.id);
   if(relatedIds.length<3){const sameCat=Object.values(ARTICLES).filter(a=>a.cat===art.cat&&a.id!==art.id&&!relatedIds.includes(a.id));relatedIds=[...relatedIds,...sameCat.map(a=>a.id)].slice(0,3);}
   if(relatedIds.length<3){const others=Object.values(ARTICLES).filter(a=>a.id!==art.id&&!relatedIds.includes(a.id));relatedIds=[...relatedIds,...others.map(a=>a.id)].slice(0,3);}
-  const related=relatedIds.map(rid=>{const r=ARTICLES[rid];if(!r)return '';return `<div class="rel-card" onclick="goArticle('${r.cat}','${r.id}')"><div class="rwrap rwrap-rel-card-img"><img src="${r.img}" alt="${r.imgAlt}" class="rel-card-img"/></div><div class="rel-card-cat">${r.catLabel}</div><div class="rel-card-title">${r.title}</div><div class="rel-card-meta">${r.author} · ${r.date}</div></div>`;}).join('');
+  const related=relatedIds.map(rid=>{const r=ARTICLES[rid];if(!r)return '';return `<div class="rel-card" onclick="goArticle('${r.cat}','${r.id}')"><div class="rwrap rwrap-rel-card-img"><img src="${r.img}" alt="${r.imgAlt}" class="rel-card-img"/></div><div class="rel-card-cat">${r.catLabel}</div><div class="rel-card-title">${r.title}</div><div class="rel-card-meta">${r.author} · ${fmtDate(r.date)}</div></div>`;}).join('');
   const tagsHtml=art.tags.length?`<div class="article-tags"><span class="tags-label">🏷️ Tags:</span>${art.tags.map(t=>`<span class="article-tag" onclick="goCategory('news')">${t}</span>`).join('')}</div>`:'';
 
   // Body with in-content ad injected after 3rd paragraph
@@ -1455,7 +1461,7 @@ function renderArticle(id){
         <div class="article-cat-badge">${art.catLabel}</div>
         <h1 class="article-headline">${art.title}</h1>
         <div class="article-dek">${art.dek}</div>
-        <div class="article-meta-bar"><span>By <span class="article-author">${art.author}</span></span><span>·</span><span>${art.date}</span><span>·</span><span>${art.readTime}</span><div class="article-share"><span class="share-btn" onclick="copyLink(this)">🔗 Share</span><span class="share-btn" onclick="shareToFb()">f Share</span><span class="share-btn" onclick="shareToX()">𝕏 Tweet</span></div></div>
+        <div class="article-meta-bar"><span>By <span class="article-author">${art.author}</span></span><span>·</span><span>${fmtDate(art.date)}</span><span>·</span><span>${art.readTime}</span><div class="article-share"><span class="share-btn" onclick="copyLink(this)">🔗 Share</span><span class="share-btn" onclick="shareToFb()">f Share</span><span class="share-btn" onclick="shareToX()">𝕏 Tweet</span></div></div>
         <div class="article-hero-wrap"><img src="${art.img}" alt="${art.imgAlt}" id="ahImg_${art.id}"/></div>
         ${art.imgCap?`<div class="article-img-cap">${art.imgCap}</div>`:''}
         ${bodyHtml}
@@ -2022,10 +2028,15 @@ var FEED = {
     var then = new Date(dateStr).getTime();
     if(isNaN(then)) return dateStr;
     var diff = Math.floor((now - then) / 1000);
-    if(diff < 60)   return diff + 's ago';
-    if(diff < 3600) return Math.floor(diff/60) + 'm ago';
-    if(diff < 86400)return Math.floor(diff/3600) + 'h ago';
-    return Math.floor(diff/86400) + 'd ago';
+    if(diff < 60)   return diff + ' సెకన్ల క్రితం';
+    if(diff < 3600) return Math.floor(diff/60) + ' నిమిషాల క్రితం';
+    if(diff < 86400)return Math.floor(diff/3600) + ' గంటల క్రితం';
+    var days = Math.floor(diff/86400);
+    if(days === 1)  return 'నిన్న';
+    if(days < 7)    return days + ' రోజుల క్రితం';
+    if(days < 30)   return Math.floor(days/7) + ' వారాల క్రితం';
+    if(days < 365)  return Math.floor(days/30) + ' నెలల క్రితం';
+    return Math.floor(days/365) + ' సంవత్సరాల క్రితం';
   },
 
   toggleBookmark: function(e, id, btn) {
@@ -2238,7 +2249,7 @@ function _buildArticleVideoItems(){
       '<div class="vg-play"><div class="vg-play-btn">▶</div></div></div>'+
       '<div class="vg-body"><div class="vg-cat">'+a.catLabel+'</div>'+
       '<div class="vg-title">'+(a.title||'').substring(0,60)+'</div>'+
-      '<div class="vg-meta">'+a.date+'</div></div></div>';
+      '<div class="vg-meta">'+fmtDate(a.date)+'</div></div></div>';
   }).join('');
 }
 
@@ -2286,7 +2297,7 @@ function _renderVideoBand(gridEl,items){
       '<div class="vg-play"><div class="vg-play-btn">▶</div></div></div>'+
       '<div class="vg-body"><div class="vg-cat">'+v.source+'</div>'+
       '<div class="vg-title">'+v.title.substring(0,60)+(v.title.length>60?'…':'')+'</div>'+
-      '<div class="vg-meta">'+v.date+'</div></div></div>';
+      '<div class="vg-meta">'+fmtDate(v.date)+'</div></div></div>';
   }).join('');
 }
 
@@ -2326,6 +2337,28 @@ function activateTranslate(lang){
 }
 function artTitle(a){return CURRENT_LANG==='en'&&a.titleEn?a.titleEn:a.title;}
 function artDek(a){if(CURRENT_LANG==='en'){const enText=a.bodyEn?a.bodyEn.replace(/<[^>]+>/g,'').substring(0,180)+'…':'';return enText||a.dek;}return a.dek||a.body.replace(/<[^>]+>/g,'').substring(0,180)+'…';}
+
+// ── Date formatter: JSON date → Telugu readable string ──
+function fmtDate(dateStr){
+  if(!dateStr) return '';
+  var d = new Date(dateStr);
+  if(isNaN(d.getTime())) return dateStr;
+  var now = new Date(); now.setHours(0,0,0,0);
+  var day = new Date(d); day.setHours(0,0,0,0);
+  var diff = Math.floor((now - day) / 86400000);
+  if(diff === 0){
+    var h=d.getHours(), m=d.getMinutes(), ap=h>=12?'PM':'AM';
+    h=h%12||12;
+    return 'ఈ రోజు ' + (h<10?'0':'')+h+':'+(m<10?'0':'')+m+' '+ap;
+  }
+  if(diff === 1) return 'నిన్న';
+  if(diff < 7)   return diff + ' రోజుల క్రితం';
+  try {
+    return d.toLocaleDateString('te-IN',{year:'numeric',month:'long',day:'numeric'});
+  } catch(e) {
+    return d.toLocaleDateString('en-IN',{year:'numeric',month:'short',day:'numeric'});
+  }
+}
 
 function copyLink(btn){var url=location.href;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(()=>_showCopied(btn)).catch(()=>_fallbackCopy(url,btn));}else _fallbackCopy(url,btn);}
 function _fallbackCopy(text,btn){var ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:-9999px;left:-9999px;opacity:0';document.body.appendChild(ta);ta.focus();ta.select();try{document.execCommand('copy');_showCopied(btn);}catch(e){}document.body.removeChild(ta);}
