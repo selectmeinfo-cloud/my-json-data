@@ -1492,7 +1492,7 @@ function renderArticle(id){
         <h1 class="article-headline">${art.title}</h1>
         <div class="article-dek">${art.dek}</div>
         <div class="article-meta-bar"><span>By <span class="article-author">${art.author}</span></span><span>·</span><span>${fmtDate(art.date)}</span><span>·</span><span>${art.readTime}</span><div class="article-share"><span class="share-btn" onclick="copyLink(this)">🔗 Share</span><span class="share-btn" onclick="shareToFb()">f Share</span><span class="share-btn" onclick="shareToX()">𝕏 Tweet</span></div></div>
-        <div class="article-hero-wrap"><img src="${art.img}" alt="select me, ${art.imgAlt}" id="ahImg_${art.id}"/></div>
+        <div class="article-hero-wrap"><img src="${art.img}" alt="select, ${art.imgAlt}" id="ahImg_${art.id}"/></div>
         ${art.imgCap?`<div class="article-img-cap">${art.imgCap}</div>`:''}
         ${bodyHtml}
         ${AD.midStrip()}
