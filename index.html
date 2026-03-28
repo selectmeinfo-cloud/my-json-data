@@ -1798,6 +1798,7 @@ var FEED = {
       {key:'home',     icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M3 12L12 3l9 9"/><path d="M9 21V12h6v9"/><path d="M3 12v9h18v-9"/></svg>', label:'Home'},
       {key:'cats',     icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>', label:'Categories'},
       {key:'today',    icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>', label:'Today'},
+      {key:'saved',    icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>', label:'Saved'},
       {key:'settings', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>', label:'Settings'},
     ];
     var html = '<div class="fbn-in">';
@@ -1816,6 +1817,19 @@ var FEED = {
       if(tab === 'cats')     { FEED.openCatPopup(); return; }
       if(tab === 'today')    { FEED.openTodayPanel(); return; }
       if(tab === 'settings') { FEED.openSettings(); return; }
+      if(tab === 'saved') {
+        nav.querySelectorAll('.fbn-btn').forEach(function(b){b.classList.remove('active');});
+        btn.classList.add('active');
+        // Ensure feed mode is active
+        document.body.classList.add('feed-mode');
+        var ft=document.getElementById('feedTopBar');if(ft)ft.style.display='block';
+        var fs2=document.getElementById('feedScroll');if(fs2)fs2.style.display='block';
+        var sh=document.getElementById('sharedHeader');if(sh&&window.innerWidth<=900)sh.style.display='none';
+        ['pageHome','pageArticle','pageCategory','pageStatic'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});
+        FEED._lastRenderedDay = null;
+        FEED.showSaved();
+        return;
+      }
       // home tab — go to newspaper homepage
       nav.querySelectorAll('.fbn-btn').forEach(function(b){b.classList.remove('active');});
       btn.classList.add('active');
@@ -2143,6 +2157,14 @@ var FEED = {
     this.loading = false;
     var fs = document.getElementById('feedScroll');
     fs.innerHTML = '';
+    if(this.filtered.length === 0) {
+      fs.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:55vh;padding:32px 20px;text-align:center">' +
+        '<div style="font-size:52px;margin-bottom:16px">🔖</div>' +
+        '<div style="font-size:17px;font-weight:700;color:var(--ink);margin-bottom:8px">Saved వార్తలు లేవు</div>' +
+        '<div style="font-size:13px;color:var(--ink4);line-height:1.7">వార్తలు చదువుతున్నప్పుడు<br>Save బటన్ నొక్కితే ఇక్కడ కనిపిస్తాయి</div>' +
+      '</div>';
+      return;
+    }
     this.loadMore();
     this.setupInfiniteScroll();
   },
