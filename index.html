@@ -610,8 +610,11 @@ body.dark .sp-sheet{background:#1e2130}
 .goog-te-banner-frame,.goog-te-gadget,.goog-te-balloon-frame{display:none!important}
 body{top:0!important}
 #gt-hidden{display:none!important}
-.sp-title{font-size:13px;font-weight:700;color:#333;margin-bottom:14px;text-align:center}
-body.dark .sp-title{color:#eee}
+.sp-logo-row{display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:6px}
+.sp-logo-text{font-size:15px;font-weight:800;color:#c8001e;letter-spacing:-.3px;font-family:var(--display)}
+body.dark .sp-logo-text{color:#ff4d6a}
+.sp-title{font-size:11px;font-weight:500;color:#888;margin-bottom:14px;text-align:center;text-transform:uppercase;letter-spacing:.08em}
+body.dark .sp-title{color:#777}
 .sp-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .sp-btn{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 14px;border:none;background:none;cursor:pointer;font-size:10px;font-weight:600;color:#444;border-radius:10px;transition:background .15s;font-family:inherit;min-width:64px}
 .sp-btn:hover{background:#f5f5f5}
@@ -942,6 +945,13 @@ body.feed-mode #siteFooter{display:none}
 <div id="sharePopup">
   <div class="sp-overlay" onclick="document.getElementById('sharePopup').classList.remove('open')"></div>
   <div class="sp-sheet">
+    <div class="sp-logo-row">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 427.8 417.8" width="28" height="28" style="flex-shrink:0">
+        <circle fill="#c8001e" cx="213.9" cy="208.9" r="200"/>
+        <path fill-rule="nonzero" transform="matrix(0.6,0,0,0.6,186,196)" d="M -68.7 31 c 26.7 16.2 41.6 40.4 55.1 62.4 l 3 4.9 c 54.3 -72.5 106.5 -140.9 170.2 -201.2 C 227.2 -167 298 -213 367.5 -218 c 4.7 -0.3 8.9 3.2 9.2 7.9 c 0.2 2.8 -1.1 5.5 -3.2 7.1 C 301.6 -143.4 235.5 -71.3 173.3 9.8 C 111 91.4 61.6 174.1 4.9 270.5 c -7.3 12.5 -14.8 20.1 -23.9 20.8 c -9.3 0.8 -18.1 -5.5 -27.1 -20.8 l -0.2 -0.4 c -14.8 -25.2 -27 -53.8 -38.8 -81.3 c -26.1 -60.8 -49.5 -115.6 -88.6 -106.3 c -6.5 1.5 -12.1 -4.4 -10.3 -10.7 c 6.8 -22.8 22 -42.1 45.2 -50.4 c 23.7 -8.4 48.9 -3.1 69.8 9.5 z" fill="white"/>
+      </svg>
+      <span class="sp-logo-text">Selectme.in</span>
+    </div>
     <div class="sp-title" id="spTitle">Share</div>
     <div class="sp-row">
       <button class="sp-btn" id="spWa">
