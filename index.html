@@ -201,8 +201,7 @@ img{display:block;width:100%;object-fit:cover;background:#e5e3de}
 .sb-hd a{color:rgba(255,255,255,.4);font-size:9px;font-weight:500;text-transform:none;letter-spacing:0;transition:color .15s}
 .sb-hd a:hover{color:#fff}
 .sb-body{padding:8px}
-.sb-ad{border:1px solid var(--bdr);text-align:center;overflow:hidden}
-.sb-ad .al{font-size:8.5px;color:var(--ink5);letter-spacing:.1em;text-transform:uppercase;padding:3px;border-top:1px solid var(--bdr);background:var(--bg2)}
+
 .sb-trending{display:flex;flex-direction:column}
 .sbt-item{display:flex;gap:7px;padding:6px 8px;border-bottom:1px dotted var(--bdr);cursor:pointer;align-items:flex-start;transition:background .12s}
 .sbt-item:last-child{border-bottom:none}
@@ -375,34 +374,7 @@ body.dark .mob-art-share{color:#eee}
 #backToTop{position:fixed;bottom:22px;right:22px;width:38px;height:38px;background:var(--ink);color:#fff;border:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;z-index:2000;opacity:0;transform:translateY(10px);transition:opacity .3s ease,transform .3s ease,background .15s;box-shadow:0 2px 12px rgba(0,0,0,.25)}
 #backToTop.show{opacity:1;transform:translateY(0)}
 #backToTop:hover{background:var(--red)}
-.ad-wrap{text-align:center;background:var(--bg2);border:1px solid var(--bdr);padding:6px;margin:14px 0;position:relative}
-.ad-wrap .ad-label{font-size:7.5px;color:var(--ink5);letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
-.ad-banner{width:100%;height:90px;background:linear-gradient(90deg,#1a1a2e,#16213e,#0f3460);display:flex;align-items:center;justify-content:space-between;padding:0 24px;cursor:pointer;overflow:hidden}
-.ad-incontent{width:100%;height:280px;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);display:flex;align-items:center;justify-content:center;gap:24px;cursor:pointer;padding:0 24px}
-#adPopup{display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center}#adPopup:empty{display:none!important;pointer-events:none!important}
-#adPopup.show{display:flex}
-.popup-overlay{position:absolute;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
-.popup-box{position:relative;z-index:1;background:#fff;max-width:480px;width:90%;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4);animation:popIn .35s cubic-bezier(.34,1.56,.64,1) both}
-@keyframes popIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
-.popup-close{position:absolute;top:10px;right:12px;background:rgba(0,0,0,.5);color:#fff;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;z-index:2;transition:background .15s}
-.popup-close:hover{background:var(--red)}
-.popup-img-area{width:100%;height:160px;background:linear-gradient(135deg,#111 0%,#c8001e 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px}
-.popup-body{padding:20px 24px 24px}
-.popup-tag{font-size:8.5px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:.18em;margin-bottom:8px}
-.popup-title{font-size:22px;font-weight:900;color:var(--ink);line-height:1.2;margin-bottom:8px}
-.popup-sub{font-size:12px;color:var(--ink3);line-height:1.6;margin-bottom:16px}
-.popup-actions{display:flex;gap:8px}
-.popup-btn-primary{flex:1;padding:11px;background:var(--red);color:#fff;border:none;font-size:11px;font-weight:800;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;transition:background .15s}
-.popup-btn-primary:hover{background:#a3001a}
-.popup-btn-secondary{padding:11px 16px;background:none;color:var(--ink4);border:1.5px solid var(--bdr2);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
-.popup-btn-secondary:hover{border-color:var(--ink);color:var(--ink)}
-.popup-timer-bar{height:3px;background:var(--bdr);margin-top:12px;overflow:hidden}
-.popup-timer-fill{height:100%;background:var(--red);width:100%;transition:width linear}
-#floatAd{position:fixed;bottom:0;left:0;right:0;z-index:3000;background:#fff;border-top:2px solid var(--red);box-shadow:0 -4px 20px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:space-between;padding:8px 20px;transform:translateY(100%);transition:transform .4s cubic-bezier(.4,0,.2,1)}
-#floatAd.show{transform:translateY(0)}
-#floatAd .fa-close{background:none;border:none;font-size:18px;cursor:pointer;color:var(--ink4);padding:4px 8px;flex-shrink:0;line-height:1}
-#floatAd .fa-close:hover{color:var(--red)}
-#floatAd .fa-label{font-size:7.5px;color:var(--ink5);letter-spacing:.1em;text-transform:uppercase;display:block;text-align:center;margin-bottom:4px}
+
 /* ═══════════ INSHORTS+WAY2NEWS HYBRID STYLE ═══════════ */
 /* ── Root overrides for news feed ── */
 body.feed-mode{background:#f0f2f5;font-family:'Noto Sans Telugu','Outfit',sans-serif}
@@ -636,6 +608,162 @@ body.dark .sp-btn{color:#ccc}
 .dm-toggle.on{background:#e53935}
 .dm-toggle.on::after{left:21px}
 
+/* ═══════════ GLOBAL DARK MODE — అన్ని pages కూ ═══════════ */
+body.dark{background:#0f1117;color:#e0e0e0}
+body.dark,:root{--dm-ease:.2s}
+
+/* CSS variable overrides for dark mode */
+body.dark{
+  --ink:#e0e0e0;
+  --ink2:#c8c8c8;
+  --ink3:#aaaaaa;
+  --ink4:#777777;
+  --ink5:#444444;
+  --bg:#0f1117;
+  --bg2:#161922;
+  --bg3:#1e2130;
+  --bdr:#252836;
+  --bdr2:#333648;
+}
+
+/* Masthead */
+body.dark .masthead{background:#161922;border-bottom-color:#252836;box-shadow:0 1px 0 0 var(--red)}
+body.dark .srch-box{border-color:#333648}
+body.dark .srch-box input{background:#1e2130;color:#e0e0e0}
+body.dark .srch-box input::placeholder{color:#555}
+body.dark .srch-box button{background:#252836;color:#ccc}
+body.dark .srch-box button:hover{background:var(--red);color:#fff}
+
+/* Shared header */
+body.dark #sharedHeader{background:#161922;border-bottom-color:#252836}
+
+/* Ticker / top4 scrolling band */
+body.dark .top4-wrapper{background:var(--bg);border-bottom-color:var(--bdr)}
+body.dark .top4-wrapper::before{background:linear-gradient(to right,var(--bg) 30%,transparent)}
+body.dark .top4-wrapper::after{background:linear-gradient(to left,var(--bg) 30%,transparent)}
+body.dark .top4-track .t4-card{border-right-color:var(--bdr)}
+body.dark .top4-track .t4-card:hover{background:var(--bg2)}
+
+/* Section headings */
+body.dark .sec-hd{border-bottom-color:#e0e0e0}
+body.dark .sec-hd .lbl{background:#e0e0e0;color:#0f1117}
+
+/* Pub grid */
+body.dark .pub-left{border-right-color:var(--bdr)}
+body.dark .pub-right-top{border-bottom-color:var(--bdr)}
+body.dark .pri-item{border-bottom-color:var(--bdr)}
+
+/* Featured */
+body.dark .feat-left{border-right-color:var(--bdr)}
+body.dark .fr-item{border-bottom-color:var(--bdr)}
+
+/* Popular grid */
+body.dark .pop-item{border-right-color:var(--bdr);border-bottom-color:var(--bdr)}
+body.dark .pop-item:hover{background:var(--bg2)}
+
+/* Tri / more sections */
+body.dark .tri-col{border-right-color:var(--bdr)}
+body.dark .tri-col-hd{background:var(--bg2);border-bottom-color:var(--bdr)}
+body.dark .tri-top{border-bottom-color:var(--bdr)}
+body.dark .tri-item{border-bottom-color:var(--bdr)}
+body.dark .tri-readmore{border-top-color:var(--bdr)}
+body.dark .tri-readmore:hover{background:var(--bg2)}
+body.dark .more-sec{border-color:var(--bdr)}
+body.dark .more-col{border-right-color:var(--bdr)}
+body.dark .mc-hd{background:var(--bg2);border-bottom-color:var(--bdr)}
+body.dark .mc-item{border-bottom-color:var(--bdr)}
+body.dark .mc-item:hover{background:var(--bg2)}
+body.dark .mc-readmore{background:var(--bg2);border-top-color:var(--bdr)}
+body.dark .mc-readmore:hover{background:var(--bg3)}
+
+/* Sidebar */
+body.dark .sb-box{border-color:var(--bdr)}
+body.dark .sb-hd{background:#252836}
+body.dark .sbt-item{border-bottom-color:var(--bdr)}
+body.dark .sbt-item:hover{background:var(--bg2)}
+body.dark .rasi-widget{border-color:var(--bdr);background:var(--bg2)}
+body.dark .rasi-cell{background:var(--bg3);border-color:var(--bdr)}
+body.dark .rasi-dots{background:var(--bg3);border-top-color:var(--bdr)}
+body.dark .tag{background:var(--bg3);border-color:var(--bdr2);color:var(--ink3)}
+body.dark .tag:hover{background:var(--ink);color:var(--bg)}
+
+/* Article page */
+body.dark .article-page{background:var(--bg)}
+body.dark .article-headline{color:var(--ink)}
+body.dark .article-dek{color:var(--ink3);background:var(--bg2)}
+body.dark .article-meta-bar{border-top-color:var(--bdr);border-bottom-color:var(--bdr);color:var(--ink4)}
+body.dark .article-author{color:var(--ink)}
+body.dark .share-btn{background:var(--bg2);border-color:var(--bdr2);color:var(--ink3)}
+body.dark .share-btn:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+body.dark .article-body{color:#c8c8c8}
+body.dark .article-body strong{color:var(--ink)}
+body.dark .article-body blockquote{background:var(--bg2);color:var(--ink2)}
+body.dark .article-body table th{background:#252836;color:#fff}
+body.dark .article-body table td{border-color:var(--bdr);color:var(--ink2)}
+body.dark .article-body table tr:nth-child(even) td{background:var(--bg2)}
+body.dark .article-img-cap{color:var(--ink4)}
+body.dark .article-tags{background:var(--bg2);border-top-color:var(--bdr);border-bottom-color:var(--bdr)}
+body.dark .article-tag{background:var(--bg3);border-color:var(--bdr2);color:var(--ink3)}
+body.dark .article-tag:hover{background:var(--red);color:#fff;border-color:var(--red)}
+body.dark .related-articles{border-top-color:#252836}
+body.dark .rel-card-title{color:var(--ink)}
+
+/* Category page */
+body.dark .cat-page{background:var(--bg)}
+body.dark .cat-header{border-bottom-color:#252836}
+body.dark .cat-header-name{color:var(--ink)}
+body.dark .cat-subfilter{border-bottom-color:var(--bdr)}
+body.dark .cat-sub-btn{color:var(--ink4)}
+body.dark .cat-sub-btn:hover{color:var(--ink)}
+body.dark .cat-featured{border-color:var(--bdr)}
+body.dark .cat-feat-left{border-right-color:var(--bdr)}
+body.dark .cat-feat-title{color:var(--ink)}
+body.dark .cat-feat-dek{color:var(--ink3)}
+body.dark .cat-feat-meta{color:var(--ink4)}
+body.dark .cat-feat-item{border-bottom-color:var(--bdr)}
+body.dark .cfi-title{color:var(--ink)}
+body.dark .cat-grid{border-color:var(--bdr)}
+body.dark .cat-grid-item{border-right-color:var(--bdr);border-bottom-color:var(--bdr)}
+body.dark .cat-grid-item:hover{background:var(--bg2)}
+body.dark .cgi-title{color:var(--ink)}
+body.dark .lang-tabs{border-bottom-color:var(--bdr)}
+body.dark .lang-tab{color:var(--ink4)}
+body.dark .lang-tab:hover{color:var(--ink)}
+
+/* Static pages (About, Contact) */
+body.dark .static-page{background:var(--bg)}
+body.dark .static-body{color:#c0c0c0}
+body.dark .static-body h2{color:var(--ink);border-bottom-color:var(--bdr)}
+body.dark .form-group label{color:var(--ink)}
+body.dark .form-group input,body.dark .form-group textarea{background:var(--bg2);border-color:var(--bdr2);color:var(--ink)}
+body.dark .form-group input:focus,body.dark .form-group textarea:focus{border-color:#aaa}
+body.dark .form-submit{background:#252836;color:#eee}
+body.dark .form-submit:hover{background:var(--red);color:#fff}
+body.dark .stat-box{border-right-color:var(--bdr)}
+body.dark .stat-row{border-color:var(--bdr)}
+body.dark .stat-label{color:var(--ink4)}
+
+/* Logo SVG — dark mode lo white avvali */
+body.dark .masthead svg path[fill="#111"],
+body.dark #sharedHeader svg path[fill="#111"]{fill:#e0e0e0}
+body.dark .logo-sub{color:var(--ink4)}
+
+/* Footer stays dark always — no change needed */
+
+/* Back to top button */
+body.dark #backToTop{background:#252836}
+body.dark #backToTop:hover{background:var(--red)}
+
+/* Breadcrumb */
+body.dark .article-breadcrumb{color:var(--ink4)}
+
+/* Images placeholder */
+body.dark img{background:var(--bg3)}
+
+/* Load error screen */
+body.dark #pageHome h2{color:var(--ink)}
+/* ═══════════ END GLOBAL DARK MODE ═══════════ */
+
 /* ── No sidebar when feed active ── */
 body.feed-mode #siteFooter{display:none}
 
@@ -657,7 +785,7 @@ body.feed-mode #siteFooter{display:none}
 @media(max-width:900px){
   .main-layout,.article-layout,.cat-layout{grid-template-columns:1fr;gap:16px}
   .sidebar{display:flex;flex-direction:column;gap:14px}
-  .sb-ad{display:none}
+
   .pub-grid,.feat-grid,.cat-featured{grid-template-columns:1fr}
   .pub-left,.feat-left,.cat-feat-left{border-right:none;border-bottom:1px solid var(--bdr);padding-right:0;padding-bottom:14px;margin-bottom:14px}
   .pub-right,.feat-right{padding-left:0}
@@ -719,19 +847,17 @@ body.feed-mode #siteFooter{display:none}
   .mh-center > div{display:none !important}
   .share-btn{padding:4px 8px;font-size:9px}
   .tag,.article-tag{font-size:9px;padding:3px 8px}
-  #floatAd{padding:8px 12px}
+
   .ad-incontent{height:200px;flex-direction:column;gap:10px}
 }
 @media(max-width:900px){
   #backToTop{bottom:70px !important}
-  #floatAd{display:none !important}
+
   /* Article page — full width, no sidebar, no header */
   .article-page .sidebar{display:none !important}
   .article-page .article-layout{grid-template-columns:1fr !important;gap:0 !important}
   /* Hide shared header on mobile article/category/static pages */
   body:not(.feed-mode) #sharedHeader{display:none !important}
-  /* Remove top banner ad gap on mobile article */
-  .article-page > .ad-wrap:first-child{display:none}
 }
 @media(max-width:380px){
   .pop-grid,.cat-grid{grid-template-columns:1fr}
@@ -916,11 +1042,6 @@ body.feed-mode #siteFooter{display:none}
 <!-- ═══════════ END FEED UI ═══════════ -->
 
 
-<!-- Popup: dynamically filled by initAds() from ads-admin -->
-<div id="adPopup"></div>
-
-<!-- Float Bar: dynamically filled by initAds() from ads-admin -->
-<div id="floatAd"></div>
 
 <div id="pageHome"></div>
 <div id="pageArticle" style="display:none"></div>
@@ -951,141 +1072,6 @@ function smDl(s){fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(
 document.addEventListener('contextmenu',function(e){if(e.target.tagName!=='IMG')return;if(!e.target.closest('.rwrap,.article-hero-wrap,.nc-img-wrap'))return;e.preventDefault();smDl(e.target.src||e.target.getAttribute('src'));},true);
 document.addEventListener('dragstart',function(e){if(e.target.tagName==='IMG'&&e.target.closest('.rwrap,.article-hero-wrap,.nc-img-wrap')){e.preventDefault();return false;}},true);
 
-// ═══════════════════════════════════════════════════════════════
-// AD ENGINE — ads-admin.html నుండి localStorage లో save అయిన
-// ads ని dynamically load చేస్తుంది
-// ═══════════════════════════════════════════════════════════════
-const ADS_STORAGE_KEY = 'selectme_ads_v2';
-const ADS_SETTINGS_KEY = 'selectme_ads_settings';
-
-// localStorage నుండి active ads load చేయడం
-function _loadAds() {
-  try { return JSON.parse(localStorage.getItem(ADS_STORAGE_KEY)) || []; } catch { return []; }
-}
-function _loadAdSettings() {
-  const defaults = {
-    master_enabled:true, popup_enabled:true, float_enabled:true,
-    sidebar_enabled:true, home_ads:true, article_ads:true,
-    category_ads:true, static_ads:true, popup_delay:5, float_delay:8
-  };
-  try { return { ...defaults, ...JSON.parse(localStorage.getItem(ADS_SETTINGS_KEY)) }; }
-  catch { return defaults; }
-}
-
-// Type → slot name mapping
-function _adByType(type, page) {
-  const s = _loadAdSettings();
-  if (!s.master_enabled) return null;
-  if (page === 'home' && !s.home_ads) return null;
-  if (page === 'article' && !s.article_ads) return null;
-  if (page === 'category' && !s.category_ads) return null;
-  if (page === 'static' && !s.static_ads) return null;
-  const ads = _loadAds();
-  return ads.find(a => a.type === type && a.status === 'active' && (!page || !a.pages || a.pages.includes(page))) || null;
-}
-
-// Single ad HTML builder — same logic as ads-admin.html
-function _buildAdHtml(ad) {
-  if (!ad) return '';
-  if (ad.customhtml && ad.customhtml.trim()) return ad.customhtml;
-  const bg = ad.bg || 'linear-gradient(90deg,#131921,#232f3e)';
-  const url = ad.url || '#';
-  const emoji = ad.emoji || '📢';
-  const hl = (ad.headline||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  const sub = (ad.subtext||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  const cta = (ad.cta||'Learn More').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-
-  if (ad.type === 'banner' || ad.type === 'midstrip') {
-    return `<div class="ad-wrap" style="margin:14px 0"><div class="ad-label">Advertisement</div><div style="width:100%;height:90px;background:${bg};display:flex;align-items:center;justify-content:space-between;padding:0 24px;cursor:pointer;overflow:hidden" onclick="window.open('${url}','_blank')"><div style="display:flex;align-items:center;gap:14px"><div style="font-size:26px">${emoji}</div><div><div style="color:#fff;font-size:14px;font-weight:700">${hl}</div><div style="color:rgba(255,255,255,.5);font-size:10px;margin-top:3px">${sub}</div></div></div><div style="background:#ff9900;color:#111;font-size:11px;font-weight:900;padding:9px 20px;white-space:nowrap;flex-shrink:0">${cta}</div></div></div>`;
-  }
-  if (ad.type === 'leaderboard') {
-    return `<div class="ad-wrap" style="margin:0 0 16px"><div class="ad-label">Advertisement</div><div style="width:100%;height:80px;background:${bg};display:flex;align-items:center;justify-content:space-between;padding:0 24px;cursor:pointer;border:1px solid #2a1a1a" onclick="window.open('${url}','_blank')"><div style="display:flex;align-items:center;gap:14px"><div style="width:44px;height:44px;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${emoji}</div><div><div style="color:#fff;font-size:13px;font-weight:700">${hl}</div><div style="color:rgba(255,255,255,.4);font-size:9px;margin-top:2px">${sub}</div></div></div><div style="background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:8px 18px;white-space:nowrap;flex-shrink:0">${cta}</div></div></div>`;
-  }
-  if (ad.type === 'incontent') {
-    return `<div class="ad-wrap" style="margin:28px 0"><div class="ad-label">Advertisement</div><div style="width:100%;height:220px;background:${bg};display:flex;align-items:center;justify-content:center;gap:24px;cursor:pointer;padding:0 24px" onclick="window.open('${url}','_blank')"><div style="text-align:center;flex-shrink:0"><div style="font-size:36px;margin-bottom:4px">${emoji}</div><div style="color:rgba(255,255,255,.4);font-size:9px;text-transform:uppercase;letter-spacing:.1em">Sponsored</div></div><div style="color:#fff"><div style="font-size:20px;font-weight:700;line-height:1.2;margin-bottom:8px">${hl}</div><div style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:12px">${sub}</div><div style="display:inline-block;background:#ff9900;color:#111;font-size:10px;font-weight:800;padding:8px 20px;text-transform:uppercase;letter-spacing:.08em">${cta}</div></div></div></div>`;
-  }
-  if (ad.type === 'sidebar') {
-    return `<div class="sb-ad"><div style="width:100%;height:280px;background:${bg};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer" onclick="window.open('${url}','_blank')"><div style="font-size:28px">${emoji}</div><div style="color:#fff;font-size:16px;font-weight:900;text-align:center;padding:0 16px;line-height:1.3;font-family:'Playfair Display',serif">${hl}</div><div style="color:rgba(255,255,255,.7);font-size:12px;font-style:italic">${sub}</div><div style="background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:8px 22px;text-transform:uppercase;cursor:pointer">${cta}</div></div><div class="al">Advertisement</div></div>`;
-  }
-  // floatbar / popup handled separately
-  return '';
-}
-
-// ── PUBLIC AD OBJECT — site అంతటా ఇవే call అవుతాయి ──
-const AD = {
-  banner:     (page)=>{ const a=_adByType('banner',page||'home');     return a?_buildAdHtml(a):''; },
-  inContent:  (page)=>{ const a=_adByType('incontent',page||'article'); return a?_buildAdHtml(a):''; },
-  sidebarBox: (page)=>{ const s=_loadAdSettings(); if(!s.sidebar_enabled)return ''; const a=_adByType('sidebar',page||'article'); return a?_buildAdHtml(a):''; },
-  leaderboard:(page)=>{ const a=_adByType('leaderboard',page||'category'); return a?_buildAdHtml(a):''; },
-  midStrip:   (page)=>{ const a=_adByType('midstrip',page||'home');    return a?_buildAdHtml(a):''; },
-  education:  (page)=>{ const a=_adByType('incontent',page||'article'); return a?_buildAdHtml(a):''; },
-};
-
-// Helper: article body లో Nth </p> తర్వాత ad inject చేయడం
-function injectAdAfterParagraph(html, n, adHtml) {
-  if (!adHtml) return html;
-  let count = 0;
-  return html.replace(/<\/p>/gi, m => { count++; return count === n ? '</p>' + adHtml : m; });
-}
-
-// ── POPUP & FLOAT BAR: admin నుండి dynamically render ──
-function _renderPopupFromAdmin() {
-  const s = _loadAdSettings();
-  if (!s.popup_enabled || !s.master_enabled) return;
-  const ad = _adByType('popup', 'home');
-  if (!ad) return;
-  const bg = ad.bg || 'linear-gradient(135deg,#111 0%,#c8001e 100%)';
-  const hl = (ad.headline||'').replace(/</g,'&lt;');
-  const sub = (ad.subtext||'').replace(/</g,'&lt;');
-  const cta = (ad.cta||'Subscribe').replace(/</g,'&lt;');
-  const emoji = ad.emoji || '📰';
-  const url = ad.url || '#subscribe';
-  document.getElementById('adPopup').innerHTML = `
-    <div class="popup-overlay" onclick="closePopup()"></div>
-    <div class="popup-box">
-      <button class="popup-close" onclick="closePopup()">✕</button>
-      <div class="popup-img-area" style="background:${bg}">
-        <div style="font-size:40px">${emoji}</div>
-        <div style="color:#fff;font-size:20px;font-weight:900">Selectme.in</div>
-        <div style="color:rgba(255,255,255,.6);font-size:10px;letter-spacing:.2em;text-transform:uppercase">తెలుగు వార్తలు · Telugu News</div>
-      </div>
-      <div class="popup-body">
-        <div class="popup-tag">🔔 Free Subscription</div>
-        <div class="popup-title">${hl}</div>
-        <div class="popup-sub">${sub}</div>
-        <div class="popup-actions">
-          <button class="popup-btn-primary" onclick="window.open('${url}','_blank');closePopup()">${cta}</button>
-          <button class="popup-btn-secondary" onclick="closePopup()">Later</button>
-        </div>
-        <div class="popup-timer-bar"><div class="popup-timer-fill" id="popupTimerFill"></div></div>
-      </div>
-    </div>`;
-}
-
-function _renderFloatBarFromAdmin() {
-  const s = _loadAdSettings();
-  if (!s.float_enabled || !s.master_enabled) return;
-  const ad = _adByType('floatbar', 'home');
-  if (!ad) return;
-  const hl = (ad.headline||'').replace(/</g,'&lt;');
-  const sub = (ad.subtext||'').replace(/</g,'&lt;');
-  const cta = (ad.cta||'Shop Now').replace(/</g,'&lt;');
-  const emoji = ad.emoji || '🛒';
-  const url = ad.url || '#';
-  document.getElementById('floatAd').innerHTML = `
-    <div style="flex:1">
-      <span class="fa-label">Advertisement</span>
-      <div style="display:flex;align-items:center;gap:16px">
-        <div style="background:linear-gradient(135deg,#ff9900,#ff6600);width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">${emoji}</div>
-        <div>
-          <div style="font-size:12px;font-weight:700;color:var(--ink)">${hl}</div>
-          <div style="font-size:10px;color:var(--ink4);margin-top:2px">${sub}</div>
-        </div>
-        <div style="background:#ff9900;color:#111;font-size:10px;font-weight:800;padding:8px 16px;white-space:nowrap;cursor:pointer;flex-shrink:0" onclick="window.open('${url}','_blank')">${cta}</div>
-      </div>
-    </div>
-    <button class="fa-close" onclick="document.getElementById('floatAd').classList.remove('show')">✕</button>`;
-}
 
 // ═══════════════════════════════════════════════════════════════
 // GOOGLE SHEETS NAV CONFIG
@@ -1330,7 +1316,7 @@ function goSubCategory(subKey,parentKey){
     subFilterHtml='<div class="cat-subfilter"><button class="cat-sub-btn" onclick="goCategory(\''+parentKey+'\')">All '+(parentData.label||parentKey)+'</button>'+navItem.subs.map(s=>'<button class="cat-sub-btn'+(s.key===subKey?' active':'')+'" onclick="goSubCategory(\''+s.key+'\',\''+parentKey+'\')">'+s.label+'</button>').join('')+'</div>';
   }
   if(!LOADED_CATS.has(subKey)){
-    document.getElementById('pageCategory').innerHTML='<div class="cat-page page-view">'+AD.leaderboard()+'<div class="cat-header"><div class="cat-header-icon">'+(subData.icon||parentData.icon||'📂')+'</div><div><div class="cat-header-name">'+(subData.label||subKey)+'</div><div style="font-size:11px;color:var(--ink4);margin-top:3px">in '+(parentData.label||parentKey)+'</div></div></div>'+subFilterHtml+'<div style="display:flex;align-items:center;justify-content:center;height:40vh"><div style="text-align:center"><div class="loader"></div><p style="margin-top:14px;font-size:12px;color:#888;font-family:Outfit,sans-serif">Loading articles…</p></div></div></div>';
+    document.getElementById('pageCategory').innerHTML='<div class="cat-page page-view"><div class="cat-header"><div class="cat-header-icon">'+(subData.icon||parentData.icon||'📂')+'</div><div><div class="cat-header-name">'+(subData.label||subKey)+'</div><div style="font-size:11px;color:var(--ink4);margin-top:3px">in '+(parentData.label||parentKey)+'</div></div></div>'+subFilterHtml+'<div style="display:flex;align-items:center;justify-content:center;height:40vh"><div style="text-align:center"><div class="loader"></div><p style="margin-top:14px;font-size:12px;color:#888;font-family:Outfit,sans-serif">Loading articles…</p></div></div></div>';
     showPage('pageCategory');
     loadCategoryArticles(subKey).then(()=>{_renderSubCat(subKey,parentKey,subFilterHtml,subData,parentData);});
     return;
@@ -1341,15 +1327,15 @@ function goSubCategory(subKey,parentKey){
 function _renderSubCat(subKey,parentKey,subFilterHtml,subData,parentData){
   var artIds=Object.values(ARTICLES).filter(function(a){return a.cat===subKey;}).map(function(a){return a.id;});
   if(!artIds.length){
-    document.getElementById('pageCategory').innerHTML='<div class="cat-page page-view">'+AD.leaderboard()+'<div class="cat-header"><div class="cat-header-icon">'+(subData.icon||parentData.icon||'📂')+'</div><div><div class="cat-header-name">'+(subData.label||subKey)+'</div><div style="font-size:11px;color:var(--ink4);margin-top:3px">in '+(parentData.label||parentKey)+'</div></div></div>'+subFilterHtml+'<div class="cat-empty"><div class="cat-empty-icon">📭</div><div class="cat-empty-msg">ఈ category లో ఇంకా articles లేవు.</div></div></div>';
+    document.getElementById('pageCategory').innerHTML='<div class="cat-page page-view"><div class="cat-header"><div class="cat-header-icon">'+(subData.icon||parentData.icon||'📂')+'</div><div><div class="cat-header-name">'+(subData.label||subKey)+'</div><div style="font-size:11px;color:var(--ink4);margin-top:3px">in '+(parentData.label||parentKey)+'</div></div></div>'+subFilterHtml+'<div class="cat-empty"><div class="cat-empty-icon">📭</div><div class="cat-empty-msg">ఈ category లో ఇంకా articles లేవు.</div></div></div>';
     showPage('pageCategory');return;
   }
   var feat=ARTICLES[artIds[0]];
   var subItems=artIds.slice(1,4).map(function(id){var a=ARTICLES[id];if(!a)return '';return '<div class="cat-feat-item" onclick="goArticle(\''+a.cat+'\',\''+a.id+'\')"><div><div class="cfi-title">'+a.title+'</div><div class="cfi-meta">'+a.author+' · '+fmtDate(a.date)+'</div></div><div class="rwrap rwrap-cfi-img"><img src="'+a.img+'" alt="'+a.imgAlt+'" class="cfi-img"/></div></div>';}).join('');
   const gridItems=artIds.map(function(id){var a=ARTICLES[id];if(!a)return '';return '<div class="cat-grid-item" onclick="goArticle(\''+a.cat+'\',\''+a.id+'\')"><div class="rwrap rwrap-cgi-img"><img src="'+a.img+'" alt="'+a.imgAlt+'" class="cgi-img"/></div><div class="cgi-title">'+a.title+'</div><div class="cgi-meta">'+a.author+' · '+fmtDate(a.date)+'</div></div>';});
-  if(gridItems.length>6)gridItems.splice(6,0,'<div style="grid-column:1/-1">'+AD.midStrip()+'</div>');
+  if(gridItems.length>6)gridItems.splice(6,0,'<div style="grid-column:1/-1"></div>');
   const grid=gridItems.join('');
-  document.getElementById('pageCategory').innerHTML='<div class="cat-page page-view">'+AD.leaderboard()+'<div class="cat-header"><div class="cat-header-icon">'+(subData.icon||parentData.icon||'📂')+'</div><div><div class="cat-header-name">'+(subData.label||subKey)+'</div><div style="font-size:11px;color:var(--ink4);margin-top:3px">in '+(parentData.label||parentKey)+'</div></div><div class="cat-header-count">'+artIds.length+' stories</div></div>'+subFilterHtml+AD.banner()+'<div class="cat-layout"><div class="cat-main"><div class="cat-featured"><div class="cat-feat-left" onclick="goArticle(\''+feat.cat+'\',\''+feat.id+'\')"><div class="rwrap rwrap-cat-feat-img"><img src="'+feat.img+'" alt="'+feat.imgAlt+'" class="cat-feat-img"/></div><div class="cat-feat-title">'+feat.title+'</div><div class="cat-feat-dek">'+feat.dek+'</div><div class="cat-feat-meta">'+feat.author+' · '+fmtDate(feat.date)+'</div></div><div class="cat-feat-right">'+subItems+'</div></div>'+AD.midStrip()+'<div class="cat-grid">'+grid+'</div>'+AD.banner()+'</div></div></div>';
+  document.getElementById('pageCategory').innerHTML='<div class="cat-page page-view"><div class="cat-header"><div class="cat-header-icon">'+(subData.icon||parentData.icon||'📂')+'</div><div><div class="cat-header-name">'+(subData.label||subKey)+'</div><div style="font-size:11px;color:var(--ink4);margin-top:3px">in '+(parentData.label||parentKey)+'</div></div><div class="cat-header-count">'+artIds.length+' stories</div></div>'+subFilterHtml+'<div class="cat-layout"><div class="cat-main"><div class="cat-featured"><div class="cat-feat-left" onclick="goArticle(\''+feat.cat+'\',\''+feat.id+'\')"><div class="rwrap rwrap-cat-feat-img"><img src="'+feat.img+'" alt="'+feat.imgAlt+'" class="cat-feat-img"/></div><div class="cat-feat-title">'+feat.title+'</div><div class="cat-feat-dek">'+feat.dek+'</div><div class="cat-feat-meta">'+feat.author+' · '+fmtDate(feat.date)+'</div></div><div class="cat-feat-right">'+subItems+'</div></div><div class="cat-grid">'+grid+'</div></div></div></div>';
   showPage('pageCategory');
 }
 
@@ -1362,7 +1348,7 @@ async function goCategory(cat){
   const _allLoaded=LOADED_CATS.has(cat)&&_subKeys.every(k=>LOADED_CATS.has(k));
   if(_allLoaded){renderCategory(cat);showPage('pageCategory');return;}
   const catData=findCatData(cat);
-  document.getElementById('pageCategory').innerHTML=`<div class="cat-page page-view">${AD.leaderboard()}<div class="cat-header"><div class="cat-header-icon">${catData.icon||'📂'}</div><div class="cat-header-name">${catData.label||cat}</div></div><div style="display:flex;align-items:center;justify-content:center;height:40vh"><div style="text-align:center"><div class="loader"></div><p style="margin-top:14px;font-size:12px;color:#888;font-family:'Outfit',sans-serif">${catData.label||cat} articles load అవుతున్నాయి…</p></div></div></div>`;
+  document.getElementById('pageCategory').innerHTML=`<div class="cat-page page-view"><div class="cat-header"><div class="cat-header-icon">${catData.icon||'📂'}</div><div class="cat-header-name">${catData.label||cat}</div></div><div style="display:flex;align-items:center;justify-content:center;height:40vh"><div style="text-align:center"><div class="loader"></div><p style="margin-top:14px;font-size:12px;color:#888;font-family:'Outfit',sans-serif">${catData.label||cat} articles load అవుతున్నాయి…</p></div></div></div>`;
   showPage('pageCategory');
   await loadCategoryArticles(cat);renderCategory(cat);
 }
@@ -1388,13 +1374,13 @@ function renderCategory(cat,activeSub){
     return a.cat===cat||subKeys.includes(a.cat)||a.cat.startsWith(cat+'_')||a.cat.endsWith('_'+cat);
   }).sort(function(a,b){return (b._ts||0)-(a._ts||0);}).map(a=>a.id);
   const subFilterHtml=(navItem&&navItem.subs&&navItem.subs.length>0)?(()=>{const activeSubs=navItem.subs.filter(s=>Object.values(ARTICLES).some(a=>a.cat===s.key));return activeSubs.length>0?`<div class="cat-subfilter"><button class="cat-sub-btn${!activeSub?' active':''}" onclick="goCategory('${cat}')">All ${catData.label}</button>${activeSubs.map(s=>`<button class="cat-sub-btn${activeSub===s.key?' active':''}" onclick="goSubCategory('${s.key}','${cat}')">${s.label}</button>`).join('')}</div>`:''})():'';
-  if(!artIds.length){document.getElementById('pageCategory').innerHTML=`<div class="cat-page page-view">${AD.leaderboard()}<div class="cat-header"><div class="cat-header-icon">${catData.icon||'📂'}</div><div class="cat-header-name">${catData.label||cat}</div></div>${subFilterHtml}<div class="cat-empty"><div class="cat-empty-icon">📭</div><div class="cat-empty-msg">ఈ category లో ఇంకా articles లేవు.</div></div></div>`;return;}
+  if(!artIds.length){document.getElementById('pageCategory').innerHTML=`<div class="cat-page page-view"><div class="cat-header"><div class="cat-header-icon">${catData.icon||'📂'}</div><div class="cat-header-name">${catData.label||cat}</div></div>${subFilterHtml}<div class="cat-empty"><div class="cat-empty-icon">📭</div><div class="cat-empty-msg">ఈ category లో ఇంకా articles లేవు.</div></div></div>`;return;}
   const feat=ARTICLES[artIds[0]];
   const sub=artIds.slice(1,4).map(id=>{const a=ARTICLES[id];if(!a)return '';return `<div class="cat-feat-item" onclick="goArticle('${a.cat}','${a.id}')"><div><div class="cfi-title">${a.title}</div><div class="cfi-meta">${a.author} · ${fmtDate(a.date)}</div></div><div class="rwrap rwrap-cfi-img"><img src="${a.img}" alt="${a.imgAlt}" class="cfi-img"/></div></div>`;}).join('');
   const gridItems=artIds.map(id=>{const a=ARTICLES[id];if(!a)return '';return `<div class="cat-grid-item" onclick="goArticle('${a.cat}','${a.id}')"><div class="rwrap rwrap-cgi-img"><img src="${a.img}" alt="${a.imgAlt}" class="cgi-img"/></div><div class="cgi-title">${a.title}</div><div class="cgi-meta">${a.author} · ${fmtDate(a.date)}</div></div>`;});
-  if(gridItems.length>6)gridItems.splice(6,0,`<div style="grid-column:1/-1">${AD.midStrip()}</div>`);
+  if(gridItems.length>6)gridItems.splice(6,0,`<div style="grid-column:1/-1"></div>`);
   const grid=gridItems.join('');
-  document.getElementById('pageCategory').innerHTML=`<div class="cat-page page-view">${AD.leaderboard()}<div class="cat-header"><div class="cat-header-icon">${catData.icon||'📂'}</div><div class="cat-header-name">${catData.label||cat}</div><div class="cat-header-count">${artIds.length} stories</div></div>${subFilterHtml}${AD.banner()}<div class="cat-layout"><div class="cat-main"><div class="cat-featured"><div class="cat-feat-left" onclick="goArticle('${feat.cat}','${feat.id}')"><div class="rwrap rwrap-cat-feat-img"><img src="${feat.img}" alt="${feat.imgAlt}" class="cat-feat-img"/></div><div class="cat-feat-title">${feat.title}</div><div class="cat-feat-dek">${feat.dek}</div><div class="cat-feat-meta">${feat.author} · ${fmtDate(feat.date)}</div></div><div class="cat-feat-right">${sub}</div></div>${AD.midStrip()}<div class="cat-grid">${grid}</div>${AD.banner()}</div></div></div>`;
+  document.getElementById('pageCategory').innerHTML=`<div class="cat-page page-view"><div class="cat-header"><div class="cat-header-icon">${catData.icon||'📂'}</div><div class="cat-header-name">${catData.label||cat}</div><div class="cat-header-count">${artIds.length} stories</div></div>${subFilterHtml}<div class="cat-layout"><div class="cat-main"><div class="cat-featured"><div class="cat-feat-left" onclick="goArticle('${feat.cat}','${feat.id}')"><div class="rwrap rwrap-cat-feat-img"><img src="${feat.img}" alt="${feat.imgAlt}" class="cat-feat-img"/></div><div class="cat-feat-title">${feat.title}</div><div class="cat-feat-dek">${feat.dek}</div><div class="cat-feat-meta">${feat.author} · ${fmtDate(feat.date)}</div></div><div class="cat-feat-right">${sub}</div></div><div class="cat-grid">${grid}</div></div></div></div>`;
 }
 
 function _renderVideoCategory(){
@@ -1428,15 +1414,15 @@ function _renderVideoCategory(){
   }
   var totalCount=((_rssVideoCache&&_rssVideoCache.length)||0)+artVideoIds.length;
   document.getElementById('pageCategory').innerHTML=
-    '<div class="cat-page page-view">'+AD.leaderboard()+
+    '<div class="cat-page page-view">'+
     '<div class="cat-header"><div class="cat-header-icon">▶</div>'+
     '<div class="cat-header-name">'+(catData.label||'Video')+'</div>'+
     (totalCount?'<div class="cat-header-count">'+totalCount+' videos</div>':'')+
-    '</div>'+AD.banner()+
+    '</div>'+
     '<div class="cat-layout"><div class="cat-main">'+
     '<div class="cat-grid" id="videoCatGrid" style="border:1px solid var(--bdr)">'+
       _buildVideoCatGrid(_rssVideoCache)+
-    '</div>'+AD.midStrip()+'</div></div></div>';
+    '</div></div></div></div>';
   // If no RSS cache yet, trigger load and refresh grid when done
   if(!_rssVideoCache&&_getRssFeeds().length){
     loadRssVideos().then(function(){
@@ -1465,14 +1451,12 @@ function renderArticle(id){
   const related=relatedIds.map(rid=>{const r=ARTICLES[rid];if(!r)return '';return `<div class="rel-card" onclick="goArticle('${r.cat}','${r.id}')"><div class="rwrap rwrap-rel-card-img"><img src="${r.img}" alt="${r.imgAlt}" class="rel-card-img"/></div><div class="rel-card-cat">${r.catLabel}</div><div class="rel-card-title">${r.title}</div><div class="rel-card-meta">${r.author} · ${fmtDate(r.date)}</div></div>`;}).join('');
   const tagsHtml=art.tags.length?`<div class="article-tags"><span class="tags-label">🏷️ Tags:</span>${art.tags.map(t=>`<span class="article-tag" onclick="goCategory('news')">${t}</span>`).join('')}</div>`:'';
 
-  // Body with in-content ad injected after 3rd paragraph
+  // Body HTML
   let bodyHtml='';
   if(art.bodyTe&&art.bodyEn){
-    const injTe=injectAdAfterParagraph(art.bodyTe,3,AD.inContent());
-    const injEn=injectAdAfterParagraph(art.bodyEn,3,AD.education());
-    bodyHtml=`<div class="lang-tabs"><button class="lang-tab active" onclick="switchLang(this,'body-te','body-en')">తెలుగు</button><button class="lang-tab" onclick="switchLang(this,'body-en','body-te')">English</button></div><div id="body-te" class="article-body">${injTe}</div><div id="body-en" class="article-body" style="display:none">${injEn}</div>`;
+    bodyHtml=`<div class="lang-tabs"><button class="lang-tab active" onclick="switchLang(this,'body-te','body-en')">తెలుగు</button><button class="lang-tab" onclick="switchLang(this,'body-en','body-te')">English</button></div><div id="body-te" class="article-body">${art.bodyTe}</div><div id="body-en" class="article-body" style="display:none">${art.bodyEn}</div>`;
   } else {
-    bodyHtml=`<div class="article-body">${injectAdAfterParagraph(art.body,3,AD.inContent())}</div>`;
+    bodyHtml=`<div class="article-body">${art.body}</div>`;
   }
 
   document.getElementById('pageArticle').innerHTML=`<div class="article-page page-view">
@@ -1495,10 +1479,10 @@ function renderArticle(id){
         <div class="article-hero-wrap"><img src="${art.img}" alt="select, ${art.imgAlt}" id="ahImg_${art.id}"/></div>
         ${art.imgCap?`<div class="article-img-cap">${art.imgCap}</div>`:''}
         ${bodyHtml}
-        ${AD.midStrip()}
+        
         ${tagsHtml}
         <div class="related-articles"><div class="related-title">More Stories</div><div class="related-grid">${related}</div></div>
-        ${AD.banner()}
+        
       </div>
     </div>
   </div>`;
@@ -1518,9 +1502,6 @@ function _getPageContent(page){
 }
 
 function renderStaticPage(page){
-  const adTop=AD.leaderboard('static');
-  const adMid=AD.midStrip('static');
-  const adBottom=AD.inContent('static');
   const C=_getPageContent();
 
   if(page==='subscribe'){
@@ -1532,7 +1513,7 @@ function renderStaticPage(page){
     const plan2Name=d.p2name||'Premium'; const plan2Price=d.p2price||'₹99'; const plan2Desc=d.p2desc||'per month'; const plan2Btn=d.p2btn||'Subscribe Now'; const plan2Url=d.p2url||'';
     const plan3Name=d.p3name||'Annual'; const plan3Price=d.p3price||'₹799'; const plan3Desc=d.p3desc||'per year — save 33%'; const plan3Btn=d.p3btn||'Best Value'; const plan3Url=d.p3url||'';
     const bodyNote=d.note||'Premium subscribers get access to unlimited articles, exclusive Telugu analysis, and ad-free reading experience.';
-    document.getElementById('pageStatic').innerHTML=`<div class="static-page page-view">${adTop}<div class="static-hero"><div class="static-hero-tag">${heroTag}</div><div class="static-hero-title">${heroTitle}</div><div class="static-hero-sub">${heroSub}</div></div><div class="static-body"><h2>Choose Your Plan</h2><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:28px 0"><div style="border:2px solid var(--bdr);padding:24px;text-align:center"><div style="font-size:20px;font-weight:700;margin-bottom:6px">${plan1Name}</div><div style="font-size:36px;font-weight:900;font-family:'Bebas Neue',sans-serif;color:var(--red)">${plan1Price}</div><div style="font-size:10px;color:var(--ink4);margin-bottom:16px">${plan1Desc}</div><button onclick="${plan1Url?`window.open('${plan1Url}','_blank')`:`alert('${plan1Btn} activated!')`}" style="width:100%;padding:10px;background:var(--ink);color:#fff;border:none;font-size:11px;font-weight:700;cursor:pointer;text-transform:uppercase">${plan1Btn}</button></div><div style="border:2px solid var(--red);padding:24px;text-align:center;position:relative"><div style="position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--red);color:#fff;font-size:8px;font-weight:800;padding:2px 12px;letter-spacing:.12em;text-transform:uppercase">Most Popular</div><div style="font-size:20px;font-weight:700;margin-bottom:6px">${plan2Name}</div><div style="font-size:36px;font-weight:900;font-family:'Bebas Neue',sans-serif;color:var(--red)">${plan2Price}</div><div style="font-size:10px;color:var(--ink4);margin-bottom:16px">${plan2Desc}</div><button onclick="${plan2Url?`window.open('${plan2Url}','_blank')`:`alert('Redirecting...')`}" style="width:100%;padding:10px;background:var(--red);color:#fff;border:none;font-size:11px;font-weight:700;cursor:pointer;text-transform:uppercase">${plan2Btn}</button></div><div style="border:2px solid var(--bdr);padding:24px;text-align:center"><div style="font-size:20px;font-weight:700;margin-bottom:6px">${plan3Name}</div><div style="font-size:36px;font-weight:900;font-family:'Bebas Neue',sans-serif;color:var(--red)">${plan3Price}</div><div style="font-size:10px;color:var(--ink4);margin-bottom:16px">${plan3Desc}</div><button onclick="${plan3Url?`window.open('${plan3Url}','_blank')`:`alert('Redirecting...')`}" style="width:100%;padding:10px;background:var(--ink);color:#fff;border:none;font-size:11px;font-weight:700;cursor:pointer;text-transform:uppercase">${plan3Btn}</button></div></div>${adMid}<p style="font-size:13px;color:var(--ink3);line-height:1.7">${bodyNote}</p>${adBottom}</div></div>`;
+    document.getElementById('pageStatic').innerHTML=`<div class="static-page page-view"><div class="static-hero"><div class="static-hero-tag">${heroTag}</div><div class="static-hero-title">${heroTitle}</div><div class="static-hero-sub">${heroSub}</div></div><div class="static-body"><h2>Choose Your Plan</h2><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:28px 0"><div style="border:2px solid var(--bdr);padding:24px;text-align:center"><div style="font-size:20px;font-weight:700;margin-bottom:6px">${plan1Name}</div><div style="font-size:36px;font-weight:900;font-family:'Bebas Neue',sans-serif;color:var(--red)">${plan1Price}</div><div style="font-size:10px;color:var(--ink4);margin-bottom:16px">${plan1Desc}</div><button onclick="${plan1Url?`window.open('${plan1Url}','_blank')`:`alert('${plan1Btn} activated!')`}" style="width:100%;padding:10px;background:var(--ink);color:#fff;border:none;font-size:11px;font-weight:700;cursor:pointer;text-transform:uppercase">${plan1Btn}</button></div><div style="border:2px solid var(--red);padding:24px;text-align:center;position:relative"><div style="position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--red);color:#fff;font-size:8px;font-weight:800;padding:2px 12px;letter-spacing:.12em;text-transform:uppercase">Most Popular</div><div style="font-size:20px;font-weight:700;margin-bottom:6px">${plan2Name}</div><div style="font-size:36px;font-weight:900;font-family:'Bebas Neue',sans-serif;color:var(--red)">${plan2Price}</div><div style="font-size:10px;color:var(--ink4);margin-bottom:16px">${plan2Desc}</div><button onclick="${plan2Url?`window.open('${plan2Url}','_blank')`:`alert('Redirecting...')`}" style="width:100%;padding:10px;background:var(--red);color:#fff;border:none;font-size:11px;font-weight:700;cursor:pointer;text-transform:uppercase">${plan2Btn}</button></div><div style="border:2px solid var(--bdr);padding:24px;text-align:center"><div style="font-size:20px;font-weight:700;margin-bottom:6px">${plan3Name}</div><div style="font-size:36px;font-weight:900;font-family:'Bebas Neue',sans-serif;color:var(--red)">${plan3Price}</div><div style="font-size:10px;color:var(--ink4);margin-bottom:16px">${plan3Desc}</div><button onclick="${plan3Url?`window.open('${plan3Url}','_blank')`:`alert('Redirecting...')`}" style="width:100%;padding:10px;background:var(--ink);color:#fff;border:none;font-size:11px;font-weight:700;cursor:pointer;text-transform:uppercase">${plan3Btn}</button></div></div><p style="font-size:13px;color:var(--ink3);line-height:1.7">${bodyNote}</p></div></div>`;
   }
   else if(page==='about'){
     const d=C.about||{};
@@ -1549,7 +1530,7 @@ function renderStaticPage(page){
     const val1=d.val1||'<strong>Accuracy:</strong> Every story is fact-checked before publication.';
     const val2=d.val2||'<strong>Speed:</strong> AI-powered updates ensure you never miss a story.';
     const val3=d.val3||'<strong>Independence:</strong> Editorially independent, beholden only to our readers.';
-    document.getElementById('pageStatic').innerHTML=`<div class="static-page page-view">${adTop}<div class="static-hero"><div class="static-hero-tag">${heroTag}</div><div class="static-hero-title">${heroTitle}</div><div class="static-hero-sub">${heroSub}</div></div><div class="static-body"><div class="stat-row"><div class="stat-box"><div class="stat-num">${stat1Num}</div><div class="stat-label">${stat1Label}</div></div><div class="stat-box"><div class="stat-num">${stat2Num}</div><div class="stat-label">${stat2Label}</div></div><div class="stat-box"><div class="stat-num">${stat3Num}</div><div class="stat-label">${stat3Label}</div></div><div class="stat-box"><div class="stat-num">${stat4Num}</div><div class="stat-label">${stat4Label}</div></div></div><h2>${storyTitle}</h2><p>${storyBody}</p>${adMid}<h2>${valuesTitle}</h2><ul><li>${val1}</li><li>${val2}</li><li>${val3}</li></ul>${adBottom}</div></div>`;
+    document.getElementById('pageStatic').innerHTML=`<div class="static-page page-view"><div class="static-hero"><div class="static-hero-tag">${heroTag}</div><div class="static-hero-title">${heroTitle}</div><div class="static-hero-sub">${heroSub}</div></div><div class="static-body"><div class="stat-row"><div class="stat-box"><div class="stat-num">${stat1Num}</div><div class="stat-label">${stat1Label}</div></div><div class="stat-box"><div class="stat-num">${stat2Num}</div><div class="stat-label">${stat2Label}</div></div><div class="stat-box"><div class="stat-num">${stat3Num}</div><div class="stat-label">${stat3Label}</div></div><div class="stat-box"><div class="stat-num">${stat4Num}</div><div class="stat-label">${stat4Label}</div></div></div><h2>${storyTitle}</h2><p>${storyBody}</p><h2>${valuesTitle}</h2><ul><li>${val1}</li><li>${val2}</li><li>${val3}</li></ul></div></div>`;
   }
   else if(page==='contact'){
     const d=C.contact||{};
@@ -1560,7 +1541,7 @@ function renderStaticPage(page){
     const email=d.email||''; const phone=d.phone||''; const address=d.address||'';
     const successMsg=d.success||'✅ మీ సందేశం పంపబడింది! మేము 24 గంటల్లో సమాధానం ఇస్తాము.';
     const extraInfo=(email||phone||address)?`<div style="margin-top:24px;padding:16px;background:var(--bg2);border:1px solid var(--bdr)">${email?`<div style="margin-bottom:8px;font-size:12px"><strong>📧 Email:</strong> <a href="mailto:${email}" style="color:var(--red)">${email}</a></div>`:''} ${phone?`<div style="margin-bottom:8px;font-size:12px"><strong>📞 Phone:</strong> ${phone}</div>`:''} ${address?`<div style="font-size:12px"><strong>📍 Address:</strong> ${address}</div>`:''}</div>`:'';
-    document.getElementById('pageStatic').innerHTML=`<div class="static-page page-view">${adTop}<div class="static-hero"><div class="static-hero-tag">${heroTag}</div><div class="static-hero-title">${heroTitle}</div><div class="static-hero-sub">${heroSub}</div></div><div class="static-body"><h2>${formTitle}</h2><div class="contact-form"><div class="form-row"><div class="form-group"><label>Full Name</label><input type="text" placeholder="మీ పేరు" id="cf-name"/></div><div class="form-group"><label>Email</label><input type="email" placeholder="email@example.com" id="cf-email"/></div></div><div class="form-group"><label>Message</label><textarea placeholder="మీ సందేశం ఇక్కడ రాయండి…" id="cf-msg"></textarea></div><button class="form-submit" onclick="submitContact()">Send Message →</button><div class="success-msg" id="contactSuccess">${successMsg}</div></div>${extraInfo}${adMid}${adBottom}</div></div>`;
+    document.getElementById('pageStatic').innerHTML=`<div class="static-page page-view"><div class="static-hero"><div class="static-hero-tag">${heroTag}</div><div class="static-hero-title">${heroTitle}</div><div class="static-hero-sub">${heroSub}</div></div><div class="static-body"><h2>${formTitle}</h2><div class="contact-form"><div class="form-row"><div class="form-group"><label>Full Name</label><input type="text" placeholder="మీ పేరు" id="cf-name"/></div><div class="form-group"><label>Email</label><input type="email" placeholder="email@example.com" id="cf-email"/></div></div><div class="form-group"><label>Message</label><textarea placeholder="మీ సందేశం ఇక్కడ రాయండి…" id="cf-msg"></textarea></div><button class="form-submit" onclick="submitContact()">Send Message →</button><div class="success-msg" id="contactSuccess">${successMsg}</div></div>${extraInfo}</div></div>`;
   }
 }
 
@@ -1635,34 +1616,50 @@ var FEED = {
       var cat = (a.cat || '').toLowerCase();
       var label = (a.catLabel || '').toLowerCase();
       var title = (a.title || '').toLowerCase();
-      // English key matches
       var engMatch = cat.indexOf('astro') !== -1 || cat.indexOf('horoscope') !== -1 ||
                      cat.indexOf('rasi') !== -1 || cat.indexOf('jyothi') !== -1 ||
                      cat.indexOf('jyoti') !== -1 || cat.indexOf('zodiac') !== -1;
-      // Telugu label matches
       var telMatch = label.indexOf('జ్యోతి') !== -1 || label.indexOf('రాశి') !== -1 ||
                      label.indexOf('jyothi') !== -1 || label.indexOf('astro') !== -1 ||
                      label.indexOf('horoscope') !== -1 || label.indexOf('rasi') !== -1;
-      // Title keywords (రాశి దినఫలాలు వంటివి)
       var titleMatch = title.indexOf('రాశి') !== -1 && (title.indexOf('ఫలాలు') !== -1 || title.indexOf('దినఫలాలు') !== -1);
       return engMatch || telMatch || titleMatch;
     }
-    if (this.activeCat === 'all') {
-      this.filtered = artList.filter(function(a){
-        return !_isAstroCat(a);
-      }).sort(function(a,b){
-        return (b._ts||0) - (a._ts||0);
+    // Same day articles ని shuffle చేసే helper
+    function _shuffleWithinDays(arr) {
+      // Date (YYYY-MM-DD) ని key గా group చేయి
+      var groups = {}, order = [];
+      arr.forEach(function(a) {
+        var day = (a.date || '').substring(0, 10);
+        if (!groups[day]) { groups[day] = []; order.push(day); }
+        groups[day].push(a);
       });
+      // ప్రతి day group ని shuffle చేయి
+      order.forEach(function(day) {
+        var g = groups[day];
+        for (var i = g.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = g[i]; g[i] = g[j]; g[j] = tmp;
+        }
+      });
+      // Days order maintain చేసి, shuffled articles తిరిగి జోడించు
+      var result = [];
+      order.forEach(function(day) { result = result.concat(groups[day]); });
+      return result;
+    }
+    if (this.activeCat === 'all') {
+      var base = artList.filter(function(a){ return !_isAstroCat(a); })
+                        .sort(function(a,b){ return (b._ts||0) - (a._ts||0); });
+      this.filtered = _shuffleWithinDays(base);
       return;
     }
     var navItem = NAV_STRUCTURE.find(function(n){return n.key===FEED.activeCat;});
     var subKeys = (navItem && navItem.subs) ? navItem.subs.map(function(s){return s.key;}) : [];
-    this.filtered = artList.filter(function(a){
+    var base2 = artList.filter(function(a){
       return a.cat===FEED.activeCat || subKeys.includes(a.cat) ||
              a.cat.startsWith(FEED.activeCat+'_') || a.cat.endsWith('_'+FEED.activeCat);
-    }).sort(function(a,b){
-      return (b._ts||0) - (a._ts||0);
-    });
+    }).sort(function(a,b){ return (b._ts||0) - (a._ts||0); });
+    this.filtered = _shuffleWithinDays(base2);
   },
 
   loadMore: function() {
@@ -2239,35 +2236,6 @@ function rasiStartTimer(){_rasiTimer=setInterval(()=>{_rasiCur=(_rasiCur+1)%_ras
 function rasiResetTimer(){if(_rasiTimer)clearInterval(_rasiTimer);rasiStartTimer();}
 document.addEventListener('DOMContentLoaded',function(){rasiStartTimer();});
 
-var _popupShown=false;
-function showPopup(){if(_popupShown)return;_popupShown=true;var popup=document.getElementById('adPopup');if(!popup||!popup.innerHTML.trim())return;popup.classList.add('show');var fill=document.getElementById('popupTimerFill');if(fill){fill.style.transition='none';fill.style.width='100%';setTimeout(()=>{fill.style.transition='width 8s linear';fill.style.width='0%';},50);setTimeout(closePopup,8000);}}
-function closePopup(){var p=document.getElementById('adPopup');if(p)p.classList.remove('show');}
-function showFloatAd(){var ad=document.getElementById('floatAd');if(ad)ad.classList.add('show');}
-function initAds(){
-  const s=_loadAdSettings();
-  if(!s.master_enabled)return;
-  // localStorage లో ads లేకపోతే default ads inject చేయి
-  const existingAds=_loadAds();
-  if(!existingAds.length){
-    const defaultAds=[
-      {id:'d1',type:'banner',status:'active',pages:['home'],headline:'Selectme.in — తెలుగు వార్తలు',subtext:'Latest Telugu news 24/7',cta:'Read More',emoji:'📰',url:'#',bg:'linear-gradient(90deg,#111,#c8001e)'},
-      {id:'d2',type:'leaderboard',status:'active',pages:['category'],headline:'Breaking Telugu News',subtext:'Stay updated with selectme.in',cta:'Explore',emoji:'🗞️',url:'#',bg:'linear-gradient(90deg,#0a0a0a,#1a1a2e)'},
-      {id:'d3',type:'incontent',status:'active',pages:['article'],headline:'తెలుగు వార్తలు — 24/7',subtext:'Selectme.in తో always updated గా ఉండండి',cta:'Subscribe →',emoji:'🔔',url:'#',bg:'linear-gradient(135deg,#111,#c8001e)'},
-      {id:'d4',type:'sidebar',status:'active',pages:['article'],headline:'Latest Updates',subtext:'selectme.in',cta:'Read Now',emoji:'📢',url:'#',bg:'linear-gradient(160deg,#1a1240,#2d1f6e)'}
-    ];
-    try{localStorage.setItem('selectme_ads_v2',JSON.stringify(defaultAds));}catch(e){}
-  }
-  // Masthead banner
-  const mhSlot=document.getElementById('mastheadAdSlot');
-  if(mhSlot){const mhAd=_adByType('banner','home');if(mhAd){const bg=mhAd.bg||'linear-gradient(90deg,#131921,#232f3e)';const hl=(mhAd.headline||'').replace(/</g,'&lt;');const sub=(mhAd.subtext||'').replace(/</g,'&lt;');const cta=(mhAd.cta||'Shop Now').replace(/</g,'&lt;');const emoji=mhAd.emoji||'🛒';const url=mhAd.url||'#';mhSlot.innerHTML=`<div style="width:100%;height:70px;background:${bg};display:flex;align-items:center;justify-content:space-between;padding:0 22px;overflow:hidden;cursor:pointer" onclick="window.open('${url}','_blank')"><div style="display:flex;align-items:center;gap:14px"><div style="font-size:22px">${emoji}</div><div><div style="color:#fff;font-size:13px;font-weight:700">${hl}</div><div style="color:rgba(255,255,255,.4);font-size:9px;margin-top:2px">${sub}</div></div></div><div style="background:#ff9900;color:#131921;font-size:11px;font-weight:900;padding:7px 18px;white-space:nowrap">${cta}</div></div>`;}}
-  // Popup & Float
-  _renderPopupFromAdmin();
-  _renderFloatBarFromAdmin();
-  const popDelay=(s.popup_delay||5)*1000;
-  const floatDelay=(s.float_delay||8)*1000;
-  if(s.popup_enabled)setTimeout(showPopup,popDelay);
-  if(s.float_enabled)setTimeout(showFloatAd,floatDelay);
-}
 
 // ═══════════════════════════════════════════════════════════════
 // RSS VIDEO FEED — loads from admin-saved RSS URLs
@@ -2458,8 +2426,28 @@ function _showLoadError(){
     showLoader();
     var ok=await loadAllArticles();
     if(!ok){_showLoadError();}
-    else{restoreState();startShuffleTimers();initAds();}
+    else{restoreState();startShuffleTimers();}
   });}
+}
+
+// ── Shuffle timers: ప్రతి 5 నిమిషాలకు same-day articles re-shuffle అవుతాయి ──
+var _shuffleTimer = null;
+function startShuffleTimers() {
+  if (_shuffleTimer) clearInterval(_shuffleTimer);
+  _shuffleTimer = setInterval(function() {
+    // Feed active గా ఉంటేనే re-shuffle చేయి
+    if (document.body.classList.contains('feed-mode') && typeof FEED !== 'undefined') {
+      FEED.buildFiltered();
+      FEED.page = 0;
+      FEED.allLoaded = false;
+      FEED.loading = false;
+      FEED._lastRenderedDay = null;
+      var fs = document.getElementById('feedScroll');
+      if (fs) fs.innerHTML = '';
+      FEED.loadMore();
+      FEED.setupInfiniteScroll();
+    }
+  }, 5 * 60 * 1000); // 5 minutes
 }
 
 window.addEventListener('DOMContentLoaded',async function(){
@@ -2471,7 +2459,7 @@ window.addEventListener('DOMContentLoaded',async function(){
   if(FEED.darkMode) document.body.classList.add('dark');
   FEED.buildBottomNav();
   if(!articlesOk){_showLoadError();}
-  else{restoreState();startShuffleTimers();initAds();
+  else{restoreState();startShuffleTimers();
     // Load RSS video feeds — fallback to article videos if RSS empty/fails
     setTimeout(function(){
       var feeds=_getRssFeeds();
