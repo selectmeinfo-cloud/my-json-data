@@ -7,6 +7,25 @@
 <title>Selectme.in — తెలుగు వార్తలు</title>
 
 <meta name="description" content="Selectme.in లో తాజా తెలుగు వార్తలు, ట్రెండింగ్ ఆర్టికల్స్, daily updates పొందండి. Latest Telugu news, breaking news and updates.">
+
+<!-- ✅ Open Graph / WhatsApp / Facebook Share Tags -->
+<meta property="og:site_name" content="Selectme.in"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://selectme.in/"/>
+<meta property="og:title" content="Selectme.in — తెలుగు వార్తలు"/>
+<meta property="og:description" content="తాజా తెలుగు వార్తలు, ట్రెండింగ్ ఆర్టికల్స్, daily updates పొందండి. Latest Telugu news, breaking news and updates."/>
+<meta property="og:image" content="https://selectme.in/share-preview.jpg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="Selectme.in — తెలుగు వార్తలు"/>
+<meta property="og:locale" content="te_IN"/>
+
+<!-- ✅ Twitter / X Card -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:site" content="@selectmein"/>
+<meta name="twitter:title" content="Selectme.in — తెలుగు వార్తలు"/>
+<meta name="twitter:description" content="తాజా తెలుగు వార్తలు, ట్రెండింగ్ ఆర్టికల్స్, daily updates పొందండి."/>
+<meta name="twitter:image" content="https://selectme.in/share-preview.jpg"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Outfit:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet"/>
 <style>
@@ -1439,11 +1458,12 @@ function renderArticle(id){
   const art=ARTICLES[id];if(!art)return;
   if(art.seoTitle)document.title=art.seoTitle;
   setMeta('description',art.seoDescription);setMeta('keywords',art.seoKeywords);
+  var _shareImg=art.img||'https://selectme.in/share-preview.jpg';
   setMeta('og:type','article',true);setMeta('og:title',art.seoTitle||art.title,true);
-  setMeta('og:description',art.seoDescription,true);setMeta('og:image',art.img,true);
+  setMeta('og:description',art.seoDescription||art.dek,true);setMeta('og:image',_shareImg,true);
   setMeta('og:url',location.href,true);setMeta('og:site_name','Selectme.in',true);
   setMeta('twitter:card','summary_large_image');setMeta('twitter:title',art.seoTitle||art.title);
-  setMeta('twitter:description',art.seoDescription);setMeta('twitter:image',art.img);
+  setMeta('twitter:description',art.seoDescription||art.dek);setMeta('twitter:image',_shareImg);
   setCanonical(location.href);
   let relatedIds=(art.related||[]).filter(rid=>ARTICLES[rid]&&rid!==art.id);
   if(relatedIds.length<3){const sameCat=Object.values(ARTICLES).filter(a=>a.cat===art.cat&&a.id!==art.id&&!relatedIds.includes(a.id));relatedIds=[...relatedIds,...sameCat.map(a=>a.id)].slice(0,3);}
@@ -2437,6 +2457,24 @@ function _fallbackCopy(text,btn){var ta=document.createElement('textarea');ta.va
 function _showCopied(btn){var orig=btn.textContent;btn.textContent='✓ Copied!';btn.style.background='#166534';btn.style.color='#fff';btn.style.borderColor='#166534';setTimeout(()=>{btn.textContent=orig;btn.style.background='';btn.style.color='';btn.style.borderColor='';},2000);}
 function shareToFb(){window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank','width=600,height=400');}
 function shareToX(){var title=document.querySelector('.article-headline');var text=title?title.textContent.substring(0,100):document.title;window.open('https://x.com/intent/tweet?url='+encodeURIComponent(location.href)+'&text='+encodeURIComponent(text),'_blank','width=600,height=400');}
+
+// ✅ Article share చేసినప్పుడు OG tags dynamically update అవుతాయి
+function updateShareMeta(article){
+  if(!article) return;
+  var title = (article.titleEn && CURRENT_LANG==='en') ? article.titleEn : article.title;
+  var dek   = article.dek || (article.body ? article.body.replace(/<[^>]+>/g,'').substring(0,160)+'…' : '');
+  var img   = article.image || 'https://selectme.in/share-preview.jpg';
+  var url   = location.href;
+  function setMeta(sel,attr,val){var el=document.querySelector(sel);if(el&&val)el.setAttribute(attr,val);}
+  setMeta('meta[property="og:title"]',       'content', title);
+  setMeta('meta[property="og:description"]', 'content', dek);
+  setMeta('meta[property="og:image"]',       'content', img);
+  setMeta('meta[property="og:url"]',         'content', url);
+  setMeta('meta[name="twitter:title"]',      'content', title);
+  setMeta('meta[name="twitter:description"]','content', dek);
+  setMeta('meta[name="twitter:image"]',      'content', img);
+  document.title = title + ' — Selectme.in';
+}
 
 function _showLoadError(){
   var el=document.getElementById('pageHome');
