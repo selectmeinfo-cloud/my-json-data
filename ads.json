@@ -2,14 +2,18 @@
   {
     "id": "ad001",
     "adType": "custom",
-    "title": "Flipkart Big Sale\nఈ రోజు వరకే!\nఅద్భుతమైన offers",
+    "title": "Flipkart Big Sale11111111111\nఈ రోజు వరకే!\nఅద్భుతమైన offers",
     "sub": "Electronics, Fashion, Home — 70% వరకు discount",
     "img": "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=300&q=80",
     "url": "https://www.flipkart.com",
     "color1": "#1a237e",
     "color2": "#1976d2",
     "animType": "slide-left",
-    "positions": [2, 8, 15],
+    "positions": [
+      2,
+      8,
+      15
+    ],
     "active": true
   },
   {
@@ -22,7 +26,10 @@
     "color1": "#e65100",
     "color2": "#ff9800",
     "animType": "crossfade",
-    "positions": [4, 12],
+    "positions": [
+      4,
+      12
+    ],
     "active": true
   },
   {
@@ -35,7 +42,9 @@
     "color1": "#1b5e20",
     "color2": "#43a047",
     "animType": "fade-up",
-    "positions": [6],
+    "positions": [
+      6
+    ],
     "active": true
   },
   {
@@ -48,7 +57,10 @@
     "color1": "#4a148c",
     "color2": "#7b1fa2",
     "animType": "slide-right",
-    "positions": [10, 20],
+    "positions": [
+      10,
+      20
+    ],
     "active": true
   },
   {
@@ -61,7 +73,10 @@
     "color1": "#880e4f",
     "color2": "#e91e63",
     "animType": "crossfade",
-    "positions": [7, 18],
+    "positions": [
+      7,
+      18
+    ],
     "active": true
   },
   {
@@ -74,7 +89,10 @@
     "color1": "#006064",
     "color2": "#00acc1",
     "animType": "slide-left",
-    "positions": [5, 22],
+    "positions": [
+      5,
+      22
+    ],
     "active": true
   },
   {
@@ -87,7 +105,10 @@
     "color1": "#1a237e",
     "color2": "#5c6bc0",
     "animType": "typewriter",
-    "positions": [3, 16],
+    "positions": [
+      3,
+      16
+    ],
     "active": true
   },
   {
@@ -100,7 +121,10 @@
     "color1": "#004d40",
     "color2": "#00796b",
     "animType": "fade-up",
-    "positions": [9, 25],
+    "positions": [
+      9,
+      25
+    ],
     "active": true
   },
   {
@@ -113,7 +137,10 @@
     "color1": "#880e4f",
     "color2": "#ad1457",
     "animType": "slide-left",
-    "positions": [11, 19],
+    "positions": [
+      11,
+      19
+    ],
     "active": true
   },
   {
@@ -126,7 +153,10 @@
     "color1": "#311b92",
     "color2": "#512da8",
     "animType": "crossfade",
-    "positions": [13, 24],
+    "positions": [
+      13,
+      24
+    ],
     "active": true
   }
 ]
