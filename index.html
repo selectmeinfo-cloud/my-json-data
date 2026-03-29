@@ -461,6 +461,63 @@ body.dark .ncc-title{color:#eee}
 .ncc-meta{font-size:10px;color:#999}
 .ncc-img{height:100%;min-height:90px;object-fit:cover;width:100%;display:block;background:#e8e8e8}
 
+/* ── Ad Card ── */
+@keyframes adSlideIn{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes adShimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
+@keyframes adPulse{0%,100%{box-shadow:0 4px 18px rgba(67,160,71,.2),0 0 0 0 rgba(67,160,71,0)}50%{box-shadow:0 8px 28px rgba(27,94,32,.35),0 0 0 3px rgba(165,214,167,.25)}}
+@keyframes adDismiss{to{opacity:0;transform:translateX(60px) scale(.93)}}
+@keyframes adBgFlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+/* Multi-text fade animation */
+@keyframes adTextIn{0%{opacity:0;transform:translateY(7px)}12%{opacity:1;transform:translateY(0)}75%{opacity:1;transform:translateY(0)}90%{opacity:0;transform:translateY(-7px)}100%{opacity:0;transform:translateY(-7px)}}
+@keyframes adTextGlow{0%,100%{text-shadow:none}50%{text-shadow:0 0 12px rgba(200,0,30,.35)}}
+
+/* ── Ad Card — gradient background + animated text ── */
+.ad-card{
+  background:linear-gradient(135deg,#e8f5e9 0%,#a5d6a7 100%);
+  
+  animation:adSlideIn .45s cubic-bezier(.22,1,.36,1) both,adPulse 3s ease-in-out 1.2s infinite;
+  border-radius:14px;margin-bottom:14px;overflow:hidden;
+  border:1.5px solid #66bb6a;cursor:pointer;position:relative;transition:box-shadow .2s
+}
+.ad-card.dismissing{animation:adDismiss .32s ease forwards;pointer-events:none}
+body.dark .ad-card{
+  background:linear-gradient(135deg,#0a2e0d 0%,#1b5e20 100%);
+  
+  border-color:#2e7d32
+}
+.ad-card::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.22) 50%,transparent 60%);background-size:400px 100%;animation:adShimmer 2.8s linear infinite;pointer-events:none;z-index:1}
+body.dark .ad-card::before{background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.06) 50%,transparent 60%);background-size:400px 100%}
+
+/* Coloured left accent bar */
+.ad-card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#1b5e20,#43a047,#a5d6a7);z-index:3;border-radius:0}
+
+.ad-card-inner{display:grid;grid-template-columns:1fr 110px;gap:0;min-height:100px}
+.ad-card-body{padding:12px 14px 12px 17px;display:flex;flex-direction:column;justify-content:flex-start;gap:0;position:relative;z-index:2}
+.ad-badge{font-size:8px;font-weight:800;color:#1b5e20;background:linear-gradient(90deg,#c8e6c9,#a5d6a7);padding:2px 8px;border-radius:3px;letter-spacing:.09em;text-transform:uppercase;display:inline-block;width:fit-content;margin-bottom:6px;border:1px solid rgba(27,94,32,.2)}
+body.dark .ad-badge{background:linear-gradient(90deg,#0a2e0d,#133d18);color:#a5d6a7;border-color:rgba(165,214,167,.2)}
+
+/* Multi-text animation container */
+.ad-text-anim{position:relative;overflow:hidden;margin-bottom:2px}
+.ad-text-slide{position:absolute;top:0;left:0;right:0;opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease;pointer-events:none}
+.ad-text-slide.active{opacity:1;transform:translateY(0);pointer-events:auto;position:relative}
+.ad-text-slide.exit{opacity:0;transform:translateY(-10px)}
+/* Static (single line) title */
+.ad-card-title{font-size:13px;font-weight:700;color:var(--ad-text,#111);line-height:1.35;margin-bottom:4px;white-space:pre-wrap;word-break:break-word}
+body.dark .ad-card-title{color:#ffe8a0}
+.ad-card-sub{font-size:10.5px;color:var(--ad-sub,#1b5e20);line-height:1.4;white-space:pre-wrap;word-break:break-word;margin-top:2px}
+body.dark .ad-card-sub{color:#a5d6a7}
+.ad-card-img{object-fit:cover;width:100%;height:100%;min-height:100px;display:block;background:#f5ece0;position:relative;z-index:2}
+.ad-card-noimg{display:flex;align-items:center;justify-content:center;font-size:30px;background:linear-gradient(135deg,#c8e6c9,#a5d6a7);height:100%;min-height:100px;position:relative;z-index:2}
+body.dark .ad-card-noimg{background:linear-gradient(135deg,#0a2e0d,#1b5e20)}
+
+/* Dismiss button */
+.ad-dismiss{position:absolute;top:7px;right:7px;z-index:10;background:rgba(0,0,0,.22);border:none;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:11px;line-height:1;backdrop-filter:blur(3px);transition:background .15s;padding:0}
+.ad-dismiss:hover{background:rgba(200,0,30,.8)}
+body.dark .ad-dismiss{background:rgba(255,255,255,.18)}
+/* Dismiss tooltip */
+.ad-dismiss-tip{position:absolute;top:32px;right:7px;z-index:20;background:#222;color:#fff;font-size:10px;padding:4px 9px;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;font-family:'Outfit',sans-serif}
+.ad-card:hover .ad-dismiss-tip{opacity:1}
+
 /* ── Bottom nav (4-tab: Home, Categories, Today, Settings) — always on mobile ── */
 #feedBottomNav{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;z-index:950;padding:0 0 env(safe-area-inset-bottom,0px);box-shadow:0 -2px 12px rgba(0,0,0,.1)}
 @media(max-width:900px){
@@ -610,11 +667,8 @@ body.dark .sp-sheet{background:#1e2130}
 .goog-te-banner-frame,.goog-te-gadget,.goog-te-balloon-frame{display:none!important}
 body{top:0!important}
 #gt-hidden{display:none!important}
-.sp-logo-row{display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:6px}
-.sp-logo-text{font-size:15px;font-weight:800;color:#c8001e;letter-spacing:-.3px;font-family:var(--display)}
-body.dark .sp-logo-text{color:#ff4d6a}
-.sp-title{font-size:11px;font-weight:500;color:#888;margin-bottom:14px;text-align:center;text-transform:uppercase;letter-spacing:.08em}
-body.dark .sp-title{color:#777}
+.sp-title{font-size:13px;font-weight:700;color:#333;margin-bottom:14px;text-align:center}
+body.dark .sp-title{color:#eee}
 .sp-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .sp-btn{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 14px;border:none;background:none;cursor:pointer;font-size:10px;font-weight:600;color:#444;border-radius:10px;transition:background .15s;font-family:inherit;min-width:64px}
 .sp-btn:hover{background:#f5f5f5}
@@ -945,13 +999,6 @@ body.feed-mode #siteFooter{display:none}
 <div id="sharePopup">
   <div class="sp-overlay" onclick="document.getElementById('sharePopup').classList.remove('open')"></div>
   <div class="sp-sheet">
-    <div class="sp-logo-row">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 427.8 417.8" width="28" height="28" style="flex-shrink:0">
-        <circle fill="#c8001e" cx="213.9" cy="208.9" r="200"/>
-        <path fill-rule="nonzero" transform="matrix(0.6,0,0,0.6,186,196)" d="M -68.7 31 c 26.7 16.2 41.6 40.4 55.1 62.4 l 3 4.9 c 54.3 -72.5 106.5 -140.9 170.2 -201.2 C 227.2 -167 298 -213 367.5 -218 c 4.7 -0.3 8.9 3.2 9.2 7.9 c 0.2 2.8 -1.1 5.5 -3.2 7.1 C 301.6 -143.4 235.5 -71.3 173.3 9.8 C 111 91.4 61.6 174.1 4.9 270.5 c -7.3 12.5 -14.8 20.1 -23.9 20.8 c -9.3 0.8 -18.1 -5.5 -27.1 -20.8 l -0.2 -0.4 c -14.8 -25.2 -27 -53.8 -38.8 -81.3 c -26.1 -60.8 -49.5 -115.6 -88.6 -106.3 c -6.5 1.5 -12.1 -4.4 -10.3 -10.7 c 6.8 -22.8 22 -42.1 45.2 -50.4 c 23.7 -8.4 48.9 -3.1 69.8 9.5 z" fill="white"/>
-      </svg>
-      <span class="sp-logo-text">Selectme.in</span>
-    </div>
     <div class="sp-title" id="spTitle">Share</div>
     <div class="sp-row">
       <button class="sp-btn" id="spWa">
@@ -1742,6 +1789,17 @@ var FEED = {
         card.style.opacity = '0';
         card.style.transform = 'translateY(16px)';
         setTimeout(function(){ card.style.transition='opacity .3s ease,transform .3s ease'; card.style.opacity='1'; card.style.transform='translateY(0)'; }, i * 50);
+
+        // ── Ad card: position-based insert ──
+        var globalIdx = start + i;
+        (function(cardEl, pos) {
+          self.getAdForPosition(pos, function(posAd) {
+            if (posAd) {
+              var adEl = self.buildAdCard(posAd);
+              if (adEl && cardEl.parentNode) cardEl.parentNode.insertBefore(adEl, cardEl.nextSibling);
+            }
+          });
+        })(card, globalIdx + 1); // 1-based position
       });
 
       self.page++;
@@ -1788,6 +1846,151 @@ var FEED = {
     el.querySelector('.nc-body').addEventListener('click', function(){ FEED.openArticle(a); });
     el.querySelector('.nc-read-more').addEventListener('click', function(){ FEED.openArticle(a); });
     return el;
+  },
+
+  // ── Ads JSON cache ───────────────────────────────────────────────────────────
+  _adsCache: null,
+  _adsCacheTime: 0,
+
+  _loadAds: function(callback) {
+    var self = this;
+    var now = Date.now();
+    // Use cache if fresh (< 60s)
+    if (self._adsCache !== null && (now - self._adsCacheTime) < 60000) {
+      return callback(self._adsCache);
+    }
+    // Try fetching ads.json (works when hosted on a server)
+    fetch('ads.json?v=' + now, { cache: 'no-store' })
+      .then(function(r) {
+        if (!r.ok) throw new Error('not found');
+        return r.json();
+      })
+      .then(function(data) {
+        if (Array.isArray(data)) {
+          self._adsCache = data;
+          self._adsCacheTime = now;
+          // Also sync to localStorage so admin panel stays in sync
+          try { localStorage.setItem('selectme_ads', JSON.stringify(data)); } catch(e){}
+          callback(data);
+        } else {
+          throw new Error('not array');
+        }
+      })
+      .catch(function() {
+        // Fallback: localStorage (used in local/dev environment)
+        var ads = [];
+        try { ads = JSON.parse(localStorage.getItem('selectme_ads') || '[]'); } catch(e){}
+        self._adsCache = ads;
+        self._adsCacheTime = now;
+        callback(ads);
+      });
+  },
+
+  getAdForPosition: function(pos, callback) {
+    var self = this;
+    self._loadAds(function(ads) {
+      var dismissed = {};
+      try { dismissed = JSON.parse(localStorage.getItem('selectme_ads_dismissed') || '{}'); } catch(e){}
+      var match = null;
+      ads.forEach(function(ad){
+        if (ad.active === false || dismissed[ad.id]) return;
+        var positions = ad.positions || [];
+        if (positions.indexOf(pos) !== -1) match = ad;
+      });
+      callback(match);
+    });
+  },
+
+  buildAdCard: function(ad) {
+    var el = document.createElement('div');
+    el.className = 'ad-card';
+    // Apply custom background colors if set
+    var c1 = ad.color1 || '#e8f5e9';
+    var c2 = ad.color2 || '#a5d6a7';
+    el.style.background = 'linear-gradient(135deg,' + c1 + ',' + c2 + ')';
+    // Auto text color based on brightness of c1
+    var isDark = (function(hex){
+      hex = hex.replace('#','');
+      if(hex.length===3) hex=hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+      var r=parseInt(hex.substr(0,2),16),g=parseInt(hex.substr(2,2),16),b=parseInt(hex.substr(4,2),16);
+      return (r*299+g*587+b*114)/1000 < 128;
+    })(c1);
+    if(isDark){
+      el.style.setProperty('--ad-text','#fff');
+      el.style.setProperty('--ad-sub','rgba(255,255,255,0.8)');
+      el.style.setProperty('--ad-badge-bg','rgba(255,255,255,0.2)');
+      el.style.setProperty('--ad-badge-color','#fff');
+    } else {
+      el.style.setProperty('--ad-text','#111');
+      el.style.setProperty('--ad-sub','#1b5e20');
+      el.style.setProperty('--ad-badge-bg','rgba(0,0,0,0.08)');
+      el.style.setProperty('--ad-badge-color','#333');
+    }
+    var imgHtml = ad.img
+      ? '<img class="ad-card-img" src="' + ad.img + '" alt="sponsored" loading="lazy" onerror="this.parentElement.innerHTML=\'<div class=ad-card-noimg>📢</div>\'">'
+      : '<div class="ad-card-noimg">📢</div>';
+
+    // Multi-text: split by newlines
+    var titleLines = (ad.title||'').split('\n').map(function(l){return l.trim();}).filter(Boolean);
+    var titleHtml;
+    if (titleLines.length > 1) {
+      var slides = titleLines.map(function(line, i) {
+        return '<div class="ad-text-slide' + (i===0 ? ' active' : '') + '" data-slide="' + i + '">' +
+          '<div class="ad-card-title">' + this._escHtml(line) + '</div>' +
+          (ad.sub ? '<div class="ad-card-sub">' + this._escHtml(ad.sub) + '</div>' : '') +
+        '</div>';
+      }, this).join('');
+      titleHtml = '<div class="ad-text-anim">' + slides + '</div>';
+    } else {
+      titleHtml =
+        '<div class="ad-card-title">' + this._escHtml(ad.title||'') + '</div>' +
+        (ad.sub ? '<div class="ad-card-sub">' + this._escHtml(ad.sub) + '</div>' : '');
+    }
+
+    el.innerHTML =
+      '<button class="ad-dismiss" title="యాడ్ వద్దు">✕</button>' +
+      '<div class="ad-dismiss-tip">యాడ్ వద్దు</div>' +
+      '<div class="ad-card-inner">' +
+        '<div class="ad-card-body">' +
+          '<span class="ad-badge">✦ Sponsored</span>' +
+          titleHtml +
+        '</div>' +
+        imgHtml +
+      '</div>';
+
+    // JS-driven text cycling — reliable across all browsers
+    if (titleLines.length > 1) {
+      var slides = el.querySelectorAll('.ad-text-slide');
+      var cur = 0;
+      var timer = setInterval(function() {
+        if (!el.isConnected) { clearInterval(timer); return; }
+        var next = (cur + 1) % slides.length;
+        slides[cur].classList.remove('active');
+        slides[cur].classList.add('exit');
+        var exitEl = slides[cur];
+        setTimeout(function(){ exitEl.classList.remove('exit'); }, 450);
+        slides[next].classList.add('active');
+        cur = next;
+      }, 3000);
+    }
+
+    el.querySelector('.ad-dismiss').addEventListener('click', function(e){
+      e.stopPropagation();
+      el.classList.add('dismissing');
+      var d = {};
+      try { d = JSON.parse(localStorage.getItem('selectme_ads_dismissed') || '{}'); } catch(ee){}
+      d[ad.id] = 1;
+      localStorage.setItem('selectme_ads_dismissed', JSON.stringify(d));
+      setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); }, 350);
+    });
+    el.querySelector('.ad-card-inner').addEventListener('click', function(){
+      if (ad.url) window.open(ad.url, '_blank');
+    });
+    return el;
+  },
+
+  _escHtml: function(s) {
+    return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   },
 
   buildCompactCard: function(a) {
