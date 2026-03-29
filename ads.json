@@ -74,6 +74,7 @@
     "color2": "#e91e63",
     "animType": "crossfade",
     "positions": [
+      1,
       7,
       18
     ],
@@ -90,6 +91,7 @@
     "color2": "#00acc1",
     "animType": "slide-left",
     "positions": [
+      1,
       5,
       22
     ],
