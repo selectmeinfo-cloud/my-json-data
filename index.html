@@ -406,7 +406,9 @@ body.dark .ftb-logo svg{filter:brightness(0) invert(1)}
 .ftb-search{flex:1;max-width:200px;height:32px;border:1.5px solid #ddd;border-radius:20px;padding:0 12px;font-size:12px;outline:none;font-family:inherit;background:#f7f7f7;transition:border .2s}
 .ftb-search:focus{border-color:#e53935;background:#fff}
 body.dark .ftb-search{background:#252836;border-color:#333;color:#eee}
-.ftb-actions{display:flex;gap:4px;align-items:center}
+.ftb-actions{display:flex;gap:8px;align-items:center}
+.ftb-subscribe-btn{background:var(--red);color:#fff;border:none;padding:5px 12px;font-size:11px;font-weight:700;font-family:'Outfit',sans-serif;letter-spacing:.05em;cursor:pointer;border-radius:20px;transition:opacity .15s;white-space:nowrap}
+.ftb-subscribe-btn:hover{opacity:.85}
 .ftb-btn{width:34px;height:34px;border:none;background:none;cursor:pointer;font-size:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .15s;color:#444}
 .ftb-btn:hover{background:#f0f0f0}
 body.dark .ftb-btn{color:#ccc}
@@ -972,7 +974,8 @@ body.feed-mode #siteFooter{display:none}
     <div class="ftb-logo" onclick="FEED.activeCat='all';FEED.reset()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6000 3200" height="32" style="display:block;width:auto"><use href="#selectme-logo"/></svg></div>
     <input class="ftb-search" id="feedSearch" placeholder="వార్తలు వెతకండి…" oninput="FEED._searchMode(this.value)"/>
     <div class="ftb-actions">
-      <button class="dm-toggle" id="dmToggle" onclick="FEED.toggleDark()" title="Dark Mode"></button>
+      <button class="ftb-subscribe-btn" onclick="goPage('subscribe')" title="Subscribe">Subscribe</button>
+
     </div>
   </div>
 </div>
@@ -1838,7 +1841,7 @@ var FEED = {
             ' Download' +
           '</button>' +
         '</div>' +
-        '<span class="nc-read-more">చదవండి →</span>' +
+        '<span class="nc-read-more">వివరాలు →</span>' +
       '</div>';
     el.querySelector('.nc-img-wrap').addEventListener('click', function(e){ if(!e.target.closest('button')) FEED.openArticle(a); });
     el.querySelector('.nc-body').addEventListener('click', function(){ FEED.openArticle(a); });
@@ -1999,27 +2002,33 @@ var FEED = {
     var a = ARTICLES[id];
     if (!a) return;
 
+    // 1080x1920 card — render at 540px wide, scale x2 = 1080px; height auto to fit full text
+    var CARD_W = 540, SCALE = 2;
     var wrap = document.createElement('div');
-    wrap.style.cssText = 'position:fixed;left:-9999px;top:0;width:420px;font-family:Noto Sans Telugu,Outfit,sans-serif;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.18);z-index:-1';
+    wrap.style.cssText = 'position:fixed;left:-9999px;top:0;width:' + CARD_W + 'px;font-family:Noto Sans Telugu,Outfit,sans-serif;background:#fff;overflow:visible;z-index:-1;display:flex;flex-direction:column';
 
     var imgSrc = a.img || '';
     var title = a.title || '';
-    var summary = (a.dek || (a.body||'').replace(/<[^>]+>/g,'')).substring(0,180);
     var catLabel = a.catLabel || '';
     var dateStr = a.date ? new Date(a.date).toLocaleDateString('te-IN',{year:'numeric',month:'long',day:'numeric'}) : '';
+    // Full article body — strip HTML tags completely
+    var fullBody = (a.body || a.dek || '').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
 
     wrap.innerHTML =
-      '<div style="position:relative;width:100%;height:230px;overflow:hidden;background:#eee">' +
-        '<img src="' + imgSrc + '" crossorigin="anonymous" style="width:100%;height:230px;object-fit:cover;display:block" onerror="this.style.display=\'none\'">' +
-        '<div style="position:absolute;top:12px;left:12px;color:rgba(255,255,255,0.55);font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;text-shadow:0 1px 4px rgba(0,0,0,0.5)">' + catLabel + '</div>' +
-        '<img src="' + _SM_LOGO + '" style="position:absolute;bottom:0px;right:0px;width:60px;height:60px;opacity:0.30;pointer-events:none;display:block;background:none">' +
+      '<div style="position:relative;width:100%;height:300px;flex-shrink:0;overflow:hidden;background:#111">' +
+        '<img src="' + imgSrc + '" crossorigin="anonymous" style="width:100%;height:300px;object-fit:cover;display:block" onerror="this.style.display=\'none\'">' +
+        '<div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 35%,rgba(0,0,0,0.6))"></div>' +
+        '<div style="position:absolute;top:5px;left:20px;color:#fff;font-size:20px;opacity:0.5;font-weight:800;letter-spacing:.09em;text-transform:uppercase;padding:4px 0;text-shadow:0 1px 4px rgba(0,0,0,0.7)">' + catLabel + '</div>' +
+        '<div style="position:absolute;bottom:14px;right:14px;line-height:0;opacity:0.85">' +
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="50" height="50"  style="display:block;opacity: 0.5;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.5))"><path fill-rule="nonzero" transform="matrix(0.6,0,0,0.6,186,196)" d="M -68.7 31 c 26.7 16.2 41.6 40.4 55.1 62.4 l 3 4.9 c 54.3 -72.5 106.5 -140.9 170.2 -201.2 C 227.2 -167 298 -213 367.5 -218 c 4.7 -0.3 8.9 3.2 9.2 7.9 c 0.2 2.8 -1.1 5.5 -3.2 7.1 C 301.6 -143.4 235.5 -71.3 173.3 9.8 C 111 91.4 61.6 174.1 4.9 270.5 c -7.3 12.5 -14.8 20.1 -23.9 20.8 c -9.3 0.8 -18.1 -5.5 -27.1 -20.8 l -0.2 -0.4 c -14.8 -25.2 -27 -53.8 -38.8 -81.3 c -26.1 -60.8 -49.5 -115.6 -88.6 -106.3 c -6.5 1.5 -12.1 -4.4 -10.3 -10.7 c 6.8 -22.8 22 -42.1 45.2 -50.4 c 23.7 -8.4 48.9 -3.1 69.8 9.5 z" fill="white"/></svg>' +
+        '</div>' +
       '</div>' +
-      '<div style="padding:16px 18px 12px">' +
-        '<div style="font-size:18px;font-weight:700;color:#111;line-height:1.4;margin-bottom:8px">' + title + '</div>' +
-        '<div style="font-size:13px;color:#555;line-height:1.7;margin-bottom:10px">' + summary + (summary.length>=180?"…":"") + '</div>' +
-        '<div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #eee;padding-top:10px">' +
-          '<span style="font-size:11px;color:#999">' + dateStr + '</span>' +
-          '<span style="font-size:11px;font-weight:700;color:#c8001e;letter-spacing:.04em">selectme.in</span>' +
+      '<div style="padding:28px 32px 32px;background:#fff">' +
+        '<div style="font-size:25px;font-weight:800;color:#111;line-height:1.35;margin-bottom:14px;border-left:5px solid #c8001e;padding-left:14px">' + title + '</div>' +
+        '<div style="font-size:20px;color:#333;line-height:1.9;word-break:break-word;white-space:pre-wrap">' + fullBody + '</div>' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;border-top:2px solid #eee;padding-top:16px;margin-top:28px">' +
+          '<span style="font-size:13px;color:#999">' + dateStr + '</span>' +
+          '<span style="font-size:18px;font-weight:700;color:#c8001e;letter-spacing:.04em">selectme.in</span>' +
         '</div>' +
       '</div>';
 
@@ -2031,12 +2040,18 @@ var FEED = {
     btn.disabled = true;
 
     function doCapture() {
+      var CARD_H = wrap.scrollHeight || wrap.offsetHeight;
       if (typeof html2canvas !== 'undefined') {
-        html2canvas(wrap, { useCORS: true, scale: 2, backgroundColor: '#fff', logging: false })
+        html2canvas(wrap, { useCORS: true, scale: SCALE, backgroundColor: '#fff', logging: false, width: CARD_W, height: CARD_H, windowWidth: CARD_W, windowHeight: CARD_H })
           .then(function(canvas) {
+            // Scale to 1080px wide, keep proportional height
+            var outW = 1080, outH = Math.round(canvas.height * (outW / canvas.width));
+            var out = document.createElement('canvas');
+            out.width = outW; out.height = outH;
+            out.getContext('2d').drawImage(canvas, 0, 0, outW, outH);
             var link = document.createElement('a');
-            link.download = 'selectme-' + id + '.png';
-            link.href = canvas.toDataURL('image/png');
+            link.download = 'selectme-1080x1920-' + id + '.jpg';
+            link.href = out.toDataURL('image/jpeg', 0.93);
             link.click();
             document.body.removeChild(wrap);
             btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg> Done!';
