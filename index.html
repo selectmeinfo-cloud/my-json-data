@@ -1805,6 +1805,10 @@ var FEED = {
       self.page++;
       self.loading = false;
       if (self.page * self.perPage >= self.filtered.length) self.allLoaded = true;
+
+      // Sentinel ని feedScroll bottom కి తరలించు — IntersectionObserver సరిగ్గా trigger అవుతుంది
+      var sentinel = document.getElementById('feedSentinel');
+      if (sentinel) fs.appendChild(sentinel);
     }, 200);
   },
 
@@ -2323,8 +2327,22 @@ var FEED = {
       if(entries[0].isIntersecting && !FEED.loading && !FEED.allLoaded){
         FEED.loadMore();
       }
-    }, {rootMargin:'200px'});
+    }, {rootMargin:'300px'});
     this.observer.observe(sentinel);
+
+    // Window scroll fallback — observer miss అయినా load అవుతుంది
+    if(!this._scrollBound){
+      this._scrollBound = true;
+      window.addEventListener('scroll', function(){
+        if(FEED.loading || FEED.allLoaded) return;
+        if(!document.body.classList.contains('feed-mode')) return;
+        var scrolled = window.scrollY || window.pageYOffset;
+        var total = document.documentElement.scrollHeight - window.innerHeight;
+        if(total - scrolled < 400){
+          FEED.loadMore();
+        }
+      }, {passive:true});
+    }
   },
 
   _dayLabel: function(dayKey) {
