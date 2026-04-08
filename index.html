@@ -1547,7 +1547,7 @@ function renderArticle(id){
         <h1 class="article-headline">${art.title}</h1>
         <div class="article-dek">${art.dek}</div>
         <div class="article-meta-bar"><span>By <span class="article-author">${art.author}</span></span><span>·</span><span>${fmtDate(art.date)}</span><span>·</span><span>${art.readTime}</span><div class="article-share"><span class="share-btn" onclick="copyLink(this)">🔗 Share</span><span class="share-btn" onclick="shareToFb()">f Share</span><span class="share-btn" onclick="shareToX()">𝕏 Tweet</span></div></div>
-        <div class="article-hero-wrap"><img src="${art.img}" alt="select, ${art.imgAlt}" id="ahImg_${art.id}"/></div>
+        <div class="article-hero-wrap"><img src="${art.img}" alt="selectme, ${art.imgAlt}" id="ahImg_${art.id}"/></div>
         ${art.imgCap?`<div class="article-img-cap">${art.imgCap}</div>`:''}
         ${bodyHtml}
         
@@ -1817,7 +1817,7 @@ var FEED = {
     var isBookmarked = !!this.bookmarks[a.id];
     el.innerHTML =
       '<div class="nc-img-wrap">' +
-        '<img src="' + a.img + '" alt="' + (a.imgAlt||'').replace(/"/g,'&quot;') + '" loading="lazy" onerror="this.parentElement.style.display=\'none\'">' +
+        '<img src="' + a.img + '" alt="selectme ' + (a.imgAlt||'').replace(/"/g,'&quot;') + '" loading="lazy" onerror="this.parentElement.style.display=\'none\'">' +
         '<div class="nc-cat-badge">' + (a.catLabel||'') + '</div>' +
         '<button class="nc-share-fab" onclick="FEED.openShare(event,\'' + a.id + '\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>' +
       '</div>' +
