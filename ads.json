@@ -2,13 +2,13 @@
   {
     "id": "ad001",
     "adType": "custom",
-    "title": "Grab the Offer\nఈ రోజు వరకే!\nWebsite at Low Price #offer #offer",
+    "title": "Grab the Offer - ఈ రోజు వరకే!\nWebsite at Low Price #offer #offer",
     "sub": "Book your web site Get Social posting FREE for 1 Month(30 Posts)",
     "img": "https://www.google.com/search?q=limited+time+offer&sca_esv=e8481ae40804fa8e&hl=en&udm=2&biw=2560&bih=911&sxsrf=ANbL-n6ARLSqmFRcHd8FgouApK28tWTccg%3A1775745392629&ei=cLnXaa37JeDgseMPoIXXmQo&oq=limited+time&gs_lp=Egtnd3Mtd2l6LWltZyIMbGltaXRlZCB0aW1lKgIIADIKEAAYgAQYigUYQzIKEAAYgAQYigUYQzIFEAAYgAQyChAAGIAEGIoFGEMyBRAAGIAEMgoQABiABBiKBRhDMgoQABiABBiKBRhDMgUQABiABDIFEAAYgAQyBRAAGIAESI0mUJMSWLcfcAF4AJABAJgBhAGgAcEIqgEEMTAuMrgBA8gBAPgBAZgCDaAChwnCAgQQABgewgIHECMYyQIYJ8ICCxAAGIAEGLEDGIMBwgILEAAYgAQYigUYsQPCAg4QABiABBiKBRixAxiDAcICCBAAGIAEGLEDwgINEAAYgAQYigUYQxixA8ICEBAAGIAEGIoFGEMYsQMYgwGYAwCIBgGSBwM5LjSgB8I_sgcDOC40uAeDCcIHBTAuNC45yAcygAgB&sclient=gws-wiz-img#sv=CAMSVhoyKhBlLUJsZXBrQ2VKVDdMR19NMg5CbGVwa0NlSlQ3TEdfTToOdXNrMnVMNDBaeVJVWU0gBCocCgZtb3NhaWMSEGUtQmxlcGtDZUpUN0xHX00YADABGAcgiJaRggpKCBABGAEgASgB",
     "url": "https://tardigrades.co.in/",
-    "color1": "#1a237e",
-    "color2": "#1976d2",
-    "animType": "fade-up",
+    "color1": "#2c6812",
+    "color2": "#0fc00c",
+    "animType": "slide-right",
     "positions": [
       2,
       8,
