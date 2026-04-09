@@ -8,7 +8,7 @@
     "url": "https://tardigrades.co.in/",
     "color1": "#1a237e",
     "color2": "#1976d2",
-    "animType": "slide-left",
+    "animType": "fade-up",
     "positions": [
       2,
       8,
