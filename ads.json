@@ -158,5 +158,23 @@
       24
     ],
     "active": true
+  },
+  {
+    "id": "1776432779077",
+    "adType": "custom",
+    "title": "Tardigrades\nWebsite | Blogs | Video Ads @ Low Price",
+    "sub": "Create your Website & Get Soicial Posting for 10 Posts",
+    "img": "https://tardigrades.co.in/admin/services_page/gallery/1748328357_Sign%20boards%20(2).jpg",
+    "url": "https://tardigrades.co.in/",
+    "positions": [
+      1,
+      3,
+      5
+    ],
+    "color1": "#f0f9ff",
+    "color2": "#bae6fd",
+    "themeId": "sky",
+    "animType": "slide-left",
+    "active": true
   }
 ]
