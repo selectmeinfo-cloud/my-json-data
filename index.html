@@ -1239,7 +1239,7 @@ function normalizeArticle(raw){
     titleEn:raw.english_title||raw.title||raw.telugu_title||'',
     dek:raw.telugu_excerpt||raw.excerpt||'',
     author:raw.author||'Selectme Editorial',date:raw.published_date||raw.date||(raw.source&&raw.source.date?raw.source.date:'')||'',
-    _ts:(function(){var d=raw.published_date||raw.date||(raw.source&&raw.source.date?raw.source.date:'')||'';if(!d)return 0;var t=Date.parse(d);return isNaN(t)?0:t;})(),
+    _ts:(function(){var d=raw.published_date||raw.date||(raw.source&&raw.source.date?raw.source.date:'')||'';if(!d)return 0;var dmyM=d.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);if(dmyM){var dy=parseInt(dmyM[1],10),mn=parseInt(dmyM[2],10),yr=parseInt(dmyM[3],10);var iso=yr+'-'+(mn<10?'0':'')+mn+'-'+(dy<10?'0':'')+dy;var t2=Date.parse(iso);if(!isNaN(t2))return t2;}var t=Date.parse(d);return isNaN(t)?0:t;})(),
     readTime:raw.read_time||'5 min read',
     img:(function(){
       var RAW_BASE='https://raw.githubusercontent.com/selectmeinfo-cloud/my-json-data/main/';
@@ -2499,7 +2499,8 @@ var FEED = {
   timeAgo: function(dateStr) {
     if(!dateStr) return '';
     var now = Date.now();
-    var then = new Date(dateStr).getTime();
+    var _d = _parseDate(dateStr);
+    var then = _d ? _d.getTime() : NaN;
     if(isNaN(then)) return dateStr;
     var diff = Math.floor((now - then) / 1000);
     if(diff < 60)   return diff + ' సెకన్ల క్రితం';
@@ -2792,10 +2793,22 @@ function artTitle(a){return CURRENT_LANG==='en'&&a.titleEn?a.titleEn:a.title;}
 function artDek(a){if(CURRENT_LANG==='en'){const enText=a.bodyEn?a.bodyEn.replace(/<[^>]+>/g,'').substring(0,180)+'…':'';return enText||a.dek;}return a.dek||a.body.replace(/<[^>]+>/g,'').substring(0,180)+'…';}
 
 // ── Date formatter: JSON date → Telugu readable string ──
+function _parseDate(dateStr){
+  if(!dateStr) return null;
+  // DD/MM/YYYY లేదా DD-MM-YYYY → ISO గా convert చేయి
+  var m=dateStr.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})(.*)/);
+  if(m){
+    var iso=m[3]+'-'+(m[2].length<2?'0':'')+m[2]+'-'+(m[1].length<2?'0':'')+m[1]+(m[4]||'');
+    var d2=new Date(iso);
+    if(!isNaN(d2.getTime()))return d2;
+  }
+  var d=new Date(dateStr);
+  return isNaN(d.getTime())?null:d;
+}
 function fmtDate(dateStr){
   if(!dateStr) return '';
-  var d = new Date(dateStr);
-  if(isNaN(d.getTime())) return dateStr;
+  var d = _parseDate(dateStr);
+  if(!d) return dateStr;
   var now = new Date(); now.setHours(0,0,0,0);
   var day = new Date(d); day.setHours(0,0,0,0);
   var diff = Math.floor((now - day) / 86400000);
