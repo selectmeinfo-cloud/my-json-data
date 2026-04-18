@@ -23,9 +23,13 @@
 <meta name="twitter:title" content="Selectme.in — తెలుగు వార్తలు"/>
 <meta name="twitter:description" content="తాజా తెలుగు వార్తలు, ట్రెండింగ్ ఆర్టికల్స్, daily updates పొందండి."/>
 <meta name="twitter:image" content="https://selectme.in/og-image.svg"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<!-- html2canvas: download card నొక్కినప్పుడే load అవుతుంది -->
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Outfit:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<!-- Critical fonts only (Outfit + Telugu) — rest load async -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Noto+Sans+Telugu:wght@400;600;700&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Bebas+Neue&display=swap" media="print" onload="this.media='all'"/>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900&family=Bebas+Neue&display=swap"/></noscript>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 /* Mobile touch fix */
@@ -1272,61 +1276,104 @@ function normalizeArticle(raw){
 const LOADED_CATS=new Set();
 
 async function loadAllArticles(){
-  let fileList=[];
   const RAW='https://raw.githubusercontent.com/selectmeinfo-cloud/my-json-data/main/data/';
   const GITHUB_API='https://api.github.com/repos/selectmeinfo-cloud/my-json-data/contents/data';
+  let fileList=[];
 
-  // Step 1: index.json try first (no rate limit)
+  // ── Step 1: manifest.json try (single file with all articles bundled) ──
   try{
-    const idxRes=await fetch(RAW+'index.json');
+    const mRes=await fetch(RAW+'manifest.json',{cache:'no-store'});
+    if(mRes.ok){
+      const mData=await mRes.json();
+      // manifest.json లో articles array ఉంటే directly use చేయి — zero extra fetches!
+      const arts=Array.isArray(mData)?mData:(mData.articles||mData.data||null);
+      if(arts&&arts.length){
+        let loaded=0;
+        arts.forEach(raw=>{
+          const art=normalizeArticle(raw);if(!art)return;
+          ARTICLES[art.id]=art;
+          const catKey=art.cat;
+          if(!CATEGORIES[catKey])CATEGORIES[catKey]={icon:'📂',label:art.catLabel||catKey,articles:[]};
+          if(!CATEGORIES[catKey].articles.includes(art.id))CATEGORIES[catKey].articles.push(art.id);
+          LOADED_CATS.add(catKey);loaded++;
+        });
+        if(loaded>0){
+          _sortCategories();
+          console.log('[selectme] manifest.json: loaded',loaded,'articles (1 fetch!)');
+          return true;
+        }
+      }
+    }
+  }catch(e){console.warn('[selectme] manifest.json failed:',e.message);}
+
+  // ── Step 2: index.json → file list ──
+  try{
+    const idxRes=await fetch(RAW+'index.json',{cache:'no-store'});
     if(idxRes.ok){
       const idx=await idxRes.json();
       if(Array.isArray(idx)&&idx.length){
         fileList=idx.filter(f=>typeof f==='string'?f.endsWith('.json'):f.name&&f.name.endsWith('.json'))
                     .map(f=>typeof f==='string'?f:f.name)
                     .filter(f=>f!=='index.json'&&f!=='manifest.json');
-        console.log('[selectme] index.json found:',fileList.length,'files');
       }else if(idx&&typeof idx==='object'&&idx.files){
         fileList=idx.files.filter(f=>f.endsWith('.json')&&f!=='index.json'&&f!=='manifest.json');
       }
     }
   }catch(e){console.warn('[selectme] index.json failed:',e.message);}
 
-  // Step 2: GitHub API fallback
+  // ── Step 3: GitHub API fallback ──
   if(!fileList.length){
     try{
       const res=await fetch(GITHUB_API,{headers:{'Accept':'application/vnd.github.v3+json'}});
-      if(!res.ok)throw new Error('GitHub API '+res.status+(res.status===403?' (rate limited — index.json create చేయండి)':''));
+      if(!res.ok)throw new Error('GitHub API '+res.status);
       const files=await res.json();
-      if(Array.isArray(files)){
+      if(Array.isArray(files))
         fileList=files.filter(f=>f.name&&f.name.endsWith('.json')&&f.name!=='index.json'&&f.name!=='manifest.json').map(f=>f.name);
-        console.log('[selectme] GitHub API:',fileList.length,'files');
-      }
     }catch(e){console.error('[selectme] GitHub API error:',e.message);}
   }
 
-  if(!fileList.length){console.error('[selectme] No JSON files found in data/');return false;}
+  if(!fileList.length){console.error('[selectme] No JSON files found');return false;}
 
-  const results=await Promise.all(fileList.map(fname=>fetch(RAW+fname).then(r=>r.ok?r.json():null).catch(()=>null)));
+  // ── Batch fetch: 5 at a time (GitHub CDN rate limit avoid) ──
+  const BATCH=6;
   let loaded=0;
-  results.forEach(raw=>{
-    const art=normalizeArticle(raw);if(!art)return;
-    ARTICLES[art.id]=art;
-    const catKey=art.cat;
-    if(!CATEGORIES[catKey])CATEGORIES[catKey]={icon:'📂',label:art.catLabel||catKey,articles:[]};
-    if(!CATEGORIES[catKey].articles.includes(art.id))CATEGORIES[catKey].articles.push(art.id);
-    LOADED_CATS.add(catKey);
-    loaded++;
-  });
-  console.log('[selectme] Articles loaded:',loaded);
+  for(let i=0;i<fileList.length;i+=BATCH){
+    const batch=fileList.slice(i,i+BATCH);
+    const results=await Promise.all(
+      batch.map(fname=>fetch(RAW+fname,{cache:'force-cache'}).then(r=>r.ok?r.json():null).catch(()=>null))
+    );
+    results.forEach(raw=>{
+      const art=normalizeArticle(raw);if(!art)return;
+      ARTICLES[art.id]=art;
+      const catKey=art.cat;
+      if(!CATEGORIES[catKey])CATEGORIES[catKey]={icon:'📂',label:art.catLabel||catKey,articles:[]};
+      if(!CATEGORIES[catKey].articles.includes(art.id))CATEGORIES[catKey].articles.push(art.id);
+      LOADED_CATS.add(catKey);loaded++;
+    });
+    // First batch వచ్చిన వెంటనే feed show చేయి — user కి instant feel
+    if(i===0&&loaded>0&&document.body.classList.contains('feed-mode')){
+      _sortCategories();
+      var fs=document.getElementById('feedScroll');
+      if(fs&&fs.querySelector('.sk-card')){
+        // Skeleton తో ఉంటే real content show చేయి
+        fs.innerHTML='';
+        FEED.buildFiltered();FEED.page=0;FEED.allLoaded=false;
+        FEED.loading=false;FEED._lastRenderedDay=null;
+        FEED.loadMore();FEED.setupInfiniteScroll();
+      }
+    }
+  }
+  _sortCategories();
+  console.log('[selectme] Loaded:',loaded,'articles');
+  return loaded>0;
+}
+
+function _sortCategories(){
   Object.keys(CATEGORIES).forEach(function(catKey){
     CATEGORIES[catKey].articles.sort(function(a,b){
-      var ta=ARTICLES[a]?ARTICLES[a]._ts:0;
-      var tb=ARTICLES[b]?ARTICLES[b]._ts:0;
-      return tb-ta;
+      return (ARTICLES[b]?ARTICLES[b]._ts:0)-(ARTICLES[a]?ARTICLES[a]._ts:0);
     });
   });
-  return loaded>0;
 }
 
 async function loadCategoryArticles(cat){
@@ -1799,19 +1846,21 @@ var FEED = {
     this.loading = true;
     var fs = document.getElementById('feedScroll');
 
-    // Show loader
-    var loader = document.createElement('div');
-    loader.id = 'feedLoader';
-    loader.className = 'feed-loader';
-    loader.innerHTML = '<div class="feed-loader-dot"></div><div class="feed-loader-dot"></div><div class="feed-loader-dot"></div>';
-    fs.appendChild(loader);
+    // Show dots loader only for infinite scroll (page>0), not initial load
+    if (this.page > 0) {
+      var loader = document.createElement('div');
+      loader.id = 'feedLoader';
+      loader.className = 'feed-loader';
+      loader.innerHTML = '<div class="feed-loader-dot"></div><div class="feed-loader-dot"></div><div class="feed-loader-dot"></div>';
+      fs.appendChild(loader);
+    }
 
     var self = this;
-    setTimeout(function() {
+    // Render immediately — no artificial delay
+    (function() {
       var start = self.page * self.perPage;
       var batch = self.filtered.slice(start, start + self.perPage);
 
-      // Remove loader
       var ld = document.getElementById('feedLoader');
       if (ld) ld.remove();
 
@@ -1846,7 +1895,7 @@ var FEED = {
         // Stagger animation
         card.style.opacity = '0';
         card.style.transform = 'translateY(16px)';
-        setTimeout(function(){ card.style.transition='opacity .3s ease,transform .3s ease'; card.style.opacity='1'; card.style.transform='translateY(0)'; }, i * 50);
+        setTimeout(function(){ card.style.transition='opacity .25s ease,transform .25s ease'; card.style.opacity='1'; card.style.transform='translateY(0)'; }, i * 20);
 
         // ── Ad card: position-based insert ──
         var globalIdx = start + i;
@@ -1867,7 +1916,7 @@ var FEED = {
       // Sentinel ని feedScroll bottom కి తరలించు — IntersectionObserver సరిగ్గా trigger అవుతుంది
       var sentinel = document.getElementById('feedSentinel');
       if (sentinel) fs.appendChild(sentinel);
-    }, 200);
+    })();
   },
 
   buildCard: function(a) {
@@ -2058,6 +2107,16 @@ var FEED = {
     return el;
   },
 
+  _html2canvasLoaded: false,
+  _loadHtml2Canvas: function(cb){
+    if(window.html2canvas){cb();return;}
+    if(this._html2canvasLoaded){setTimeout(function(){if(window.html2canvas)cb();},100);return;}
+    this._html2canvasLoaded=true;
+    var s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+    s.onload=cb;document.head.appendChild(s);
+  },
+
   downloadCard: function(e, id) {
     e.stopPropagation();
     var a = ARTICLES[id];
@@ -2134,14 +2193,23 @@ var FEED = {
       }
     }
 
+    // html2canvas lazy load — first time మాత్రమే script download అవుతుంది
+    function _runAfterImg(){
+      if(!window.html2canvas){
+        var s=document.createElement('script');
+        s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+        s.onload=function(){ setTimeout(doCapture,50); };
+        document.head.appendChild(s);
+      } else { doCapture(); }
+    }
     var img = wrap.querySelector('img');
     if (img && !img.complete) {
       var done = false;
-      function once(){ if(!done){ done=true; doCapture(); } }
+      function once(){ if(!done){ done=true; _runAfterImg(); } }
       img.onload = once; img.onerror = once;
       setTimeout(once, 2000);
     } else {
-      setTimeout(doCapture, 100);
+      setTimeout(_runAfterImg, 100);
     }
   },
 
