@@ -1343,9 +1343,70 @@ async function loadCategoryArticles(cat){
 
 
 function showLoader(){
-  const el=document.getElementById('pageHome');
-  el.innerHTML=`<div style="display:flex;align-items:center;justify-content:center;height:60vh"><div style="text-align:center"><div style="margin-bottom:20px"><svg viewBox="0 0 6000 3200" width="140" height="75" style="display:block;margin:0 auto;overflow:visible"><use href="#selectme-logo-anim"/></svg></div><p style="font-size:13px;color:#888;font-family:'Outfit',sans-serif;margin-top:4px">Articles load అవుతున్నాయి…</p></div></div>`;
-  showPage('pageHome');
+  // ── Skeleton shimmer CSS (inject once) ──────────────────────
+  if(!document.getElementById('_skeletonCSS')){
+    var s=document.createElement('style');s.id='_skeletonCSS';
+    s.textContent=`
+      @keyframes _skShimmer{0%{background-position:-600px 0}100%{background-position:600px 0}}
+      .sk-base{background:#e8e5de;border-radius:3px;display:block}
+      .sk-wave{background:linear-gradient(90deg,#e8e5de 25%,#f2f0eb 50%,#e8e5de 75%);
+               background-size:600px 100%;animation:_skShimmer 1.4s ease infinite}
+      body.dark .sk-base{background:#2a2a2a}
+      body.dark .sk-wave{background:linear-gradient(90deg,#2a2a2a 25%,#333 50%,#2a2a2a 75%);background-size:600px 100%}
+      .sk-card{background:#fff;border-radius:0;margin:0 0 10px;padding:0;overflow:hidden;box-shadow:0 1px 0 #e8e5de}
+      body.dark .sk-card{background:#1a1a2e;box-shadow:0 1px 0 #2a2a2a}
+      .sk-img{width:100%;height:200px;margin-bottom:0}
+      .sk-body{padding:12px 14px 10px}
+      .sk-cat{height:10px;width:80px;margin-bottom:8px}
+      .sk-title-1{height:16px;width:95%;margin-bottom:6px}
+      .sk-title-2{height:16px;width:75%;margin-bottom:10px}
+      .sk-sum-1{height:11px;width:100%;margin-bottom:5px}
+      .sk-sum-2{height:11px;width:88%;margin-bottom:5px}
+      .sk-sum-3{height:11px;width:60%;margin-bottom:12px}
+      .sk-footer{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-top:1px solid #f2f0eb}
+      body.dark .sk-footer{border-top-color:#2a2a2a}
+      .sk-btn{height:28px;width:80px;border-radius:4px}
+      .sk-time{height:10px;width:60px}
+      .sk-day-label{height:36px;display:flex;align-items:center;padding:0 14px;margin:4px 0}
+      .sk-day-pill{height:14px;width:140px;border-radius:10px}
+    `;
+    document.head.appendChild(s);
+  }
+
+  // ── Build skeleton cards in feedScroll ──────────────────────
+  function _skCard(){
+    return '<div class="sk-card">'+
+      '<div class="sk-base sk-wave sk-img"></div>'+
+      '<div class="sk-body">'+
+        '<div class="sk-base sk-wave sk-cat"></div>'+
+        '<div class="sk-base sk-wave sk-title-1"></div>'+
+        '<div class="sk-base sk-wave sk-title-2"></div>'+
+        '<div class="sk-base sk-wave sk-sum-1"></div>'+
+        '<div class="sk-base sk-wave sk-sum-2"></div>'+
+        '<div class="sk-base sk-wave sk-sum-3"></div>'+
+      '</div>'+
+      '<div class="sk-footer">'+
+        '<div class="sk-base sk-wave sk-btn"></div>'+
+        '<div class="sk-base sk-wave sk-time"></div>'+
+      '</div>'+
+    '</div>';
+  }
+
+  // Activate feed-mode immediately so layout is correct
+  document.body.classList.add('feed-mode');
+  var ft=document.getElementById('feedTopBar');if(ft)ft.style.display='block';
+  var sh=document.getElementById('sharedHeader');if(sh&&window.innerWidth<=900)sh.style.display='none';
+  ['pageArticle','pageCategory','pageStatic'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});
+  document.getElementById('pageHome').style.display='none';
+
+  var fs=document.getElementById('feedScroll');
+  if(fs){
+    fs.style.display='block';
+    // Day label skeleton + 5 card skeletons — top to bottom lోడ్ feel
+    var html='<div class="sk-day-label"><div class="sk-base sk-wave sk-day-pill"></div></div>';
+    for(var i=0;i<5;i++) html+=_skCard();
+    fs.innerHTML=html;
+  }
 }
 
 function showPage(which){
@@ -2800,6 +2861,8 @@ window.addEventListener('DOMContentLoaded',async function(){
   FEED.darkMode  = localStorage.getItem('sm_dark') === '1';
   if(FEED.darkMode) document.body.classList.add('dark');
   FEED.buildBottomNav();
+  // Clear skeleton before real content loads
+  var fs=document.getElementById('feedScroll');if(fs)fs.innerHTML='';
   if(!articlesOk){_showLoadError();}
   else{restoreState();startShuffleTimers();
     // Load RSS video feeds — fallback to article videos if RSS empty/fails
