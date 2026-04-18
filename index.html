@@ -24,6 +24,8 @@
 <meta name="twitter:description" content="తాజా తెలుగు వార్తలు, ట్రెండింగ్ ఆర్టికల్స్, daily updates పొందండి."/>
 <meta name="twitter:image" content="https://selectme.in/og-image.svg"/>
 <!-- html2canvas: download card నొక్కినప్పుడే load అవుతుంది -->
+<link rel="dns-prefetch" href="https://raw.githubusercontent.com"/>
+<link rel="dns-prefetch" href="https://api.github.com"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <!-- Critical fonts only (Outfit + Telugu) — rest load async -->
@@ -36,12 +38,17 @@
 a,button,[onclick]{-webkit-tap-highlight-color:transparent;touch-action:manipulation;cursor:pointer}
 button{-webkit-appearance:none;appearance:none}
 html{font-size:16px;scroll-behavior:smooth}
-body{background:#f9f8f5;color:#111;font-family:'Outfit',sans-serif;line-height:1.5;overflow-x:hidden}
+body{background:#f9f8f5;color:#111;font-family:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.5;overflow-x:hidden}
 a{color:inherit;text-decoration:none;transition:color .15s;cursor:pointer}
 a:hover{color:#222}
 img{display:block;width:100%;object-fit:cover;background:#e5e3de}
+.skip-link{position:absolute;left:-9999px;top:0;z-index:9999;background:var(--red,#c8001e);color:#fff;padding:10px 20px;font-size:14px;font-weight:700;text-decoration:none}
+.skip-link:focus{left:0}
+/* Focus visible for keyboard nav */
+button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid #c8001e;outline-offset:2px}
+/* Fix: outline:none → only hide for mouse, keep for keyboard */
 :root{
-  --red:#c8001e;--ink:#111;--ink2:#2e2e2e;--ink3:#555;--ink4:#888;--ink5:#bbb;
+  --red:#c8001e;--ink:#111;--ink2:#2e2e2e;--ink3:#555;--ink4:#6b6b6b;--ink5:#bbb;
   --bg:#f9f8f5;--bg2:#f2f0eb;--bg3:#e8e5de;--bdr:#dddbd5;--bdr2:#c8c6c0;
   --telugu:'Noto Sans Telugu','Arial Unicode MS',Arial,sans-serif;--display:'Playfair Display',Georgia,serif;
   --serif:'Source Serif 4',Georgia,serif;--max:1140px;
@@ -71,7 +78,7 @@ img{display:block;width:100%;object-fit:cover;background:#e5e3de}
 .rwrap-cfi-img{height:54px}
 .rwrap-cgi-img{height:110px;margin-bottom:8px;position:relative}
 .article-hero-wrap{position:relative;overflow:hidden;display:block;margin-bottom:8px}
-.article-hero-wrap img{display:block;width:100%;height:380px;object-fit:cover}
+.article-hero-wrap img{display:block;width:100%;height:380px;object-fit:cover;aspect-ratio:16/9}
 
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
 
@@ -529,7 +536,7 @@ body.dark .ad-card-noimg{background:linear-gradient(135deg,#0a2e0d,#1b5e20)}
 }
 body.dark #feedBottomNav{background:#1a1d27;border-top-color:#252836}
 .fbn-in{display:flex;justify-content:space-around;align-items:stretch;height:56px}
-.fbn-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px 2px;cursor:pointer;border:none;background:none;font-family:inherit;font-size:9px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.03em;transition:color .15s;min-width:0;position:relative}
+.fbn-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:44px;padding:4px 2px;cursor:pointer;border:none;background:none;font-family:inherit;font-size:9px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.03em;transition:color .15s;min-width:0;position:relative}
 .fbn-btn .fbn-icon{font-size:22px;line-height:1;display:block;color:inherit}
 .fbn-btn.active{color:#e53935}
 .fbn-btn.active .fbn-icon{transform:scale(1.08)}
@@ -940,6 +947,7 @@ body.feed-mode #siteFooter{display:none}
 }
 </style>
 </head><body>
+<a href="#feedScroll" class="skip-link">Skip to content</a>
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
   <symbol id="selectme-logo" viewBox="0 0 6000 3200" preserveAspectRatio="xMinYMid meet">
     <path fill="#111" d="M4593.77 166.58c0,0 -719.96,89.07 -1484.45,1261.78 -764.49,1172.72 -1595.79,1811.03 -2605.21,1150.45 0,0 697.69,749.65 1647.74,170.71 950.05,-578.94 1276.63,-2145.03 2441.92,-2582.94z"/>
@@ -976,7 +984,7 @@ body.feed-mode #siteFooter{display:none}
 <div id="feedTopBar" style="display:none">
   <div class="ftb-in">
     <div class="ftb-logo" onclick="FEED.activeCat='all';FEED.reset()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6000 3200" height="32" style="display:block;width:auto"><use href="#selectme-logo"/></svg></div>
-    <input class="ftb-search" id="feedSearch" placeholder="వార్తలు వెతకండి…" oninput="FEED._searchMode(this.value)"/>
+    <input class="ftb-search" id="feedSearch" placeholder="వార్తలు వెతకండి…" aria-label="వార్తలు వెతకండి" oninput="FEED._searchMode(this.value)"/>
     <div class="ftb-actions">
       <button class="ftb-subscribe-btn" onclick="goPage('subscribe')" title="Subscribe">Subscribe</button>
 
@@ -988,7 +996,7 @@ body.feed-mode #siteFooter{display:none}
 
 
 <!-- Main feed scroll area -->
-<div id="feedScroll" style="display:none"></div>
+<div id="feedScroll" role="main" aria-label="వార్తల feed" style="display:none"></div>
 
 <!-- Bottom navigation (always on mobile) -->
 <div id="feedBottomNav"></div>
@@ -1122,7 +1130,7 @@ body.feed-mode #siteFooter{display:none}
 <div id="pageCategory" style="display:none"></div>
 <div id="pageStatic" style="display:none"></div>
 
-<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Top కి వెళ్ళు">↑</button>
+<button id="backToTop" aria-label="పైకి వెళ్ళు" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Top కి వెళ్ళు">↑</button>
 
 
 
@@ -1927,7 +1935,7 @@ var FEED = {
     var isBookmarked = !!this.bookmarks[a.id];
     el.innerHTML =
       '<div class="nc-img-wrap">' +
-        '<img src="' + a.img + '" alt="selectme, ' + (a.imgAlt||'').replace(/"/g,'&quot;') + '" loading="lazy" onerror="this.parentElement.style.display=\'none\'">' +
+        '<img src="' + a.img + '" alt="selectme, ' + (a.imgAlt||'').replace(/"/g,'&quot;') + '" loading="lazy" width="400" height="200" onerror="this.parentElement.style.display=\'none\'">' +
         '<div class="nc-cat-badge">' + (a.catLabel||'') + '</div>' +
         '<button class="nc-share-fab" onclick="FEED.openShare(event,\'' + a.id + '\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>' +
       '</div>' +
@@ -1942,11 +1950,11 @@ var FEED = {
       '</div>' +
       '<div class="nc-footer">' +
         '<div class="nc-actions">' +
-          '<button class="nc-act-btn' + (isBookmarked?' bookmarked':'') + '" onclick="FEED.toggleBookmark(event,\'' + a.id + '\',this)">' +
+          '<button class="nc-act-btn' + (isBookmarked?' bookmarked':'') + '" aria-label="' + (isBookmarked?'Saved':'Save') + '" onclick="FEED.toggleBookmark(event,\'' + a.id + '\',this)">' +
             '<svg viewBox="0 0 24 24" fill="' + (isBookmarked?'currentColor':'none') + '" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>' +
             (isBookmarked?' Saved':' Save') +
           '</button>' +          
-          '<button class="nc-act-btn nc-download-btn" onclick="FEED.downloadCard(event,\'' + a.id + '\')">' +
+          '<button class="nc-act-btn nc-download-btn" aria-label="Download" onclick="FEED.downloadCard(event,\'' + a.id + '\')">' +
             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
             ' Download' +
           '</button>' +
@@ -2102,7 +2110,7 @@ var FEED = {
         '<div class="ncc-title">' + (a.title||'') + '</div>' +
         '<div class="ncc-meta">' + timeAgo + '</div>' +
       '</div>' +
-      '<img class="ncc-img" src="' + a.img + '" alt="' + (a.imgAlt||'').replace(/"/g,'&quot;') + '" loading="lazy" onerror="this.style.display=\'none\'">';
+      '<img class="ncc-img" src="' + a.img + '" alt="' + (a.imgAlt||a.title||'').replace(/"/g,'&quot;') + '" loading="lazy" width="80" height="60" onerror="this.style.display=\'none\'">';
     el.addEventListener('click', function(){ FEED.openArticle(a); });
     return el;
   },
