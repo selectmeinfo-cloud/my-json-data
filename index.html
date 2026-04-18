@@ -28,9 +28,8 @@
 <link rel="dns-prefetch" href="https://api.github.com"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<!-- Critical fonts — non-blocking (Fix 1: was render-blocking, now async) -->
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Noto+Sans+Telugu:wght@400;600;700&display=swap" as="style" onload="this.rel='stylesheet'"/>
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Noto+Sans+Telugu:wght@400;600;700&display=swap"/></noscript>
+<!-- Critical fonts only (Outfit + Telugu) — rest load async -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Noto+Sans+Telugu:wght@400;600;700&display=swap"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Bebas+Neue&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900&family=Bebas+Neue&display=swap"/></noscript>
 <style>
@@ -82,28 +81,6 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid 
 .article-hero-wrap img{display:block;width:100%;height:380px;object-fit:cover;aspect-ratio:16/9}
 
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
-/* ── Skeleton shimmer (Fix 4: moved inline so skeleton shows before JS runs) ── */
-@keyframes _skShimmer{0%{background-position:-600px 0}100%{background-position:600px 0}}
-.sk-base{background:#e8e5de;border-radius:3px;display:block}
-.sk-wave{background:linear-gradient(90deg,#e8e5de 25%,#f2f0eb 50%,#e8e5de 75%);background-size:600px 100%;animation:_skShimmer 1.4s ease infinite}
-body.dark .sk-base{background:#2a2a2a}
-body.dark .sk-wave{background:linear-gradient(90deg,#2a2a2a 25%,#333 50%,#2a2a2a 75%);background-size:600px 100%}
-.sk-card{background:#fff;border-radius:0;margin:0 0 10px;padding:0;overflow:hidden;box-shadow:0 1px 0 #e8e5de}
-body.dark .sk-card{background:#1a1a2e;box-shadow:0 1px 0 #2a2a2a}
-.sk-img{width:100%;height:200px;margin-bottom:0}
-.sk-body{padding:12px 14px 10px}
-.sk-cat{height:10px;width:80px;margin-bottom:8px}
-.sk-title-1{height:16px;width:95%;margin-bottom:6px}
-.sk-title-2{height:16px;width:75%;margin-bottom:10px}
-.sk-sum-1{height:11px;width:100%;margin-bottom:5px}
-.sk-sum-2{height:11px;width:88%;margin-bottom:5px}
-.sk-sum-3{height:11px;width:60%;margin-bottom:12px}
-.sk-footer{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-top:1px solid #f2f0eb}
-body.dark .sk-footer{border-top-color:#2a2a2a}
-.sk-btn{height:28px;width:80px;border-radius:4px}
-.sk-time{height:10px;width:60px}
-.sk-day-label{height:36px;display:flex;align-items:center;padding:0 14px;margin:4px 0}
-.sk-day-pill{height:14px;width:140px;border-radius:10px}
 
 
 
@@ -1313,7 +1290,7 @@ async function loadAllArticles(){
 
   // ── Step 1: manifest.json try (single file with all articles bundled) ──
   try{
-    const mRes=await fetch(RAW+'manifest.json',{cache:'default'}); // Fix 3: use browser cache for repeat visits
+    const mRes=await fetch(RAW+'manifest.json',{cache:'no-store'});
     if(mRes.ok){
       const mData=await mRes.json();
       // manifest.json లో articles array ఉంటే directly use చేయి — zero extra fetches!
@@ -1422,7 +1399,34 @@ async function loadCategoryArticles(cat){
 
 function showLoader(){
   // ── Skeleton shimmer CSS (inject once) ──────────────────────
-  // Fix 4: skeleton CSS moved to inline <style> in <head> — no JS injection needed
+  if(!document.getElementById('_skeletonCSS')){
+    var s=document.createElement('style');s.id='_skeletonCSS';
+    s.textContent=`
+      @keyframes _skShimmer{0%{background-position:-600px 0}100%{background-position:600px 0}}
+      .sk-base{background:#e8e5de;border-radius:3px;display:block}
+      .sk-wave{background:linear-gradient(90deg,#e8e5de 25%,#f2f0eb 50%,#e8e5de 75%);
+               background-size:600px 100%;animation:_skShimmer 1.4s ease infinite}
+      body.dark .sk-base{background:#2a2a2a}
+      body.dark .sk-wave{background:linear-gradient(90deg,#2a2a2a 25%,#333 50%,#2a2a2a 75%);background-size:600px 100%}
+      .sk-card{background:#fff;border-radius:0;margin:0 0 10px;padding:0;overflow:hidden;box-shadow:0 1px 0 #e8e5de}
+      body.dark .sk-card{background:#1a1a2e;box-shadow:0 1px 0 #2a2a2a}
+      .sk-img{width:100%;height:200px;margin-bottom:0}
+      .sk-body{padding:12px 14px 10px}
+      .sk-cat{height:10px;width:80px;margin-bottom:8px}
+      .sk-title-1{height:16px;width:95%;margin-bottom:6px}
+      .sk-title-2{height:16px;width:75%;margin-bottom:10px}
+      .sk-sum-1{height:11px;width:100%;margin-bottom:5px}
+      .sk-sum-2{height:11px;width:88%;margin-bottom:5px}
+      .sk-sum-3{height:11px;width:60%;margin-bottom:12px}
+      .sk-footer{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-top:1px solid #f2f0eb}
+      body.dark .sk-footer{border-top-color:#2a2a2a}
+      .sk-btn{height:28px;width:80px;border-radius:4px}
+      .sk-time{height:10px;width:60px}
+      .sk-day-label{height:36px;display:flex;align-items:center;padding:0 14px;margin:4px 0}
+      .sk-day-pill{height:14px;width:140px;border-radius:10px}
+    `;
+    document.head.appendChild(s);
+  }
 
   // ── Build skeleton cards in feedScroll ──────────────────────
   function _skCard(){
@@ -1742,7 +1746,6 @@ function scheduleNextShuffle(){if(_shuffleTimer)clearTimeout(_shuffleTimer);_shu
 // ═══════════════════════════════════════════════════════════
 var FEED = {
   activeCat: 'all',
-  _cardCount: 0, // Fix 2: tracks first card for eager LCP image
   page: 0,
   perPage: 10,
   loading: false,
@@ -1783,7 +1786,6 @@ var FEED = {
 
   reset: function() {
     this.page = 0;
-    this._cardCount = 0; // Fix 2: reset for LCP tracking
     this.allLoaded = false;
     this.loading = false;
     this._lastRenderedDay = null;
@@ -1898,7 +1900,6 @@ var FEED = {
           card = self.buildCard(a);
         }
         fs.appendChild(card);
-        self._cardCount++; // Fix 2: track card count for LCP eager loading
         // Stagger animation
         card.style.opacity = '0';
         card.style.transform = 'translateY(16px)';
@@ -1934,7 +1935,7 @@ var FEED = {
     var isBookmarked = !!this.bookmarks[a.id];
     el.innerHTML =
       '<div class="nc-img-wrap">' +
-        '<img src="' + a.img + '" alt="selectme, ' + (a.imgAlt||'').replace(/"/g,'&quot;') + '" loading="' + (FEED._cardCount === 0 ? 'eager' : 'lazy') + '" fetchpriority="' + (FEED._cardCount === 0 ? 'high' : 'auto') + '" width="400" height="200" onerror="this.parentElement.style.display=\'none\'">' +
+        '<img src="' + a.img + '" alt="selectme, ' + (a.imgAlt||'').replace(/"/g,'&quot;') + '" loading="lazy" width="400" height="200" onerror="this.parentElement.style.display=\'none\'">' +
         '<div class="nc-cat-badge">' + (a.catLabel||'') + '</div>' +
         '<button class="nc-share-fab" onclick="FEED.openShare(event,\'' + a.id + '\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>' +
       '</div>' +
@@ -1978,7 +1979,7 @@ var FEED = {
       return callback(self._adsCache);
     }
     // Try fetching ads.json (works when hosted on a server)
-    fetch('ads.json', { cache: 'default' }) // Fix 3: removed cache-busting, use browser cache
+    fetch('ads.json?v=' + now, { cache: 'no-store' })
       .then(function(r) {
         if (!r.ok) throw new Error('not found');
         return r.json();
