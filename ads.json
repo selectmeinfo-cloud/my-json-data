@@ -174,7 +174,7 @@
     "color1": "#f0f9ff",
     "color2": "#bae6fd",
     "themeId": "sky",
-    "animType": "slide-left",
+    "animType": "crossfade",
     "active": true
   }
 ]
