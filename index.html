@@ -42,6 +42,30 @@ body{background:#f9f8f5;color:#111;font-family:'Outfit',-apple-system,BlinkMacSy
 a{color:inherit;text-decoration:none;transition:color .15s;cursor:pointer}
 a:hover{color:#222}
 img{display:block;width:100%;object-fit:cover;background:#e5e3de}
+
+/* ══════════════════════════════════════════
+   ① TOP PROGRESS BAR
+══════════════════════════════════════════ */
+#sm-progress-bar{
+  position:fixed;top:0;left:0;width:0%;height:3px;
+  background:linear-gradient(90deg,#c8001e,#ff4d6d);
+  z-index:99999;transition:width .3s ease,opacity .4s ease;
+  box-shadow:0 0 8px rgba(200,0,30,.6);opacity:0;pointer-events:none;
+}
+#sm-progress-bar.active{opacity:1}
+
+/* ══════════════════════════════════════════
+   ② IMAGE BLUR-UP (progressive reveal)
+══════════════════════════════════════════ */
+.rwrap img,.article-hero-wrap img{
+  filter:blur(0);transition:filter .4s ease,opacity .35s ease;opacity:1;
+}
+.rwrap img.img-loading,.article-hero-wrap img.img-loading{
+  filter:blur(8px);opacity:.6;
+}
+.rwrap img.img-loaded,.article-hero-wrap img.img-loaded{
+  filter:blur(0);opacity:1;
+}
 .skip-link{position:absolute;left:-9999px;top:0;z-index:9999;background:var(--red,#c8001e);color:#fff;padding:10px 20px;font-size:14px;font-weight:700;text-decoration:none}
 .skip-link:focus{left:0}
 /* Focus visible for keyboard nav */
@@ -947,6 +971,8 @@ body.feed-mode #siteFooter{display:none}
 }
 </style>
 </head><body>
+<!-- ① TOP PROGRESS BAR ELEMENT -->
+<div id="sm-progress-bar"></div>
 <a href="#feedScroll" class="skip-link">Skip to content</a>
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
   <symbol id="selectme-logo" viewBox="0 0 6000 3200" preserveAspectRatio="xMinYMid meet">
@@ -1467,6 +1493,8 @@ function showLoader(){
 function showPage(which){
   ['pageHome','pageArticle','pageCategory','pageStatic'].forEach(id=>{document.getElementById(id).style.display='none';});
   const el=document.getElementById(which);el.style.display='block';
+  // Progress bar — page switch feel
+  if(typeof smProgressStart==='function'){smProgressStart();setTimeout(smProgressDone,300);}
   // Inner pages: deactivate feed-mode, show header
   if(which!=='pageHome'){
     document.body.classList.remove('feed-mode');
@@ -2942,9 +2970,86 @@ function startShuffleTimers() {
   }, 5 * 60 * 1000); // 5 minutes
 }
 
+
+// ══════════════════════════════════════════════════════
+// ① TOP PROGRESS BAR — selectme.in
+// ══════════════════════════════════════════════════════
+(function(){
+  var bar=document.getElementById('sm-progress-bar');
+  var _t=null,_w=0,_done=false;
+  function _set(pct){
+    _w=pct;
+    bar.style.width=pct+'%';
+  }
+  function _tick(){
+    // Slow crawl: 0→80 while loading, then finish instantly
+    if(_done) return;
+    if(_w<80) _set(_w + (80-_w)*0.04 + 0.4);
+    _t=setTimeout(_tick, 200);
+  }
+  window.smProgressStart=function(){
+    clearTimeout(_t);_done=false;_w=0;
+    bar.classList.add('active');
+    _set(5);_tick();
+  };
+  window.smProgressDone=function(){
+    clearTimeout(_t);_done=true;
+    _set(100);
+    setTimeout(function(){bar.classList.remove('active');_set(0);},450);
+  };
+})();
+
+// ══════════════════════════════════════════════════════
+// ② IMAGE BLUR-UP — selectme.in
+// ══════════════════════════════════════════════════════
+(function(){
+  function _applyBlurUp(img){
+    // Already processed ga ఉంటే skip
+    if(img._smBlur) return;
+    img._smBlur=true;
+    if(img.complete && img.naturalWidth>0){
+      // Already loaded — no blur needed
+      return;
+    }
+    img.classList.add('img-loading');
+    img.addEventListener('load',function(){
+      img.classList.remove('img-loading');
+      img.classList.add('img-loaded');
+    },{once:true});
+    img.addEventListener('error',function(){
+      img.classList.remove('img-loading');
+    },{once:true});
+  }
+  // Existing images process చేయి
+  function processAll(){
+    document.querySelectorAll('.rwrap img,.article-hero-wrap img').forEach(_applyBlurUp);
+  }
+  // DOM లో కొత్తగా add అయ్యే images కి MutationObserver
+  var mo=new MutationObserver(function(mutations){
+    mutations.forEach(function(m){
+      m.addedNodes.forEach(function(node){
+        if(!node.querySelectorAll) return;
+        node.querySelectorAll('.rwrap img,.article-hero-wrap img').forEach(_applyBlurUp);
+        if(node.matches&&(node.matches('.rwrap img')||node.matches('.article-hero-wrap img'))) _applyBlurUp(node);
+      });
+    });
+  });
+  if(document.body){
+    processAll();
+    mo.observe(document.body,{childList:true,subtree:true});
+  } else {
+    document.addEventListener('DOMContentLoaded',function(){
+      processAll();
+      mo.observe(document.body,{childList:true,subtree:true});
+    });
+  }
+})();
+
 window.addEventListener('DOMContentLoaded',async function(){
+  smProgressStart();
   showLoader();
   const[articlesOk]=await Promise.all([loadAllArticles(),loadNavFromSheet()]);
+  smProgressDone();
   // Build bottom nav immediately for all pages
   FEED.bookmarks = JSON.parse(localStorage.getItem('sm_bookmarks') || '{}');
   FEED.darkMode  = localStorage.getItem('sm_dark') === '1';
