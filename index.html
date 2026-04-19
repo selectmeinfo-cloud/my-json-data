@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http%3A//www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Ccircle%20cx='50'%20cy='50'%20r='50'%20fill='%23c8001e'/%3E%3Cpath%20fill='white'%20fill-rule='nonzero'%20transform='translate%2812.5%2C15.4%29%20scale%280.1465%29'%20d='M105.32%20230.83c24.41%2014.96%2037.99%2037.49%2050.26%2057.87l2.72%204.51c49.63-67.2%2097.21-130.7%20155.42-186.63C375.43%2047.26%20440.08%204.55%20503.57.02c4.34-.3%208.11%202.97%208.41%207.3.19%202.64-.96%205.08-2.86%206.64C443.34%2069.2%20383.04%20136.02%20326.3%20211.32%20269.39%20286.84%20224.24%20363.55%20172.59%20453c-6.7%2011.59-13.51%2018.57-21.75%2019.28-8.54.74-16.5-5.11-24.68-19.28l-.24-.45c-13.45-23.4-24.64-49.93-35.35-75.36-23.76-56.37-45.17-107.15-80.89-98.62-5.92%201.4-11.03-4.15-9.36-9.85%206.21-21.1%2020.08-39.02%2041.28-46.69%2021.57-7.79%2044.63-2.87%2063.72%208.8z'/%3E%3C/svg%3E"/>
 <title>Selectme.in — తెలుగు వార్తలు</title>
+<link rel="icon" href="/favicon.ico">
 <meta name="description" content="Selectme.in లో తాజా తెలుగు వార్తలు, ట్రెండింగ్ ఆర్టికల్స్, daily updates పొందండి. Latest Telugu news, breaking news and updates.">
 <!-- ✅ Open Graph / WhatsApp / Facebook Share Tags -->
 <meta property="og:site_name" content="Selectme.in"/>
@@ -24,14 +25,11 @@
 <meta name="twitter:image" content="https://selectme.in/og-image.svg"/>
 <!-- html2canvas: download card నొక్కినప్పుడే load అవుతుంది -->
 <link rel="dns-prefetch" href="https://raw.githubusercontent.com"/>
-<link rel="dns-prefetch" href="https://api.allorigins.win"/>
 <link rel="dns-prefetch" href="https://api.github.com"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <!-- Critical fonts only (Outfit + Telugu) — rest load async -->
-<!-- Fonts: preload non-blocking for FCP/SI improvement -->
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=Noto+Sans+Telugu:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=Noto+Sans+Telugu:wght@400;700&display=swap"></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Noto+Sans+Telugu:wght@400;600;700&display=swap"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Bebas+Neue&display=swap" media="print" onload="this.media='all'"/>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900&family=Bebas+Neue&display=swap"/></noscript>
 <style>
@@ -39,11 +37,35 @@
 /* Mobile touch fix */
 a,button,[onclick]{-webkit-tap-highlight-color:transparent;touch-action:manipulation;cursor:pointer}
 button{-webkit-appearance:none;appearance:none}
-html{font-size:16px;scroll-behavior:auto}
+html{font-size:16px;scroll-behavior:smooth}
 body{background:#f9f8f5;color:#111;font-family:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.5;overflow-x:hidden}
 a{color:inherit;text-decoration:none;transition:color .15s;cursor:pointer}
 a:hover{color:#222}
 img{display:block;width:100%;object-fit:cover;background:#e5e3de}
+
+/* ══════════════════════════════════════════
+   ① TOP PROGRESS BAR
+══════════════════════════════════════════ */
+#sm-progress-bar{
+  position:fixed;top:0;left:0;width:0%;height:3px;
+  background:linear-gradient(90deg,#c8001e,#ff4d6d);
+  z-index:99999;transition:width .3s ease,opacity .4s ease;
+  box-shadow:0 0 8px rgba(200,0,30,.6);opacity:0;pointer-events:none;
+}
+#sm-progress-bar.active{opacity:1}
+
+/* ══════════════════════════════════════════
+   ② IMAGE BLUR-UP (progressive reveal)
+══════════════════════════════════════════ */
+.rwrap img,.article-hero-wrap img{
+  filter:blur(0);transition:filter .4s ease,opacity .35s ease;opacity:1;
+}
+.rwrap img.img-loading,.article-hero-wrap img.img-loading{
+  filter:blur(8px);opacity:.6;
+}
+.rwrap img.img-loaded,.article-hero-wrap img.img-loaded{
+  filter:blur(0);opacity:1;
+}
 .skip-link{position:absolute;left:-9999px;top:0;z-index:9999;background:var(--red,#c8001e);color:#fff;padding:10px 20px;font-size:14px;font-weight:700;text-decoration:none}
 .skip-link:focus{left:0}
 /* Focus visible for keyboard nav */
@@ -59,7 +81,7 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid 
 }
 .loader{width:36px;height:36px;border:3px solid var(--bdr);border-top-color:var(--red);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto}
 @keyframes spin{to{transform:rotate(360deg)}}
-.page-view{animation:fadeUp .3s ease both;contain:content}
+.page-view{animation:fadeUp .3s ease both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .rwrap{position:relative;overflow:hidden;display:block}
 .rwrap img{display:block;width:100%;height:100%;object-fit:cover}
@@ -104,7 +126,7 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid 
 .sec-hd .lbl{font-size:9px;font-weight:800;color:#fff;background:var(--ink);padding:4px 12px;letter-spacing:.14em;text-transform:uppercase;display:inline-block;margin-bottom:-3px}
 .sec-hd .more{margin-left:auto;font-size:9.5px;color:var(--ink4);font-weight:600;padding-bottom:5px;letter-spacing:.03em;transition:color .15s}
 .sec-hd .more:hover{color:var(--red)}
-.top4-wrapper{position:relative;overflow:hidden;background:var(--bg);border-bottom:1px solid var(--bdr);contain:strict;isolation:isolate;transform:translateZ(0)}
+.top4-wrapper{position:relative;overflow:hidden;background:var(--bg);border-bottom:1px solid var(--bdr);contain:layout style;isolation:isolate;transform:translateZ(0)}
 .top4-wrapper::before,.top4-wrapper::after{content:'';position:absolute;top:0;bottom:0;width:80px;z-index:10;pointer-events:none}
 .top4-wrapper::before{left:0;background:linear-gradient(to right,var(--bg) 30%,transparent)}
 .top4-wrapper::after{right:0;background:linear-gradient(to left,var(--bg) 30%,transparent)}
@@ -949,6 +971,8 @@ body.feed-mode #siteFooter{display:none}
 }
 </style>
 </head><body>
+<!-- ① TOP PROGRESS BAR ELEMENT -->
+<div id="sm-progress-bar"></div>
 <a href="#feedScroll" class="skip-link">Skip to content</a>
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
   <symbol id="selectme-logo" viewBox="0 0 6000 3200" preserveAspectRatio="xMinYMid meet">
@@ -1469,6 +1493,8 @@ function showLoader(){
 function showPage(which){
   ['pageHome','pageArticle','pageCategory','pageStatic'].forEach(id=>{document.getElementById(id).style.display='none';});
   const el=document.getElementById(which);el.style.display='block';
+  // Progress bar — page switch feel
+  if(typeof smProgressStart==='function'){smProgressStart();setTimeout(smProgressDone,300);}
   // Inner pages: deactivate feed-mode, show header
   if(which!=='pageHome'){
     document.body.classList.remove('feed-mode');
@@ -1937,7 +1963,7 @@ var FEED = {
     var isBookmarked = !!this.bookmarks[a.id];
     el.innerHTML =
       '<div class="nc-img-wrap">' +
-        '<img src="' + a.img + '" alt="selectme, ' + (a.imgAlt||'').replace(/"/g,'&quot;') + '" loading="lazy" decoding="async" width="400" height="200" onerror="this.parentElement.style.display=\'none\'">' +
+        '<img src="' + a.img + '" alt="selectme, ' + (a.imgAlt||'').replace(/"/g,'&quot;') + '" loading="lazy" width="400" height="200" onerror="this.parentElement.style.display=\'none\'">' +
         '<div class="nc-cat-badge">' + (a.catLabel||'') + '</div>' +
         '<button class="nc-share-fab" onclick="FEED.openShare(event,\'' + a.id + '\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>' +
       '</div>' +
@@ -2112,7 +2138,7 @@ var FEED = {
         '<div class="ncc-title">' + (a.title||'') + '</div>' +
         '<div class="ncc-meta">' + timeAgo + '</div>' +
       '</div>' +
-      '<img class="ncc-img" src="' + a.img + '" alt="' + (a.imgAlt||a.title||'').replace(/"/g,'&quot;') + '" loading="lazy" decoding="async" width="80" height="60" onerror="this.style.display=\'none\'">';
+      '<img class="ncc-img" src="' + a.img + '" alt="' + (a.imgAlt||a.title||'').replace(/"/g,'&quot;') + '" loading="lazy" width="80" height="60" onerror="this.style.display=\'none\'">';
     el.addEventListener('click', function(){ FEED.openArticle(a); });
     return el;
   },
@@ -2944,9 +2970,86 @@ function startShuffleTimers() {
   }, 5 * 60 * 1000); // 5 minutes
 }
 
+
+// ══════════════════════════════════════════════════════
+// ① TOP PROGRESS BAR — selectme.in
+// ══════════════════════════════════════════════════════
+(function(){
+  var bar=document.getElementById('sm-progress-bar');
+  var _t=null,_w=0,_done=false;
+  function _set(pct){
+    _w=pct;
+    bar.style.width=pct+'%';
+  }
+  function _tick(){
+    // Slow crawl: 0→80 while loading, then finish instantly
+    if(_done) return;
+    if(_w<80) _set(_w + (80-_w)*0.04 + 0.4);
+    _t=setTimeout(_tick, 200);
+  }
+  window.smProgressStart=function(){
+    clearTimeout(_t);_done=false;_w=0;
+    bar.classList.add('active');
+    _set(5);_tick();
+  };
+  window.smProgressDone=function(){
+    clearTimeout(_t);_done=true;
+    _set(100);
+    setTimeout(function(){bar.classList.remove('active');_set(0);},450);
+  };
+})();
+
+// ══════════════════════════════════════════════════════
+// ② IMAGE BLUR-UP — selectme.in
+// ══════════════════════════════════════════════════════
+(function(){
+  function _applyBlurUp(img){
+    // Already processed ga ఉంటే skip
+    if(img._smBlur) return;
+    img._smBlur=true;
+    if(img.complete && img.naturalWidth>0){
+      // Already loaded — no blur needed
+      return;
+    }
+    img.classList.add('img-loading');
+    img.addEventListener('load',function(){
+      img.classList.remove('img-loading');
+      img.classList.add('img-loaded');
+    },{once:true});
+    img.addEventListener('error',function(){
+      img.classList.remove('img-loading');
+    },{once:true});
+  }
+  // Existing images process చేయి
+  function processAll(){
+    document.querySelectorAll('.rwrap img,.article-hero-wrap img').forEach(_applyBlurUp);
+  }
+  // DOM లో కొత్తగా add అయ్యే images కి MutationObserver
+  var mo=new MutationObserver(function(mutations){
+    mutations.forEach(function(m){
+      m.addedNodes.forEach(function(node){
+        if(!node.querySelectorAll) return;
+        node.querySelectorAll('.rwrap img,.article-hero-wrap img').forEach(_applyBlurUp);
+        if(node.matches&&(node.matches('.rwrap img')||node.matches('.article-hero-wrap img'))) _applyBlurUp(node);
+      });
+    });
+  });
+  if(document.body){
+    processAll();
+    mo.observe(document.body,{childList:true,subtree:true});
+  } else {
+    document.addEventListener('DOMContentLoaded',function(){
+      processAll();
+      mo.observe(document.body,{childList:true,subtree:true});
+    });
+  }
+})();
+
 window.addEventListener('DOMContentLoaded',async function(){
+  smProgressStart();
   showLoader();
   const[articlesOk]=await Promise.all([loadAllArticles(),loadNavFromSheet()]);
+  smProgressDone();
   // Build bottom nav immediately for all pages
   FEED.bookmarks = JSON.parse(localStorage.getItem('sm_bookmarks') || '{}');
   FEED.darkMode  = localStorage.getItem('sm_dark') === '1';
