@@ -1,6 +1,9 @@
 {
   "id": "us_israel_iran_war_live_indian_killed_after_iranian_strike_damages_kuwait_power_station_ndtv",
-  "category": "అంతర్జాతీయ వార్తలు",
+  "category": [
+    "అంతర్జాతీయ వార్తలు",
+    "International"
+  ],
   "telugu_title": "ఇరాన్ దాడిలో కువైట్‌లో భారతీయ కార్మికుడు మృతి, తీవ్రమవుతున్న ఇజ్రాయెల్-ఇరాన్ ఉద్రిక్తతలు",
   "summary_short": "కువైట్‌లోని పవర్ స్టేషన్‌పై జరిగిన ఇరాన్ దాడిలో ఒక భారతీయ కార్మికుడు ప్రాణాలు కోల్పోయాడు. ఇరాన్‌తో త్వరలో ఒప్పందం జరగవచ్చని డొనాల్డ్ ట్రంప్ సంచలన వ్యాఖ్యలు చేశారు.",
   "voiceover_script": "కువైట్‌లో ఇరాన్ చేసిన దాడిలో ఒక భారతీయుడు మృతి చెందాడు. ఇజ్రాయెల్ ఇరాన్ మధ్య యుద్ధ మేఘాలు కమ్ముకున్న వేళ డొనాల్డ్ ట్రంప్ సంచలన వ్యాఖ్యలు చేశారు. పూర్తి వివరాలు ఇప్పుడే చూడండి!",
@@ -40,7 +43,17 @@
   "source": {
     "original_url": "https://news.google.com/rss/articles/CBMimAJBVV95cUxPcW85bXhrRndNakt1U0JiZFRtdTBDRE45aldHdlIzNmhMNlNybjYwZGRxU0lFM0s1U1VxOFlFa1RpVmFPT1RITGJJazhoN1ZvWU51VVZPUGQ1YnhlQW9mcEFLVXV4Z2lpTDJSUFdTQVo5UV8xcXpDQ0lfaXJMRUo0N1NIMGlXWGt5bHJ3SV9tS1Rja3ZGODJzQzRQZFFGQ29JazgyZW9CWTZZdUN6Q1NXRWs4OTA2bkFsUWNENWVYakhFZUtoaERlakNULUlISVc0SDV2TmhwZE5rZmtFVmxZMzZ1VHl2WEpGTm13dEFsNTdnLU1uQkdKZWUtcmNyTkpGMy16aEdzLUtxUFJOU0JodkxjNXdLMUpR?oc=5",
     "original_title": "US Israel Iran War LIVE: Indian Killed After Iranian Strike Damages Kuwait Power Station - NDTV",
-    "date": "2026-03-30 04:14:17"
+    "date": "30/03/2026"
   },
-  "tags": []
+  "tags": [
+    "Iran Israel War",
+    "Indian Killed in Kuwait",
+    "Kuwait Power Station Attack",
+    "Donald Trump on Iran",
+    "Telugu News",
+    "International News Telugu",
+    "US Iran Tensions"
+  ],
+  "published_date": "30/03/2026",
+  "date": "30/03/2026"
 }
