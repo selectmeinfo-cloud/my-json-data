@@ -444,6 +444,9 @@ body.dark .ftb-search{background:#252836;border-color:#333;color:#eee}
 .ftb-actions{display:flex;gap:8px;align-items:center}
 .ftb-subscribe-btn{background:var(--red);color:#fff;border:none;padding:5px 12px;font-size:11px;font-weight:700;font-family:'Outfit',sans-serif;letter-spacing:.05em;cursor:pointer;border-radius:20px;transition:opacity .15s;white-space:nowrap}
 .ftb-subscribe-btn:hover{opacity:.85}
+.ftb-dm-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;transition:background .15s;color:var(--ink);padding:0;flex-shrink:0}
+.ftb-dm-btn:hover{background:var(--bg3)}
+body.dark .ftb-dm-btn{color:#e0e0e0}
 .ftb-btn{width:34px;height:34px;border:none;background:none;cursor:pointer;font-size:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .15s;color:#444}
 .ftb-btn:hover{background:#f0f0f0}
 body.dark .ftb-btn{color:#ccc}
@@ -1012,8 +1015,10 @@ body.feed-mode #siteFooter{display:none}
     <div class="ftb-logo" onclick="FEED.activeCat='all';FEED.reset()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6000 3200" height="32" style="display:block;width:auto"><use href="#selectme-logo"/></svg></div>
     <input class="ftb-search" id="feedSearch" placeholder="వార్తలు వెతకండి…" aria-label="వార్తలు వెతకండి" oninput="FEED._searchMode(this.value)"/>
     <div class="ftb-actions">
-      <button class="ftb-subscribe-btn" onclick="goPage('subscribe')" title="Subscribe">Subscribe</button>
-
+      <button class="ftb-dm-btn" id="ftbDarkBtn" onclick="FEED.toggleDark()" title="Dark Mode" aria-label="Dark Mode toggle">
+        <svg id="ftbDarkIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg id="ftbLightIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
     </div>
   </div>
 </div>
@@ -1139,6 +1144,16 @@ body.feed-mode #siteFooter{display:none}
           <div class="set-row-info">
             <span class="set-row-label">Contact Us</span>
             <span class="set-row-sub">మాతో సంప్రదించండి</span>
+          </div>
+        </div>
+        <span style="font-size:18px;color:#aaa">›</span>
+      </div>
+      <div class="set-row" onclick="FEED.closeSettings();goPage('privacy')">
+        <div class="set-row-left">
+          <span class="set-row-icon">🔒</span>
+          <div class="set-row-info">
+            <span class="set-row-label">Privacy Policy</span>
+            <span class="set-row-sub">గోప్యతా విధానం చదవండి</span>
           </div>
         </div>
         <span style="font-size:18px;color:#aaa">›</span>
@@ -1747,7 +1762,10 @@ function renderStaticPage(page){
     const val3=d.val3||'<strong>Independence:</strong> Editorially independent, beholden only to our readers.';
     document.getElementById('pageStatic').innerHTML=`<div class="static-page page-view"><div class="static-hero"><div class="static-hero-tag">${heroTag}</div><div class="static-hero-title">${heroTitle}</div><div class="static-hero-sub">${heroSub}</div></div><div class="static-body"><div class="stat-row"><div class="stat-box"><div class="stat-num">${stat1Num}</div><div class="stat-label">${stat1Label}</div></div><div class="stat-box"><div class="stat-num">${stat2Num}</div><div class="stat-label">${stat2Label}</div></div><div class="stat-box"><div class="stat-num">${stat3Num}</div><div class="stat-label">${stat3Label}</div></div><div class="stat-box"><div class="stat-num">${stat4Num}</div><div class="stat-label">${stat4Label}</div></div></div><h2>${storyTitle}</h2><p>${storyBody}</p><h2>${valuesTitle}</h2><ul><li>${val1}</li><li>${val2}</li><li>${val3}</li></ul></div></div>`;
   }
-  else if(page==='contact'){
+  else if(page==='privacy'){
+    document.getElementById('pageStatic').innerHTML=`<div class="static-page page-view"><div class="static-hero"><div class="static-hero-tag">Legal</div><div class="static-hero-title">Privacy Policy</div><div class="static-hero-sub">Your privacy matters to us. Please read this policy carefully.</div></div><div class="static-body"><p style="font-size:12px;color:var(--ink4);margin-bottom:20px">Last updated: April 2026</p><h2>1. Introduction</h2><p>Welcome to Selectme.in ("we", "our", "us"). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains what information we collect, how we use it, and what rights you have in relation to it.</p><h2>2. Information We Collect</h2><p>We may collect the following types of information when you visit our website:</p><ul><li><strong>Log Data:</strong> Browser type and version, IP address, pages visited, time and date of visit, time spent on pages, and other standard server log data.</li><li><strong>Contact Form Data:</strong> When you submit our contact form, we collect your name and email address along with your message.</li><li><strong>Preferences:</strong> We store your site preferences (such as dark mode, saved articles) locally on your device using localStorage.</li></ul><h2>3. How We Use Your Information</h2><p>We use the information we collect for the following purposes:</p><ul><li>To operate, maintain, and improve our website and services.</li><li>To respond to your inquiries and messages submitted via our contact form.</li><li>To analyze usage patterns and improve user experience.</li><li>To detect and prevent technical issues or abuse.</li></ul><h2>4. Cookies &amp; Local Storage</h2><p>We use browser localStorage to remember your preferences such as dark mode and bookmarked articles. We do not use tracking cookies for advertising purposes on our own systems. Third-party services (see below) may set their own cookies.</p><h2>5. Google AdSense &amp; Analytics</h2><p>We use Google AdSense to display advertisements. Google may use cookies and similar technologies to serve ads based on your prior visits to our website or other websites. You can opt out of personalized advertising by visiting <a href="https://adssettings.google.com" target="_blank" style="color:var(--red)">Google Ads Settings</a>. For more information, see <a href="https://policies.google.com/privacy" target="_blank" style="color:var(--red)">Google's Privacy Policy</a>.</p><h2>6. Data Sharing</h2><p>We do not sell, trade, or rent your personal information to third parties. We may share anonymized, aggregated data for analytical purposes. We may disclose information if required by law or to protect our rights.</p><h2>7. Data Retention</h2><p>Contact form submissions are retained only as long as necessary to respond to your inquiry. Log data is retained for a maximum of 30 days. You may request deletion of your data at any time by contacting us.</p><h2>8. Your Rights</h2><p>You have the right to access, correct, or request deletion of your personal data. To exercise these rights, please contact us at the email below.</p><h2>9. Children's Privacy</h2><p>Our website is not directed to children under the age of 13. We do not knowingly collect personal information from children.</p><h2>10. Changes to This Policy</h2><p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page with an updated date.</p><h2>11. Contact Us</h2><p>If you have any questions about this Privacy Policy, please contact us at: <a href="mailto:selectmeinfo@gmail.com" style="color:var(--red)">selectmeinfo@gmail.com</a></p></div></div>`;
+  }
+    else if(page==='contact'){
     const d=C.contact||{};
     const heroTag=d.heroTag||'Contact';
     const heroTitle=d.heroTitle||'Get in Touch';
@@ -1760,7 +1778,57 @@ function renderStaticPage(page){
   }
 }
 
-function submitContact(){if(!document.getElementById('cf-name').value||!document.getElementById('cf-email').value)return alert('Please fill in your name and email.');document.getElementById('contactSuccess').classList.add('show');}
+function submitContact(){
+  var name=document.getElementById('cf-name').value.trim();
+  var email=document.getElementById('cf-email').value.trim();
+  var msg=document.getElementById('cf-msg')?document.getElementById('cf-msg').value.trim():'';
+  if(!name||!email)return alert('Please fill in your name and email.');
+  var btn=document.querySelector('.form-submit');
+  if(btn){btn.disabled=true;btn.textContent='Sending…';}
+  var payload={
+    type:'contact',
+    name:name,
+    email:email,
+    message:msg,
+    page:location.href,
+    browser:navigator.userAgent,
+    timestamp:new Date().toISOString(),
+    language:navigator.language||'unknown'
+  };
+  fetch(window.SM_SHEET_URL||'',{
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(payload)
+  }).catch(function(){});
+  document.getElementById('contactSuccess').classList.add('show');
+  if(btn){setTimeout(function(){btn.disabled=false;btn.textContent='Send Message →';},3000);}
+}
+
+// Track visitor data on page load
+(function(){
+  setTimeout(function(){
+    if(!window.SM_SHEET_URL)return;
+    fetch('https://api.ipify.org?format=json').then(function(r){return r.json();}).then(function(d){
+      var payload={
+        type:'visitor',
+        ip:d.ip||'unknown',
+        browser:navigator.userAgent,
+        page:location.href,
+        referrer:document.referrer||'direct',
+        language:navigator.language||'unknown',
+        screen:screen.width+'x'+screen.height,
+        timestamp:new Date().toISOString()
+      };
+      fetch(window.SM_SHEET_URL,{
+        method:'POST',
+        mode:'no-cors',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(payload)
+      }).catch(function(){});
+    }).catch(function(){});
+  },2000);
+})();
 
 
 var _shuffleTimer=null,_countdownTimer=null,_isOnHomePage=false;
@@ -2687,6 +2755,11 @@ var FEED = {
     localStorage.setItem('sm_dark', this.darkMode ? '1' : '0');
     var toggle = document.getElementById('dmToggle');
     if(toggle) toggle.classList.toggle('on', this.darkMode);
+    // Sync header dark mode icon
+    var moonIcon = document.getElementById('ftbDarkIcon');
+    var sunIcon  = document.getElementById('ftbLightIcon');
+    if(moonIcon) moonIcon.style.display = this.darkMode ? 'none' : '';
+    if(sunIcon)  sunIcon.style.display  = this.darkMode ? '' : 'none';
   }
 };
 
@@ -3045,6 +3118,12 @@ function startShuffleTimers() {
   }
 })();
 
+
+// ═══════════════════════════════════════════════════════════════
+// GOOGLE SHEET INTEGRATION — Set your Apps Script Web App URL here
+// ═══════════════════════════════════════════════════════════════
+window.SM_SHEET_URL = 'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+
 window.addEventListener('DOMContentLoaded',async function(){
   smProgressStart();
   showLoader();
@@ -3054,6 +3133,11 @@ window.addEventListener('DOMContentLoaded',async function(){
   FEED.bookmarks = JSON.parse(localStorage.getItem('sm_bookmarks') || '{}');
   FEED.darkMode  = localStorage.getItem('sm_dark') === '1';
   if(FEED.darkMode) document.body.classList.add('dark');
+  // Sync header dark mode icon on load
+  var moonIcon = document.getElementById('ftbDarkIcon');
+  var sunIcon  = document.getElementById('ftbLightIcon');
+  if(moonIcon) moonIcon.style.display = FEED.darkMode ? 'none' : '';
+  if(sunIcon)  sunIcon.style.display  = FEED.darkMode ? '' : 'none';
   FEED.buildBottomNav();
   // Clear skeleton before real content loads
   var fs=document.getElementById('feedScroll');if(fs)fs.innerHTML='';
