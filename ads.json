@@ -17,22 +17,6 @@
     "active": true
   },
   {
-    "id": "ad009",
-    "adType": "custom",
-    "title": "Meesho — Trending Fashion\nచౌకగా, stylishగా\nలక్షల products ఒకే చోట",
-    "sub": "Free delivery | Easy returns | COD available",
-    "img": "https://images.unsplash.com/photo-1445205170230-053b83016050?w=300&q=80",
-    "url": "https://www.meesho.com",
-    "color1": "#880e4f",
-    "color2": "#ad1457",
-    "animType": "slide-left",
-    "positions": [
-      11,
-      19
-    ],
-    "active": true
-  },
-  {
     "id": "ad010",
     "adType": "custom",
     "title": "PhonePe — Fast & Safe\nUPI payments సులభంగా\nRecharge, bills, shopping",
