@@ -17,22 +17,6 @@
     "active": true
   },
   {
-    "id": "ad008",
-    "adType": "custom",
-    "title": "LIC Policy — Future Secure\nమీ కుటుంబాన్ని protect చేయండి\nఈ రోజే apply చేయండి",
-    "sub": "Low premium | High coverage | Tax benefit",
-    "img": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=300&q=80",
-    "url": "https://www.licindia.in",
-    "color1": "#004d40",
-    "color2": "#00796b",
-    "animType": "fade-up",
-    "positions": [
-      9,
-      25
-    ],
-    "active": true
-  },
-  {
     "id": "ad009",
     "adType": "custom",
     "title": "Meesho — Trending Fashion\nచౌకగా, stylishగా\nలక్షల products ఒకే చోట",
