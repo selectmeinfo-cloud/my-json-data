@@ -17,22 +17,6 @@
     "active": true
   },
   {
-    "id": "ad010",
-    "adType": "custom",
-    "title": "PhonePe — Fast & Safe\nUPI payments సులభంగా\nRecharge, bills, shopping",
-    "sub": "Cashback every transaction లో",
-    "img": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=300&q=80",
-    "url": "https://www.phonepe.com",
-    "color1": "#311b92",
-    "color2": "#512da8",
-    "animType": "crossfade",
-    "positions": [
-      13,
-      24
-    ],
-    "active": true
-  },
-  {
     "id": "1776432779077",
     "adType": "custom",
     "title": "Tardigrades\nWebsite | Blogs | Video Ads @ Low Price",
@@ -48,6 +32,26 @@
     "color2": "#bae6fd",
     "themeId": "sky",
     "animType": "crossfade",
+    "active": true
+  },
+  {
+    "id": "1777292543913",
+    "adType": "custom",
+    "title": "Scheller\nBonding with Precision.\nWaterproofing to Perfection.\n+91 93905 72590",
+    "sub": "Plot No. 785, DulapallyRoad, IDA Jeedimetla,Hyderabad, Telangana.",
+    "img": "https://drive.google.com/file/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV/view?usp=sharing",
+    "url": "www.schellercorp.com",
+    "positions": [
+      2,
+      4,
+      6,
+      8,
+      10
+    ],
+    "color1": "#fffbeb",
+    "color2": "#fde68a",
+    "themeId": "cream",
+    "animType": "fade-up",
     "active": true
   }
 ]
