@@ -145,36 +145,5 @@
         "sub": ""
       }
     ]
-  },
-  {
-    "id": "1777384778882",
-    "adType": "custom",
-    "title": "Use this free Website Speed Test to analyze the load speed of your websites, and learn how to make",
-    "sub": "PageSpeed Insights Docs Enter a valid URL Analyze Make your web pages fast on all devices Check",
-    "img": "https://drive.google.com/thumbnail?id=1Il59LsZR1e0SgHu9Cz0qmCFRMB302g5X&sz=w200",
-    "images": [
-      {
-        "img": "https://drive.google.com/thumbnail?id=1Il59LsZR1e0SgHu9Cz0qmCFRMB302g5X&sz=w200",
-        "title": "card",
-        "sub": ""
-      },
-      {
-        "img": "https://drive.google.com/thumbnail?id=1RJQIzVUIUJXW-04lKS8GynKlv40GFeYl&sz=w200",
-        "title": "QR Code",
-        "sub": ""
-      },
-      {
-        "img": "https://drive.google.com/thumbnail?id=1Il59LsZR1e0SgHu9Cz0qmCFRMB302g5X&sz=w200",
-        "title": "Flyer",
-        "sub": ""
-      }
-    ],
-    "url": "https://gtmetrix.com/",
-    "positions": [],
-    "color1": "#064e3b",
-    "color2": "#10b981",
-    "themeId": "emerald",
-    "animType": "slide-left",
-    "active": true
   }
 ]
