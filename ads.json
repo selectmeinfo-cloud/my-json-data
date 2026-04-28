@@ -2,16 +2,17 @@
   {
     "id": "ad004",
     "adType": "custom",
-    "title": "Byju's Learning App\nFree trial — 15 days\nTop teachers తో చదువు",
-    "sub": "Class 6-12 | JEE | NEET | UPSC",
-    "img": "https://lh3.googleusercontent.com/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV",
+    "title": "Guntur Goongura - A Multicuisine Family Restaurant\nSoups | Starters | Tandoori | Main Course | Fried Items | Milk Shakes | Juices | Desserts",
+    "sub": "Hygiene Food @ Low Quality Price",
+    "img": "https://drive.google.com/thumbnail?id=1D3RBmZ3MAK6knk1YRIbk3FAFFt6XaxHo&sz=w200",
     "url": "https://www.byjus.com",
     "color1": "#4a148c",
     "color2": "#7b1fa2",
     "animType": "slide-right",
     "positions": [
-      10,
-      20
+      3,
+      5,
+      7
     ],
     "active": true
   },
