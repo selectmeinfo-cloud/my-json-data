@@ -168,7 +168,7 @@
     "color1": "#064e3b",
     "color2": "#10b981",
     "themeId": "emerald",
-    "animType": "slide-right",
+    "animType": "slide-left",
     "active": true
   }
 ]
