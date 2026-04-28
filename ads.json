@@ -160,17 +160,22 @@
     "active": true
   },
   {
-    "id": "1777373998268",
+    "id": "1777374295557",
     "adType": "custom",
-    "title": "Scheller\nCrafted with German precision Chemistry",
+    "title": "Scheller\nCrafted with German precision chemistry",
     "sub": "Bonding with precision\nWaterproofing to Perfection.",
-    "img": "https://drive.google.com/thumbnail?id=1z5QUrW9cZ5nGWx-mc_1axScP9zT6zTnL&sz=w200",
-    "url": "www.scheller.com",
-    "positions": [],
+    "img": "https://drive.google.com/thumbnail?id=1KxMn-dH-N0w4jmkynpk5km3FdnSFPTtm&sz=w200",
+    "url": "https://schellercorp.com/scheller_corporate_website.html",
+    "positions": [
+      1,
+      3,
+      5,
+      7
+    ],
     "color1": "#f8fafc",
     "color2": "#e2e8f0",
     "themeId": "pearl",
-    "animType": "fade-up",
+    "animType": "slide-left",
     "active": true
   }
 ]
