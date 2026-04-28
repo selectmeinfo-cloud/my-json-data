@@ -2,13 +2,13 @@
   {
     "id": "ad001",
     "adType": "custom",
-    "title": "Grab the Offer - ఈ రోజు వరకే!\nWebsite at Low Price",
-    "sub": "Book your web site Get Social posting FREE for 1 Month(30 Posts)",
-    "img": "https://tardigrades.co.in/admin/services_page/gallery/1748326873_Dynamic%20QR%20Code.jpg",
-    "url": "https://tardigrades.co.in/",
-    "color1": "#2c6812",
-    "color2": "#0fc00c",
-    "animType": "crossfade",
+    "title": "Flipkart Big Sale\nఈ రోజు వరకే!\nఅద్భుతమైన offers",
+    "sub": "Electronics, Fashion, Home — 70% వరకు discount",
+    "img": "https://lh3.googleusercontent.com/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV",
+    "url": "https://www.flipkart.com",
+    "color1": "#1a237e",
+    "color2": "#1976d2",
+    "animType": "slide-left",
     "positions": [
       2,
       8,
@@ -17,41 +17,146 @@
     "active": true
   },
   {
-    "id": "1776432779077",
+    "id": "ad002",
     "adType": "custom",
-    "title": "Tardigrades\nWebsite | Blogs | Video Ads @ Low Price",
-    "sub": "Create your Website & Get Soicial Posting for 10 Posts",
-    "img": "https://tardigrades.co.in/admin/services_page/gallery/1748328357_Sign%20boards%20(2).jpg",
-    "url": "https://tardigrades.co.in/",
-    "positions": [
-      1,
-      3,
-      5
-    ],
-    "color1": "#f0f9ff",
-    "color2": "#bae6fd",
-    "themeId": "sky",
+    "title": "Amazon Great Indian Festival\nకోట్లాది products\nFast delivery",
+    "sub": "Prime members కి extra 10% off",
+    "img": "https://lh3.googleusercontent.com/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV",
+    "url": "https://www.amazon.in",
+    "color1": "#e65100",
+    "color2": "#ff9800",
     "animType": "crossfade",
+    "positions": [
+      4,
+      12
+    ],
     "active": true
   },
   {
-    "id": "1777292543913",
+    "id": "ad003",
     "adType": "custom",
-    "title": "Scheller\nBonding with Precision.\nWaterproofing to Perfection.",
-    "sub": "Plot No. 785, DulapallyRoad, IDA Jeedimetla,Hyderabad, Telangana.\n+91 93905 72590",
-    "img": "https://drive.google.com/file/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV/view?usp=sharing",
-    "url": "www.schellercorp.com",
-    "positions": [
-      2,
-      4,
-      6,
-      8,
-      10
-    ],
-    "color1": "#fffbeb",
-    "color2": "#fde68a",
-    "themeId": "cream",
+    "title": "Swiggy Instamart\n10 నిమిషాల్లో డెలివరీ\nఇప్పుడే order చేయి",
+    "sub": "Groceries, snacks, dairy — doorstep కి",
+    "img": "https://lh3.googleusercontent.com/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV",
+    "url": "https://www.swiggy.com",
+    "color1": "#1b5e20",
+    "color2": "#43a047",
     "animType": "fade-up",
+    "positions": [
+      6
+    ],
+    "active": true
+  },
+  {
+    "id": "ad004",
+    "adType": "custom",
+    "title": "Byju's Learning App\nFree trial — 15 days\nTop teachers తో చదువు",
+    "sub": "Class 6-12 | JEE | NEET | UPSC",
+    "img": "https://lh3.googleusercontent.com/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV",
+    "url": "https://www.byjus.com",
+    "color1": "#4a148c",
+    "color2": "#7b1fa2",
+    "animType": "slide-right",
+    "positions": [
+      10,
+      20
+    ],
+    "active": true
+  },
+  {
+    "id": "ad005",
+    "adType": "custom",
+    "title": "Nykaa Beauty Sale\nలిప్‌స్టిక్ నుండి skincare\nTop brands — best price",
+    "sub": "Free shipping on orders ₹499+",
+    "img": "https://lh3.googleusercontent.com/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV",
+    "url": "https://www.nykaa.com",
+    "color1": "#880e4f",
+    "color2": "#e91e63",
+    "animType": "crossfade",
+    "positions": [
+      7,
+      18
+    ],
+    "active": true
+  },
+  {
+    "id": "ad006",
+    "adType": "custom",
+    "title": "MakeMyTrip Offers\nHyderabad నుండి flights\nహోటళ్ళు — best deals",
+    "sub": "కొత్త bookings కి ₹1200 off coupon",
+    "img": "https://lh3.googleusercontent.com/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV",
+    "url": "https://www.makemytrip.com",
+    "color1": "#006064",
+    "color2": "#00acc1",
+    "animType": "slide-left",
+    "positions": [
+      5,
+      22
+    ],
+    "active": true
+  },
+  {
+    "id": "ad007",
+    "adType": "custom",
+    "title": "Zepto — 10 min delivery\nవేగంగా రావాలంటే Zepto\nFresh produce daily",
+    "sub": "First order కి 40% off",
+    "img": "https://lh3.googleusercontent.com/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV",
+    "url": "https://www.zeptonow.com",
+    "color1": "#1a237e",
+    "color2": "#5c6bc0",
+    "animType": "typewriter",
+    "positions": [
+      3,
+      16
+    ],
+    "active": true
+  },
+  {
+    "id": "ad008",
+    "adType": "custom",
+    "title": "LIC Policy — Future Secure\nమీ కుటుంబాన్ని protect చేయండి\nఈ రోజే apply చేయండి",
+    "sub": "Low premium | High coverage | Tax benefit",
+    "img": "https://lh3.googleusercontent.com/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV",
+    "url": "https://www.licindia.in",
+    "color1": "#004d40",
+    "color2": "#00796b",
+    "animType": "fade-up",
+    "positions": [
+      9,
+      25
+    ],
+    "active": true
+  },
+  {
+    "id": "ad009",
+    "adType": "custom",
+    "title": "Meesho — Trending Fashion\nచౌకగా, stylishగా\nలక్షల products ఒకే చోట",
+    "sub": "Free delivery | Easy returns | COD available",
+    "img": "https://lh3.googleusercontent.com/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV",
+    "url": "https://www.meesho.com",
+    "color1": "#880e4f",
+    "color2": "#ad1457",
+    "animType": "slide-left",
+    "positions": [
+      11,
+      19
+    ],
+    "active": true
+  },
+  {
+    "id": "ad010",
+    "adType": "custom",
+    "title": "PhonePe — Fast & Safe\nUPI payments సులభంగా\nRecharge, bills, shopping",
+    "sub": "Cashback every transaction లో",
+    "img": "https://lh3.googleusercontent.com/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV",
+    "url": "https://www.phonepe.com",
+    "color1": "#311b92",
+    "color2": "#512da8",
+    "animType": "crossfade",
+    "positions": [
+      13,
+      24
+    ],
     "active": true
   }
 ]
