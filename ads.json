@@ -103,7 +103,11 @@
     "sub": "Bonding with precision\nWaterproofing to Perfection.",
     "img": "https://drive.google.com/thumbnail?id=1z5QUrW9cZ5nGWx-mc_1axScP9zT6zTnL&sz=w200",
     "url": "www.scheller.com",
-    "positions": [],
+    "positions": [
+      1,
+      2,
+      4
+    ],
     "color1": "#f8fafc",
     "color2": "#e2e8f0",
     "themeId": "pearl",
