@@ -1,20 +1,5 @@
 [
   {
-    "id": "ad003",
-    "adType": "custom",
-    "title": "Swiggy Instamart\n10 నిమిషాల్లో డెలివరీ\nఇప్పుడే order చేయి",
-    "sub": "Groceries, snacks, dairy — doorstep కి",
-    "img": "https://lh3.googleusercontent.com/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV",
-    "url": "https://www.swiggy.com",
-    "color1": "#1b5e20",
-    "color2": "#43a047",
-    "animType": "fade-up",
-    "positions": [
-      6
-    ],
-    "active": true
-  },
-  {
     "id": "ad004",
     "adType": "custom",
     "title": "Byju's Learning App\nFree trial — 15 days\nTop teachers తో చదువు",
@@ -138,6 +123,24 @@
     "color2": "#e2e8f0",
     "themeId": "pearl",
     "animType": "fade-up",
+    "active": true
+  },
+  {
+    "id": "1777374748328",
+    "adType": "custom",
+    "title": "Tardigrades\nWebsites | Video Ads | Social posting & etc..",
+    "sub": "Need Website - Contact @ 99666 22257",
+    "img": "https://drive.google.com/thumbnail?id=1G4Jd-eSfKvn6bWvZKaKLKH8iiOOAOArl&sz=w200",
+    "url": "https://tardigrades.co.in/",
+    "positions": [
+      3,
+      5,
+      7
+    ],
+    "color1": "#fffbeb",
+    "color2": "#fde68a",
+    "themeId": "cream",
+    "animType": "slide-left",
     "active": true
   }
 ]
