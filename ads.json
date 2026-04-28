@@ -10,7 +10,7 @@
     "color2": "#1976d2",
     "animType": "slide-left",
     "positions": [
-      2,
+      1,
       8,
       15
     ],
@@ -21,13 +21,13 @@
     "adType": "custom",
     "title": "Amazon Great Indian Festival\nకోట్లాది products\nFast delivery",
     "sub": "Prime members కి extra 10% off",
-    "img": "https://lh3.googleusercontent.com/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV",
+    "img": "https://drive.google.com/thumbnail?id=1EvtgHk37Vj5L3j4F5BzuCY-JW3cJYxP0&sz=w200",
     "url": "https://www.amazon.in",
     "color1": "#e65100",
     "color2": "#ff9800",
     "animType": "crossfade",
     "positions": [
-      4,
+      1,
       12
     ],
     "active": true
