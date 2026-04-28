@@ -131,5 +131,33 @@
     "themeId": "cream",
     "animType": "slide-left",
     "active": true
+  },
+  {
+    "id": "1777383070154",
+    "adType": "custom",
+    "title": "Hello",
+    "sub": "Existing ads",
+    "img": "https://drive.google.com/thumbnail?id=1_HiPAV2FRjlUSNibEoQ4Hb_Ze6BLNTFJ&sz=w200",
+    "images": [
+      {
+        "img": "https://drive.google.com/thumbnail?id=1_HiPAV2FRjlUSNibEoQ4Hb_Ze6BLNTFJ&sz=w200",
+        "title": "how",
+        "sub": "Drive file"
+      },
+      {
+        "img": "https://drive.google.com/thumbnail?id=1RJQIzVUIUJXW-04lKS8GynKlv40GFeYl&sz=w200",
+        "title": "you",
+        "sub": "Console tab"
+      }
+    ],
+    "url": "1Il59LsZR1e0SgHu9Cz0qmCFRMB302g5X",
+    "positions": [
+      1
+    ],
+    "color1": "#064e3b",
+    "color2": "#10b981",
+    "themeId": "emerald",
+    "animType": "crossfade",
+    "active": true
   }
 ]
