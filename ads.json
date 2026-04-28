@@ -1,22 +1,5 @@
 [
   {
-    "id": "ad001",
-    "adType": "custom",
-    "title": "Flipkart Big Sale\nఈ రోజు వరకే!\nఅద్భుతమైన offers",
-    "sub": "Electronics, Fashion, Home — 70% వరకు discount",
-    "img": "https://drive.google.com/thumbnail?id=18ESoc_eyD6pclWGjUrJgdQ5YdRGPcoUI&sz=w200",
-    "url": "https://www.flipkart.com",
-    "color1": "#1a237e",
-    "color2": "#1976d2",
-    "animType": "slide-left",
-    "positions": [
-      1,
-      8,
-      15
-    ],
-    "active": true
-  },
-  {
     "id": "ad003",
     "adType": "custom",
     "title": "Swiggy Instamart\n10 నిమిషాల్లో డెలివరీ\nఇప్పుడే order చేయి",
