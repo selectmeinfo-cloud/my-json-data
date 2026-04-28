@@ -16,22 +16,6 @@
     "active": true
   },
   {
-    "id": "ad005",
-    "adType": "custom",
-    "title": "Nykaa Beauty Sale\nలిప్‌స్టిక్ నుండి skincare\nTop brands — best price",
-    "sub": "Free shipping on orders ₹499+",
-    "img": "https://lh3.googleusercontent.com/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV",
-    "url": "https://www.nykaa.com",
-    "color1": "#880e4f",
-    "color2": "#e91e63",
-    "animType": "crossfade",
-    "positions": [
-      7,
-      18
-    ],
-    "active": true
-  },
-  {
     "id": "ad006",
     "adType": "custom",
     "title": "MakeMyTrip Offers\nHyderabad నుండి flights\nహోటళ్ళు — best deals",
