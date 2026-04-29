@@ -1,18 +1,81 @@
 [
   {
+    "id": "ad001",
+    "adType": "custom",
+    "title": "Flipkart Big Sale\nఈ రోజు వరకే!\nఅద్భుతమైన offers",
+    "sub": "Electronics, Fashion, Home — 70% వరకు discount",
+    "img": "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=300&q=80",
+    "url": "https://www.flipkart.com",
+    "color1": "#1a237e",
+    "color2": "#1976d2",
+    "animType": "slide-left",
+    "positions": [
+      2,
+      8,
+      15
+    ],
+    "active": true
+  },
+  {
+    "id": "ad002",
+    "adType": "custom",
+    "title": "Amazon Great Indian Festival\nకోట్లాది products\nFast delivery",
+    "sub": "Prime members కి extra 10% off",
+    "img": "https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?w=300&q=80",
+    "url": "https://www.amazon.in",
+    "color1": "#e65100",
+    "color2": "#ff9800",
+    "animType": "crossfade",
+    "positions": [
+      4,
+      12
+    ],
+    "active": true
+  },
+  {
+    "id": "ad003",
+    "adType": "custom",
+    "title": "Swiggy Instamart\n10 నిమిషాల్లో డెలివరీ\nఇప్పుడే order చేయి",
+    "sub": "Groceries, snacks, dairy — doorstep కి",
+    "img": "https://images.unsplash.com/photo-1506617420156-8e4536971650?w=300&q=80",
+    "url": "https://www.swiggy.com",
+    "color1": "#1b5e20",
+    "color2": "#43a047",
+    "animType": "fade-up",
+    "positions": [
+      6
+    ],
+    "active": true
+  },
+  {
     "id": "ad004",
     "adType": "custom",
-    "title": "Guntur Goongura - A Multicuisine Family Restaurant\nSoups | Starters | Tandoori | Main Course | Fried Items | Milk Shakes | Juices | Desserts",
-    "sub": "Hygiene Food @ Low Quality Price",
-    "img": "https://drive.google.com/thumbnail?id=1D3RBmZ3MAK6knk1YRIbk3FAFFt6XaxHo&sz=w200",
+    "title": "Byju's Learning App\nFree trial — 15 days\nTop teachers తో చదువు",
+    "sub": "Class 6-12 | JEE | NEET | UPSC",
+    "img": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=300&q=80",
     "url": "https://www.byjus.com",
     "color1": "#4a148c",
     "color2": "#7b1fa2",
     "animType": "slide-right",
     "positions": [
-      3,
-      5,
-      7
+      10,
+      20
+    ],
+    "active": true
+  },
+  {
+    "id": "ad005",
+    "adType": "custom",
+    "title": "Nykaa Beauty Sale\nలిప్‌స్టిక్ నుండి skincare\nTop brands — best price",
+    "sub": "Free shipping on orders ₹499+",
+    "img": "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=300&q=80",
+    "url": "https://www.nykaa.com",
+    "color1": "#880e4f",
+    "color2": "#e91e63",
+    "animType": "crossfade",
+    "positions": [
+      7,
+      18
     ],
     "active": true
   },
@@ -21,7 +84,7 @@
     "adType": "custom",
     "title": "MakeMyTrip Offers\nHyderabad నుండి flights\nహోటళ్ళు — best deals",
     "sub": "కొత్త bookings కి ₹1200 off coupon",
-    "img": "https://lh3.googleusercontent.com/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV",
+    "img": "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=300&q=80",
     "url": "https://www.makemytrip.com",
     "color1": "#006064",
     "color2": "#00acc1",
@@ -37,7 +100,7 @@
     "adType": "custom",
     "title": "Zepto — 10 min delivery\nవేగంగా రావాలంటే Zepto\nFresh produce daily",
     "sub": "First order కి 40% off",
-    "img": "https://lh3.googleusercontent.com/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV",
+    "img": "https://images.unsplash.com/photo-1542838132-92c53300491e?w=300&q=80",
     "url": "https://www.zeptonow.com",
     "color1": "#1a237e",
     "color2": "#5c6bc0",
@@ -53,7 +116,7 @@
     "adType": "custom",
     "title": "LIC Policy — Future Secure\nమీ కుటుంబాన్ని protect చేయండి\nఈ రోజే apply చేయండి",
     "sub": "Low premium | High coverage | Tax benefit",
-    "img": "https://lh3.googleusercontent.com/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV",
+    "img": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=300&q=80",
     "url": "https://www.licindia.in",
     "color1": "#004d40",
     "color2": "#00796b",
@@ -69,7 +132,7 @@
     "adType": "custom",
     "title": "Meesho — Trending Fashion\nచౌకగా, stylishగా\nలక్షల products ఒకే చోట",
     "sub": "Free delivery | Easy returns | COD available",
-    "img": "https://lh3.googleusercontent.com/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV",
+    "img": "https://images.unsplash.com/photo-1445205170230-053b83016050?w=300&q=80",
     "url": "https://www.meesho.com",
     "color1": "#880e4f",
     "color2": "#ad1457",
@@ -85,7 +148,7 @@
     "adType": "custom",
     "title": "PhonePe — Fast & Safe\nUPI payments సులభంగా\nRecharge, bills, shopping",
     "sub": "Cashback every transaction లో",
-    "img": "https://lh3.googleusercontent.com/d/1M02v10RclXVYcicYCtyM0LpPdDGtCbbV",
+    "img": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=300&q=80",
     "url": "https://www.phonepe.com",
     "color1": "#311b92",
     "color2": "#512da8",
@@ -94,92 +157,6 @@
       13,
       24
     ],
-    "active": true
-  },
-  {
-    "id": "1777373998268",
-    "adType": "custom",
-    "title": "Scheller\nCrafted with German precision Chemistry",
-    "sub": "Bonding with precision\nWaterproofing to Perfection.",
-    "img": "https://drive.google.com/thumbnail?id=1z5QUrW9cZ5nGWx-mc_1axScP9zT6zTnL&sz=w200",
-    "url": "www.scheller.com",
-    "positions": [
-      2,
-      4
-    ],
-    "color1": "#f8fafc",
-    "color2": "#e2e8f0",
-    "themeId": "pearl",
-    "animType": "fade-up",
-    "active": true,
-    "images": [
-      {
-        "img": "https://drive.google.com/thumbnail?id=1z5QUrW9cZ5nGWx-mc_1axScP9zT6zTnL&sz=w200",
-        "title": "",
-        "sub": ""
-      }
-    ]
-  },
-  {
-    "id": "1777374748328",
-    "adType": "custom",
-    "title": "Tardigrades\nWebsites | Video Ads | Social posting & etc..",
-    "sub": "Need Website - Contact @ 99666 22257",
-    "img": "https://drive.google.com/thumbnail?id=1G4Jd-eSfKvn6bWvZKaKLKH8iiOOAOArl&sz=w200",
-    "url": "https://tardigrades.co.in/",
-    "positions": [
-      3,
-      5,
-      7
-    ],
-    "color1": "#fffbeb",
-    "color2": "#fde68a",
-    "themeId": "cream",
-    "animType": "slide-left",
-    "active": true,
-    "images": [
-      {
-        "img": "https://drive.google.com/thumbnail?id=1G4Jd-eSfKvn6bWvZKaKLKH8iiOOAOArl&sz=w200",
-        "title": "",
-        "sub": "",
-        "animType": "slide-left"
-      }
-    ]
-  },
-  {
-    "id": "1777463104446",
-    "adType": "custom",
-    "title": "Grow Your Business Faster",
-    "sub": "Build stunning websites & boost your online \npresence with powerful digital solutions.",
-    "img": "https://drive.google.com/thumbnail?id=18zLzPfnmYoibIU9NwzdQp_uIFCDbQ7By&sz=w200",
-    "images": [
-      {
-        "img": "https://drive.google.com/thumbnail?id=18zLzPfnmYoibIU9NwzdQp_uIFCDbQ7By&sz=w200",
-        "title": "Fast",
-        "sub": "",
-        "animType": "slide-right"
-      },
-      {
-        "img": "https://drive.google.com/thumbnail?id=1p8JtsKPY0uajm8087gtpuFCdh6SE8hpN&sz=w200",
-        "title": "Responsive",
-        "sub": "",
-        "animType": "slide-left"
-      },
-      {
-        "img": "https://drive.google.com/thumbnail?id=1C32n4GVi1bDGouQOcV_5Brq9qIT0KyZ2&sz=w200",
-        "title": "Powerful",
-        "sub": "",
-        "animType": "fade-up"
-      }
-    ],
-    "url": "https://yourwebsite.com/start",
-    "positions": [
-      1
-    ],
-    "color1": "#064e3b",
-    "color2": "#10b981",
-    "themeId": "emerald",
-    "animType": "slide-left",
     "active": true
   }
 ]
