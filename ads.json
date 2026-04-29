@@ -158,5 +158,35 @@
       24
     ],
     "active": true
+  },
+  {
+    "id": "1777475064117",
+    "adType": "custom",
+    "title": "Company Name",
+    "sub": "Company Details\nwith description",
+    "img": "https://drive.google.com/thumbnail?id=1ANk3acC0xNi74DWy4vqikFSWPTA3-zSW&sz=w200",
+    "images": [
+      {
+        "img": "https://drive.google.com/thumbnail?id=1ANk3acC0xNi74DWy4vqikFSWPTA3-zSW&sz=w200",
+        "title": "Image 1",
+        "sub": "",
+        "animType": "slide-left"
+      },
+      {
+        "img": "https://drive.google.com/thumbnail?id=17lLP8Z6WDK4PooCOEBLlwLnBJ7NWDgcf&sz=w200",
+        "title": "Image 2",
+        "sub": "",
+        "animType": "slide-left"
+      }
+    ],
+    "url": "17lLP8Z6WDK4PooCOEBLlwLnBJ7NWDgcf",
+    "positions": [
+      1
+    ],
+    "color1": "#064e3b",
+    "color2": "#10b981",
+    "themeId": "emerald",
+    "animType": "slide-left",
+    "active": true
   }
 ]
