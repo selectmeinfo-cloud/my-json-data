@@ -145,5 +145,41 @@
         "sub": ""
       }
     ]
+  },
+  {
+    "id": "1777463104446",
+    "adType": "custom",
+    "title": "Grow Your Business Faster",
+    "sub": "Build stunning websites & boost your online presence with powerful digital solutions.",
+    "img": "https://drive.google.com/thumbnail?id=18zLzPfnmYoibIU9NwzdQp_uIFCDbQ7By&sz=w200",
+    "images": [
+      {
+        "img": "https://drive.google.com/thumbnail?id=18zLzPfnmYoibIU9NwzdQp_uIFCDbQ7By&sz=w200",
+        "title": "Fast",
+        "sub": "",
+        "animType": "slide-right"
+      },
+      {
+        "img": "https://drive.google.com/thumbnail?id=1p8JtsKPY0uajm8087gtpuFCdh6SE8hpN&sz=w200",
+        "title": "Responsive",
+        "sub": "",
+        "animType": "slide-left"
+      },
+      {
+        "img": "https://drive.google.com/thumbnail?id=1C32n4GVi1bDGouQOcV_5Brq9qIT0KyZ2&sz=w200",
+        "title": "Powerful",
+        "sub": "",
+        "animType": "fade-up"
+      }
+    ],
+    "url": "https://yourwebsite.com/start",
+    "positions": [
+      1
+    ],
+    "color1": "#064e3b",
+    "color2": "#10b981",
+    "themeId": "emerald",
+    "animType": "slide-left",
+    "active": true
   }
 ]
