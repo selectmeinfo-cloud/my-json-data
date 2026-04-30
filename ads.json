@@ -188,5 +188,35 @@
     "themeId": "emerald",
     "animType": "slide-left",
     "active": true
+  },
+  {
+    "id": "1777526033815",
+    "adType": "custom",
+    "title": "The Pixel\nGr",
+    "sub": "Designing & Printing",
+    "img": "https://drive.google.com/thumbnail?id=1f01CA4GPBQSOG__bVTce01EZdNyD1alm&sz=w200",
+    "images": [
+      {
+        "img": "https://drive.google.com/thumbnail?id=1f01CA4GPBQSOG__bVTce01EZdNyD1alm&sz=w200",
+        "title": "Printing",
+        "sub": "Multi Colour printing Works",
+        "animType": "slide-left"
+      },
+      {
+        "img": "https://drive.google.com/thumbnail?id=1aD-ORtxmaZjLMoubgoIY-NfpNGSbc2Yy&sz=w200",
+        "title": "Graphic Designing",
+        "sub": "All Type of Designing works",
+        "animType": "slide-right"
+      }
+    ],
+    "url": ".",
+    "positions": [
+      2
+    ],
+    "color1": "#1e3a5f",
+    "color2": "#2563eb",
+    "themeId": "finance",
+    "animType": "slide-left",
+    "active": true
   }
 ]
