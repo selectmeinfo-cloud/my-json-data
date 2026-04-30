@@ -183,7 +183,7 @@
         "img": "https://drive.google.com/thumbnail?id=17lLP8Z6WDK4PooCOEBLlwLnBJ7NWDgcf&sz=w200",
         "title": "Image 2",
         "sub": "",
-        "animType": "slide-left"
+        "animType": "fade-up"
       }
     ],
     "url": "17lLP8Z6WDK4PooCOEBLlwLnBJ7NWDgcf",
@@ -194,7 +194,11 @@
     "color2": "#10b981",
     "themeId": "emerald",
     "animType": "slide-left",
-    "active": true
+    "active": true,
+    "titleColor": "#111111",
+    "subColor": "#7a5500",
+    "titleSize": 13,
+    "subSize": 10
   },
   {
     "id": "1777526033815",
