@@ -217,7 +217,7 @@
         "img": "https://drive.google.com/thumbnail?id=1aD-ORtxmaZjLMoubgoIY-NfpNGSbc2Yy&sz=w200",
         "title": "Graphic Designing",
         "sub": "All Type of Designing works",
-        "animType": "slide-right"
+        "animType": "fade-up"
       }
     ],
     "url": ".",
@@ -228,6 +228,10 @@
     "color2": "#2563eb",
     "themeId": "finance",
     "animType": "slide-left",
-    "active": true
+    "active": true,
+    "titleColor": "#111111",
+    "subColor": "#7a5500",
+    "titleSize": 13,
+    "subSize": 10
   }
 ]
